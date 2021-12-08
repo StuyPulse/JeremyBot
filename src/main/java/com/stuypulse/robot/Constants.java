@@ -23,5 +23,9 @@ public interface Constants {
         }
     }
 
+    interface SwerveModule {
+        double REV_TO_RAD = Double.NaN * (Math.PI * 2); // TODO: ratio
+    }
+
 
 }
