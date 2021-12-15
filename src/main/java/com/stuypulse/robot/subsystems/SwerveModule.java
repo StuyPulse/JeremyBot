@@ -11,13 +11,16 @@ import com.stuypulse.stuylib.control.PIDController;
 
 import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.Polar2D;
-import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.math.Vector2D;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import static com.stuypulse.robot.Constants.SwerveModule.*;
+
+// positive angular speed is ccw drive motor rotation
+// it is important that the angle class's positive is ccw 
 public class SwerveModule extends SubsystemBase {
-    private final Vector2D location;
+    private Vector2D location;
     
     //
     private CANSparkMax drive; 
@@ -40,21 +43,12 @@ public class SwerveModule extends SubsystemBase {
         driveEncoder = drive.getEncoder();
         pivotEncoder = pivot.getEncoder();
 
-        // TODO: constants
-        angleController = new PIDController(-1,-1,-1);
+        angleController = new PIDController(ANGLE_P, ANGLE_I, ANGLE_D);
     }
 
     public double setTarget(Vector2D translation, double angular) {
         Vector2D perp = location.rotate(Angle.fromDegrees(90));
-        
-        // TODO: perpendicular is in m/s and translation is in 
-        // x-box units (meaningless unit between [-1,1] / in the unit circle)
-        // For now: we will make the perpendicular in x-box units as well, by 
-        // normalizing, thereby putting it on the unit circle
-        perp = perp.normalize();
-        
         Vector2D output = translation.add(perp.mul(angular));
-
         return setTarget(output.getPolar());
     }
 
@@ -63,19 +57,23 @@ public class SwerveModule extends SubsystemBase {
         return target.magnitude;
     }
 
-    public void normalize(double magnitude) {
+    public Vector2D getLocation() {
+        return location;
+    }
+
+    public void normalizeLocation(double magnitude) {
+        location = location.div(magnitude);
+    }
+
+    public void normalizeTarget(double magnitude) {
         target = target.div(magnitude);
     }
 
-    // public double getRawAngle() {
-    //     return pivotEncoder.getPosition();
-    // }
-
-    public double getPivotRevolutions() {
+    private double getPivotRevolutions() {
         return pivotEncoder.getPosition();
     }
 
-    public double getDriveRadians() {
+    private double getDriveRadians() {
         return getPivotRevolutions() * Constants.SwerveModule.REV_TO_RAD;
     }
 
@@ -83,18 +81,42 @@ public class SwerveModule extends SubsystemBase {
         return Angle.fromRadians(getDriveRadians());
     }
 
-    public Angle getTargetAngle() {
+    private Angle getTargetAngle() {
         return target.angle;
     }
 
-    public Angle getAngleError() {
-        return getAngle().sub(getTargetAngle());
+    public boolean isFlipped() {
+        return Math.abs(getRawAngleError().toDegrees())>90;
+    }
+
+    private Angle getRawAngleError() {
+        // return getAngle().sub(getTargetAngle());
+        return getTargetAngle().sub(getAngle());
+    }
+
+    private Angle getAngleError() {
+        Angle error = getRawAngleError();
+        return isFlipped() ? 
+            error.add(Angle.fromDegrees(180)) : 
+            error;
+    }
+
+    public void setSpeed(double speed) {
+        if (isFlipped()) 
+            speed = -speed;
+        drive.set(speed);
+    }
+
+    public void setAngularSpeed(double speed) {
+        pivot.set(speed);
     }
 
     @Override
     public void periodic() {
         Angle error = getAngleError();
-        drive.set(SLMath.fpow(error.cos(), 3) * target.magnitude);
+        setSpeed(error.cos() * target.magnitude);
         
+        double angularSpeed = angleController.update(error.toRadians());
+        setAngularSpeed(angularSpeed);
     }
 }
