@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.Button;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -28,9 +27,10 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 public class RobotContainer {
 
     // Subsystems
+    private final SwerveDrive drivetrain = new SwerveDrive();
 
     // Gamepads
-    public final Gamepad driver = new AutoGamepad(Constants.Ports.DRIVER);
+    private final Gamepad driver = new AutoGamepad(Constants.Ports.DRIVER);
     
     // Autons
     private static SendableChooser<Command> autonChooser = new SendableChooser<>();
@@ -47,6 +47,7 @@ public class RobotContainer {
     }
 
     private void configureDefaultCommands() {
+        drivetrain.setDefaultCommand(new DriveCommand(drivetrain, driver));
     }
 
     private void configureButtonBindings() {
@@ -66,4 +67,9 @@ public class RobotContainer {
         // An ExampleCommand will run in autonomous
         return autonChooser.getSelected();
     }
+
+    public SwerveDrive getDrivetrain() {
+        return drivetrain;
+    }
+
 }
