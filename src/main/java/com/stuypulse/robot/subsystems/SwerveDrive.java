@@ -4,7 +4,6 @@
 
 package com.stuypulse.robot.subsystems;
 
-import com.stuypulse.stuylib.math.Polar2D;
 import com.stuypulse.stuylib.math.Vector2D;
 
 import static com.stuypulse.robot.Constants.SwerveDrive.*;
@@ -15,23 +14,17 @@ public class SwerveDrive extends SubsystemBase {
     private SwerveModule[] modules;
 
     private static SwerveModule makeModule(double sx, double sy, int drive, int pivot) {
-        return new SwerveModule(
-            new Vector2D(sx, sy),
-            drive,
-            pivot
-        );
+        return new SwerveModule(new Vector2D(sx, sy).mul(TRACK_SIZE), drive, pivot);
     }
 
     public SwerveDrive() {
         modules = new SwerveModule[] {
-            makeModule(+0.5, +0.5, Ports.TOP_RIGHT_DRIVE, Ports.TOP_RIGHT_PIVOT),
-            makeModule(-0.5, +0.5, Ports.TOP_LEFT_DRIVE, Ports.TOP_LEFT_PIVOT),
-            makeModule(-0.5, -0.5, Ports.BOTTOM_LEFT_DRIVE, Ports.BOTTOM_LEFT_PIVOT),
-            makeModule(+0.5, -0.5, Ports.BOTTOM_RIGHT_DRIVE, Ports.BOTTOM_RIGHT_PIVOT),
+            makeModule(+0.5, +0.5, Ports.TOP_RIGHT_DRIVE, Ports.TOP_RIGHT_PIVOT).setId("TR"),
+            makeModule(-0.5, +0.5, Ports.TOP_LEFT_DRIVE, Ports.TOP_LEFT_PIVOT).setId("TL"),
+            makeModule(-0.5, -0.5, Ports.BOTTOM_LEFT_DRIVE, Ports.BOTTOM_LEFT_PIVOT).setId("BL"),
+            makeModule(+0.5, -0.5, Ports.BOTTOM_RIGHT_DRIVE, Ports.BOTTOM_RIGHT_PIVOT).setId("BR"),
         };
         normalizeModulePositions();
-
-        // TODO: add child subsystems?
     }
 
     private void normalizeModulePositions() {
@@ -55,6 +48,12 @@ public class SwerveDrive extends SubsystemBase {
 
         for (SwerveModule module : modules) {
             module.normalizeTarget(maxMag);
+        }
+    }
+
+    public void reset() {
+        for (SwerveModule module : modules) {
+            module.reset();
         }
     }
 

@@ -18,7 +18,7 @@ import com.stuypulse.stuylib.network.SmartNumber;
 public interface Constants {
 
     interface Ports {
-        int DRIVER = -1;
+        int DRIVER = 0;
     }
 
     interface SwerveDrive {
@@ -43,11 +43,16 @@ public interface Constants {
     }
 
     interface SwerveModule {
-        double REV_TO_RAD = Double.NaN * (Math.PI * 2); // TODO: ratio
+        // double REV_TO_RAD = Double.NaN * (Math.PI * 2); // TODO: ratio
+        double PIVOT_CONVERSION = 2 * Math.PI / 12.8;
 
         SmartNumber ANGLE_P = new SmartNumber("Module/AngleP", 0.1);
         SmartNumber ANGLE_I = new SmartNumber("Module/AngleI", 0.0);
         SmartNumber ANGLE_D = new SmartNumber("Module/AngleD", 0.0);
+    }
+
+    interface DriveCommand {
+        SmartNumber DRIVE_RC = new SmartNumber("DriveCommand/DriveRC", 0.2);
     }
 
 }
