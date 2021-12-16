@@ -6,9 +6,7 @@ package com.stuypulse.robot;
 
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.*;
-
-import com.stuypulse.robot.Constants;
-// import com.stuypulse.robot.commands.*;
+import com.stuypulse.robot.commands.*;
 import com.stuypulse.robot.commands.autos.*;
 import com.stuypulse.robot.subsystems.*;
 

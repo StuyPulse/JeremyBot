@@ -1,4 +1,4 @@
-package com.stuypulse.robot.commands.autos;
+package com.stuypulse.robot.commands;
 
 import com.stuypulse.robot.subsystems.SwerveDrive;
 import com.stuypulse.stuylib.input.Gamepad;
