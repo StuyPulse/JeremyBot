@@ -43,13 +43,15 @@ public class SwerveModule extends SubsystemBase {
         drive = new CANSparkMax(drivePort, MotorType.kBrushless);
         pivot = new CANSparkMax(pivotPort, MotorType.kBrushless);
 
+        drive.setSmartCurrentLimit(SMART_LIMIT);
+        pivot.setSmartCurrentLimit(SMART_LIMIT);
+
         driveEncoder = drive.getEncoder();
         pivotEncoder = pivot.getEncoder();
 
         pivotEncoder.setPositionConversionFactor(PIVOT_CONVERSION);
 
-        // angleController = new PIDController(ANGLE_P, ANGLE_I, ANGLE_D);
-        angleController = new PIDController(0.01, 0.0, 0.0);
+        angleController = new PIDController(ANGLE_P, ANGLE_I, ANGLE_D);
     }
 
     public SwerveModule setId(String id) {
@@ -98,8 +100,7 @@ public class SwerveModule extends SubsystemBase {
     }
 
     private boolean isFlipped() {
-        // return Math.abs(getRawAngleError().toDegrees())>90;
-        return false;
+        return Math.abs(getRawAngleError().toDegrees())>90;
     }
 
     public Angle getAngle() {

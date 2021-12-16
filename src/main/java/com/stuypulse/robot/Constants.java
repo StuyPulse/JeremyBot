@@ -43,12 +43,18 @@ public interface Constants {
     }
 
     interface SwerveModule {
-        // double REV_TO_RAD = Double.NaN * (Math.PI * 2); // TODO: ratio
+
+        // this converts:
+        //  - pivot motor revolutions into,
+        //  - drive wheel revolutions into,
+        //  - drive wheel rotation in radians
         double PIVOT_CONVERSION = 2 * Math.PI / 12.8;
 
         SmartNumber ANGLE_P = new SmartNumber("Module/AngleP", 0.1);
         SmartNumber ANGLE_I = new SmartNumber("Module/AngleI", 0.0);
         SmartNumber ANGLE_D = new SmartNumber("Module/AngleD", 0.0);
+
+        int SMART_LIMIT = 5; // amps
     }
 
     interface DriveCommand {
