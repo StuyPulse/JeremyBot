@@ -36,8 +36,9 @@ public interface Constants {
             int BOTTOM_RIGHT_PIVOT = 8;
         }
 
-        double TRACK_WIDTH = 0.0;
-        double TRACK_HEIGHT = 0.0;
+        // TODO: add real track size values
+        double TRACK_WIDTH = 1.0; 
+        double TRACK_HEIGHT = 1.0;
 
         Vector2D TRACK_SIZE = new Vector2D(TRACK_WIDTH, TRACK_HEIGHT);
     }
