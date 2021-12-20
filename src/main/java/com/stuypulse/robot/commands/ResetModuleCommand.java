@@ -1,8 +1,10 @@
 package com.stuypulse.robot.commands;
 
 import com.stuypulse.robot.subsystems.SwerveDrive;
+import com.stuypulse.robot.subsystems.SwerveModule;
 import com.stuypulse.stuylib.input.Gamepad;
-import com.stuypulse.stuylib.math.Vector2D;
+import com.stuypulse.stuylib.math.Angle;
+import com.stuypulse.stuylib.math.Polar2D;
 import com.stuypulse.stuylib.streams.filters.IFilter;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 
@@ -10,40 +12,28 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import static com.stuypulse.robot.Constants.DriveCommand.*;
 
-public class DriveCommand extends CommandBase {
+public class ResetModuleCommand extends CommandBase {
     
     private Gamepad driver;
-    private SwerveDrive drivetrain;
+    private SwerveModule module;
 
-    private IFilter turnFilter;
-
-    public DriveCommand(SwerveDrive drivetrain, Gamepad driver) {
+    public ResetModuleCommand(SwerveDrive drive, SwerveModule module, Gamepad driver) {
         this.driver = driver;
-        this.drivetrain = drivetrain;
-    
-        turnFilter = new LowPassFilter(DRIVE_RC);
-
-        addRequirements(drivetrain);
-    }
-
-    private double getRawTurn() {
-        return driver.getRightTrigger() - driver.getLeftTrigger();
-    }
-
-    private double getTurn() {
-        return turnFilter.get(getRawTurn());
+        this.module = module;
+        addRequirements(drive);
     }
 
     @Override
     public void initialize() {
+        module.reset();
     }
 
     @Override
     public void execute() {
-        Vector2D leftStick = driver.getLeftStick().div(2);
-        drivetrain.drive(
-            leftStick,
-            getTurn()
+        Angle stickAngle = driver.getRightStick().getAngle();
+
+        module.setTarget(
+            new Polar2D(0.1, stickAngle)
         );
     }
 
@@ -54,6 +44,7 @@ public class DriveCommand extends CommandBase {
 
     @Override
     public void end(boolean wasInterrupted) {
+        module.reset();
     }
 
 }

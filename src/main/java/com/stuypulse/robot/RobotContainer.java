@@ -49,6 +49,10 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
+        driver.getTopButton().whileHeld(new ResetModuleCommand(drivetrain, drivetrain.getModule("TR"), driver));
+        driver.getLeftButton().whileHeld(new ResetModuleCommand(drivetrain, drivetrain.getModule("TL"), driver));
+        driver.getBottomButton().whileHeld(new ResetModuleCommand(drivetrain, drivetrain.getModule("BL"), driver));
+        driver.getRightButton().whileHeld(new ResetModuleCommand(drivetrain, drivetrain.getModule("BR"), driver));
     }
 
     public void configureAutons() {

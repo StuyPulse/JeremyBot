@@ -64,4 +64,12 @@ public class SwerveDrive extends SubsystemBase {
     @Override
     public void simulationPeriodic() {
     }
+
+    public SwerveModule getModule(String id) {
+        for (SwerveModule module : modules) {
+            if(module.getID().equals(id)) return module;
+        }
+
+        return null;
+    }
 }

@@ -55,6 +55,9 @@ public interface Constants {
         SmartNumber ANGLE_I = new SmartNumber("Module/AngleI", 0.0);
         SmartNumber ANGLE_D = new SmartNumber("Module/AngleD", 0.0);
 
+        double TARGET_DEADBAND = 0.05;
+        double MIN_ALIGN_MAGNITUDE = 0.05;
+
         int SMART_LIMIT = 5; // amps
     }
 

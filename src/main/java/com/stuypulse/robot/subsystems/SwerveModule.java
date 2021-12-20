@@ -9,6 +9,7 @@ import com.stuypulse.stuylib.control.PIDController;
 
 import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.Polar2D;
+import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.math.Vector2D;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -59,11 +60,18 @@ public class SwerveModule extends SubsystemBase {
         this(null, location, drivePort, pivotPort);
     }
 
-
+    public String getID() {
+        return (id == null) ? "NULL" : id;
+    }
 
     public void reset() {
         driveEncoder.setPosition(0);
-        pivotEncoder.setPosition(0);
+
+        if(isFlipped()) {
+            pivotEncoder.setPosition(0);
+        } else {
+            pivotEncoder.setPosition(Math.PI);
+        }
     }
 
     public double setTarget(Vector2D translation, double angular) {
@@ -73,7 +81,7 @@ public class SwerveModule extends SubsystemBase {
     }
 
     public double setTarget(Polar2D target) {
-        this.target = target;
+        this.target = new Polar2D(SLMath.deadband(target.magnitude, TARGET_DEADBAND), target.angle);
         return target.magnitude;
     }
 
@@ -128,11 +136,16 @@ public class SwerveModule extends SubsystemBase {
 
     @Override
     public void periodic() {
-        Angle error = getAngleError();
-        setSpeed(error.cos() * target.magnitude);
-        
-        double angularSpeed = angleController.update(error.toRadians());
-        setAngularSpeed(angularSpeed);
+        if(target.magnitude > MIN_ALIGN_MAGNITUDE) {
+            Angle error = getAngleError();
+            setSpeed(error.cos() * target.magnitude);
+            
+            double angularSpeed = angleController.update(error.toRadians());
+            setAngularSpeed(angularSpeed);
+        } else {
+            drive.set(0);
+            pivot.set(0);
+        }
 
         if (id != null) {
             SmartDashboard.putNumber(id + "/Target Ang", getTargetAngle().toDegrees());
