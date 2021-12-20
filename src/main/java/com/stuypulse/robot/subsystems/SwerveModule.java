@@ -16,10 +16,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static com.stuypulse.robot.Constants.SwerveModule.*;
 
-// positive angular speed is ccw drive motor rotation
-// it is important that the angle class's positive is ccw 
 public class SwerveModule extends SubsystemBase {
-    private Vector2D location;
+    private final Vector2D location; 
+    private Vector2D normalLocation;
 
     //
     private CANSparkMax drive; 
@@ -34,10 +33,12 @@ public class SwerveModule extends SubsystemBase {
 
     private String id;
 
-    public SwerveModule(Vector2D location, int drivePort, int pivotPort) {
-        id = null;
+    public SwerveModule(String id, Vector2D location, int drivePort, int pivotPort) {
+        this.id = id;
 
         this.location = location;
+        this.normalLocation = location.normalize();
+
         target = new Polar2D(0, Angle.fromDegrees(0));
 
         drive = new CANSparkMax(drivePort, MotorType.kBrushless);
@@ -54,10 +55,11 @@ public class SwerveModule extends SubsystemBase {
         angleController = new PIDController(ANGLE_P, ANGLE_I, ANGLE_D);
     }
 
-    public SwerveModule setId(String id) {
-        this.id = id;
-        return this;
+    public SwerveModule(Vector2D location, int drivePort, int pivotPort) {
+        this(null, location, drivePort, pivotPort);
     }
+
+
 
     public void reset() {
         driveEncoder.setPosition(0);
@@ -65,7 +67,7 @@ public class SwerveModule extends SubsystemBase {
     }
 
     public double setTarget(Vector2D translation, double angular) {
-        Vector2D perp = location.rotate(Angle.fromDegrees(90));
+        Vector2D perp = normalLocation.rotate(Angle.fromDegrees(90));
         Vector2D output = translation.add(perp.mul(angular));
         return setTarget(output.getPolar());
     }
@@ -79,8 +81,8 @@ public class SwerveModule extends SubsystemBase {
         return location;
     }
 
-    public void normalizeLocation(double magnitude) {
-        location = location.div(magnitude);
+    public void normalizeLocation(double maxMagnitude) {
+        normalLocation = location.div(maxMagnitude);
     }
 
     public void normalizeTarget(double magnitude) {

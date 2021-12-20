@@ -13,16 +13,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class SwerveDrive extends SubsystemBase {
     private SwerveModule[] modules;
 
-    private static SwerveModule makeModule(double sx, double sy, int drive, int pivot) {
-        return new SwerveModule(new Vector2D(sx, sy).mul(TRACK_SIZE), drive, pivot);
+    private static SwerveModule makeModule(String id ,double sx, double sy, int drive, int pivot) {
+        return new SwerveModule(id, new Vector2D(sx, sy).mul(TRACK_SIZE), drive, pivot);
     }
 
     public SwerveDrive() {
         modules = new SwerveModule[] {
-            makeModule(+0.5, +0.5, Ports.TOP_RIGHT_DRIVE, Ports.TOP_RIGHT_PIVOT).setId("TR"),
-            makeModule(-0.5, +0.5, Ports.TOP_LEFT_DRIVE, Ports.TOP_LEFT_PIVOT).setId("TL"),
-            makeModule(-0.5, -0.5, Ports.BOTTOM_LEFT_DRIVE, Ports.BOTTOM_LEFT_PIVOT).setId("BL"),
-            makeModule(+0.5, -0.5, Ports.BOTTOM_RIGHT_DRIVE, Ports.BOTTOM_RIGHT_PIVOT).setId("BR"),
+            makeModule("TR", +0.5, +0.5, Ports.TOP_RIGHT_DRIVE, Ports.TOP_RIGHT_PIVOT),
+            makeModule("TL", -0.5, +0.5, Ports.TOP_LEFT_DRIVE, Ports.TOP_LEFT_PIVOT),
+            makeModule("BL", -0.5, -0.5, Ports.BOTTOM_LEFT_DRIVE, Ports.BOTTOM_LEFT_PIVOT),
+            makeModule("BR", +0.5, -0.5, Ports.BOTTOM_RIGHT_DRIVE, Ports.BOTTOM_RIGHT_PIVOT),
         };
         normalizeModulePositions();
     }
