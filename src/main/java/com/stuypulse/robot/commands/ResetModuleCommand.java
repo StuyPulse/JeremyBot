@@ -5,12 +5,8 @@ import com.stuypulse.robot.subsystems.SwerveModule;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.Polar2D;
-import com.stuypulse.stuylib.streams.filters.IFilter;
-import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
-import static com.stuypulse.robot.Constants.DriveCommand.*;
 
 public class ResetModuleCommand extends CommandBase {
     
