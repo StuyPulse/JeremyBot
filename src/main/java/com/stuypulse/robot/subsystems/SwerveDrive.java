@@ -4,14 +4,18 @@
 
 package com.stuypulse.robot.subsystems;
 
+import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.Vector2D;
 
 import static com.stuypulse.robot.Constants.SwerveDrive.*;
 
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.kauailabs.navx.frc.AHRS;
 
 public class SwerveDrive extends SubsystemBase {
     private SwerveModule[] modules;
+    private AHRS gyro;
 
     private static SwerveModule makeModule(String id ,double sx, double sy, int drive, int pivot) {
         return new SwerveModule(id, new Vector2D(sx, sy).mul(TRACK_SIZE), drive, pivot);
@@ -25,6 +29,8 @@ public class SwerveDrive extends SubsystemBase {
             makeModule("BR", +0.5, -0.5, Ports.BOTTOM_RIGHT_DRIVE, Ports.BOTTOM_RIGHT_PIVOT),
         };
         normalizeModulePositions();
+
+        gyro = new AHRS(SPI.Port.kMXP);
     }
 
     private void normalizeModulePositions() {
@@ -40,6 +46,8 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void drive(Vector2D translation, double angular) {
+        translation = translation.rotate(getAngle().negative());
+
         double maxMag = 1.0;
         for (SwerveModule module : modules) {
             double mag = module.setTarget(translation, angular);
@@ -51,10 +59,24 @@ public class SwerveDrive extends SubsystemBase {
         }
     }
 
+    public void resetGyro() {
+        gyro.reset();
+    }
+
     public void reset() {
+        // gyro.reset();
+
         for (SwerveModule module : modules) {
             module.reset();
         }
+    }
+
+    public double getRawAngle() {
+        return gyro.getAngle();
+    }
+
+    public Angle getAngle() {
+        return Angle.fromDegrees(getRawAngle());
     }
 
     @Override
