@@ -64,8 +64,6 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void reset() {
-        // gyro.reset();
-
         for (SwerveModule module : modules) {
             module.reset();
         }
@@ -89,9 +87,16 @@ public class SwerveDrive extends SubsystemBase {
 
     public SwerveModule getModule(String id) {
         for (SwerveModule module : modules) {
-            if(module.getID().equals(id)) return module;
+            if(id.equals(module.getID())) return module;
         }
 
+        return null;
+    }
+
+    public SwerveModule getModule(int index) {
+        if (index>=0 && index<modules.length) {
+            return modules[index];
+        }
         return null;
     }
 }

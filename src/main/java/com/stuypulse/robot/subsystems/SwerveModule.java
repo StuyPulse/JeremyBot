@@ -61,7 +61,7 @@ public class SwerveModule extends SubsystemBase {
     }
 
     public String getID() {
-        return (id == null) ? "NULL" : id;
+        return id;
     }
 
     public void reset() {
