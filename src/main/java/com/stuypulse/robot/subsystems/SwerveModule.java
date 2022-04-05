@@ -124,7 +124,7 @@ public class SwerveModule extends SubsystemBase {
         return getTargetAngle().sub(getAngle());
     }
 
-    private void setSpeed(double speed) {
+    public void setSpeed(double speed) {
         if (isFlipped()) 
             speed = -speed;
         drive.set(speed);

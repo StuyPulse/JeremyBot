@@ -5,11 +5,14 @@
 package com.stuypulse.robot.subsystems;
 
 import com.stuypulse.stuylib.math.Angle;
+import com.stuypulse.stuylib.math.Polar2D;
 import com.stuypulse.stuylib.math.Vector2D;
 
 import static com.stuypulse.robot.Constants.SwerveDrive.*;
 
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -42,6 +45,14 @@ public class SwerveDrive extends SubsystemBase {
 
         for (SwerveModule module : modules) {
             module.normalizeLocation(maxDist);
+        }
+    }
+
+    public void SetModuleStates(SwerveModuleState[] moduleStates) {
+        for (int i = 0; i < moduleStates.length; i++) {
+            SwerveModuleState state = moduleStates[i];
+            modules[i].setSpeed(state.speedMetersPerSecond);
+            modules[i].setTarget(new Polar2D(Integer.MAX_VALUE, Angle.fromDegrees(state.angle.getDegrees())));
         }
     }
 

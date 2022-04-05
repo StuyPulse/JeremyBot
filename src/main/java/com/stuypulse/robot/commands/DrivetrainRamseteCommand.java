@@ -28,7 +28,8 @@ public class DrivetrainRamseteCommand extends SwerveControllerCommand {
                 new PIDController(Motion.X_PID.kP, Motion.X_PID.kI, Motion.X_PID.kD),
                 new PIDController(Motion.Y_PID.kP, Motion.Y_PID.kI, Motion.Y_PID.kD),
                 new ProfiledPIDController(SwerveModule.ANGLE_P.doubleValue(), SwerveModule.ANGLE_I.doubleValue(), SwerveModule.ANGLE_D.doubleValue(), new Constraints(Motion.MAX_VELOCITY, Motion.MAX_ACCELERATION)),
-                x,
+                Odometry.ODOMETRY.update(trajectory.getInitialPose(), drivetrain::SetModuleStates),
+                drivetrain::SetModuleStates,
                 drivetrain);
 
         this.resetPosition = true;
