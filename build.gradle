@@ -1,6 +1,6 @@
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2021.3.1"
+    id "edu.wpi.first.GradleRIO" version "2022.4.1"
 }
 
 allprojects {
@@ -13,7 +13,7 @@ sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
 def ROBOT_MAIN_CLASS = "com.stuypulse.robot.Main"
-final String STUYLIB_VERSION = 'v2021.2.2'
+final String STUYLIB_VERSION = 'v2022.3.0'
 
 // Define my targets (RoboRIO) and artifacts (deployable files)
 // This is added by GradleRIO's backing project EmbeddedTools.

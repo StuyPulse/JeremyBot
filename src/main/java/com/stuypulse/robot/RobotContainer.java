@@ -25,10 +25,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
 
     // Subsystems
-    private final SwerveDrive drivetrain = new SwerveDrive();
+    public final SwerveDrive drivetrain = new SwerveDrive();
 
     // Gamepads
-    private final Gamepad driver = new AutoGamepad(Constants.Ports.DRIVER);
+    public final Gamepad driver = new AutoGamepad(Constants.Ports.DRIVER);
     
     // Autons
     private static SendableChooser<Command> autonChooser = new SendableChooser<>();
