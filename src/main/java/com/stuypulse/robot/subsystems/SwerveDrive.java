@@ -11,8 +11,7 @@ import com.stuypulse.stuylib.math.Vector2D;
 import static com.stuypulse.robot.Constants.SwerveDrive.*;
 
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.kauailabs.navx.frc.AHRS;
 

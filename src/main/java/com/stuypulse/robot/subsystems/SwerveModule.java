@@ -21,7 +21,6 @@ public class SwerveModule extends SubsystemBase {
     private final Vector2D location; 
     private Vector2D normalLocation;
 
-    //
     private CANSparkMax drive; 
     private CANSparkMax pivot;
 
