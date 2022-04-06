@@ -17,12 +17,12 @@ import com.stuypulse.stuylib.network.SmartNumber;
  */
 public interface Constants {
 
-    interface Ports {
+    public interface Ports {
         int DRIVER = 0;
     }
 
-    interface SwerveDrive {
-        interface Ports {
+    public interface SwerveDrive {
+        public interface Ports {
             int TOP_RIGHT_DRIVE = 1;
             int TOP_RIGHT_PIVOT = 2;
         
@@ -43,7 +43,7 @@ public interface Constants {
         Vector2D TRACK_SIZE = new Vector2D(TRACK_WIDTH, TRACK_HEIGHT);
     }
 
-    interface SwerveModule {
+    public interface SwerveModule {
 
         // this converts:
         //  - pivot motor revolutions into,
@@ -61,7 +61,7 @@ public interface Constants {
         int SMART_LIMIT = 5; // amps
     }
 
-    interface DriveCommand {
+    public interface DriveCommand {
         SmartNumber DRIVE_RC = new SmartNumber("DriveCommand/DriveRC", 0.2);
     }
 
