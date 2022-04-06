@@ -7,12 +7,12 @@ package com.stuypulse.robot;
 import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.network.SmartNumber;
 
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -28,12 +28,12 @@ import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
  */
 public interface Constants {
 
-    interface Ports {
+    public interface Ports {
         int DRIVER = 0;
     }
 
-    interface SwerveDrive {
-        interface Ports {
+    public interface SwerveDrive {
+        public interface Ports {
             int TOP_RIGHT_DRIVE = 1;
             int TOP_RIGHT_PIVOT = 2;
 
@@ -54,7 +54,7 @@ public interface Constants {
         Vector2D TRACK_SIZE = new Vector2D(TRACK_WIDTH, TRACK_HEIGHT);
     }
 
-    interface SwerveModule {
+    public interface SwerveModule {
 
         // this converts:
         // - pivot motor revolutions into,
