@@ -4,6 +4,8 @@
 
 package com.stuypulse.robot;
 
+import java.nio.file.Path;
+
 import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.network.SmartNumber;
 
@@ -13,6 +15,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.wpilibj.Filesystem;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -117,4 +120,7 @@ public interface Constants {
         SmartNumber DRIVE_RC = new SmartNumber("DriveCommand/DriveRC", 0.2);
     }
 
+    interface Settings {
+        Path DEPLOY_DIRECTORY = Filesystem.getDeployDirectory().toPath();
+    }
 }
