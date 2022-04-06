@@ -51,6 +51,9 @@ public interface Constants {
         //  - drive wheel rotation in radians
         double PIVOT_CONVERSION = 2 * Math.PI / 12.8;
 
+        // this should convert drive ticks into meters
+        double METERS_CONVERSION = 1.0;
+
         SmartNumber ANGLE_P = new SmartNumber("Module/AngleP", 0.1);
         SmartNumber ANGLE_I = new SmartNumber("Module/AngleI", 0.0);
         SmartNumber ANGLE_D = new SmartNumber("Module/AngleD", 0.0);

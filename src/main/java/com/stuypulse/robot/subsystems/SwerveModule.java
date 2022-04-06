@@ -1,12 +1,13 @@
 package com.stuypulse.robot.subsystems;
 
-import com.revrobotics.CANEncoder;
+
+import static com.stuypulse.robot.Constants.SwerveModule.*;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
+import com.revrobotics.RelativeEncoder;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.PIDController;
-
 import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.Polar2D;
 import com.stuypulse.stuylib.math.SLMath;
@@ -15,18 +16,15 @@ import com.stuypulse.stuylib.math.Vector2D;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import static com.stuypulse.robot.Constants.SwerveModule.*;
-
 public class SwerveModule extends SubsystemBase {
     private final Vector2D location; 
     private Vector2D normalLocation;
 
-    //
-    private CANSparkMax drive; 
+    private CANSparkMax drive;
     private CANSparkMax pivot;
 
-    private CANEncoder driveEncoder;
-    private CANEncoder pivotEncoder;
+    private RelativeEncoder driveEncoder;
+    private RelativeEncoder pivotEncoder;
 
     private Polar2D target;
 
@@ -51,6 +49,8 @@ public class SwerveModule extends SubsystemBase {
         driveEncoder = drive.getEncoder();
         pivotEncoder = pivot.getEncoder();
 
+        driveEncoder.setPositionConversionFactor(METERS_CONVERSION);
+        driveEncoder.setVelocityConversionFactor(METERS_CONVERSION / 60.0);
         pivotEncoder.setPositionConversionFactor(PIVOT_CONVERSION);
 
         angleController = new PIDController(ANGLE_P, ANGLE_I, ANGLE_D);
@@ -77,6 +77,7 @@ public class SwerveModule extends SubsystemBase {
     public double setTarget(Vector2D translation, double angular) {
         Vector2D perp = normalLocation.rotate(Angle.fromDegrees(90));
         Vector2D output = translation.add(perp.mul(angular));
+
         return setTarget(output.getPolar());
     }
 
