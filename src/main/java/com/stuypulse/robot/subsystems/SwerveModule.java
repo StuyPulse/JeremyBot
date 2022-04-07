@@ -214,6 +214,8 @@ public class SwerveModule extends SubsystemBase {
 
     /** Stops drive and pivot motors */
     public void stop() {
+        target = new Polar2D(0, getRawAngle());
+
         drive.setVelocity(0);
         pivot.set(0);
     }
