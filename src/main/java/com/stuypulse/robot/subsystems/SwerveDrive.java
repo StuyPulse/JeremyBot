@@ -20,18 +20,18 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.kauailabs.navx.frc.AHRS;
 
 public class SwerveDrive extends SubsystemBase {
-    private SwerveModule2[] modules;
+    private SwerveModule[] modules;
     private AHRS gyro;
 
     private SwerveDriveKinematics kinematics;
     private SwerveDriveOdometry odometry;
 
-    private static SwerveModule2 makeModule(String id ,double sx, double sy, int drive, int pivot) {
-        return new SwerveModule2(id, new Vector2D(sx, sy).mul(TRACK_SIZE), drive, pivot);
+    private static SwerveModule makeModule(String id ,double sx, double sy, int drive, int pivot) {
+        return new SwerveModule(id, new Vector2D(sx, sy).mul(TRACK_SIZE), drive, pivot);
     }
 
     public SwerveDrive() {
-        modules = new SwerveModule2[] {
+        modules = new SwerveModule[] {
             makeModule("TR", +0.5, +0.5, Ports.TOP_RIGHT_DRIVE, Ports.TOP_RIGHT_PIVOT),
             makeModule("TL", -0.5, +0.5, Ports.TOP_LEFT_DRIVE, Ports.TOP_LEFT_PIVOT),
             makeModule("BL", -0.5, -0.5, Ports.BOTTOM_LEFT_DRIVE, Ports.BOTTOM_LEFT_PIVOT),
@@ -55,7 +55,7 @@ public class SwerveDrive extends SubsystemBase {
         velocity = velocity.rotate(getAngle().negative());
 
         double maxMag = 0.0;
-        for (SwerveModule2 module : modules) {
+        for (SwerveModule module : modules) {
             double mag = module.setTarget(velocity, angular);
             if (mag > maxMag) maxMag = mag;
         }
@@ -63,7 +63,7 @@ public class SwerveDrive extends SubsystemBase {
         if (maxMag < Constants.SwerveModule.MAX_VELOCITY) 
             return;
 
-        for (SwerveModule2 module : modules) {
+        for (SwerveModule module : modules) {
             module.normalizeTarget(maxMag);
         }
     }
@@ -79,7 +79,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void reset() {
-        for (SwerveModule2 module : modules) {
+        for (SwerveModule module : modules) {
             module.reset();
         }
     }
@@ -115,15 +115,15 @@ public class SwerveDrive extends SubsystemBase {
         );
     }
 
-    public SwerveModule2 getModule(String id) {
-        for (SwerveModule2 module : modules) {
+    public SwerveModule getModule(String id) {
+        for (SwerveModule module : modules) {
             if(id.equals(module.getID())) return module;
         }
 
         return null;
     }
 
-    public SwerveModule2 getModule(int index) {
+    public SwerveModule getModule(int index) {
         if (index>=0 && index<modules.length) {
             return modules[index];
         }
