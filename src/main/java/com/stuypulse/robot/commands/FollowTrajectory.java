@@ -1,8 +1,5 @@
 package com.stuypulse.robot.commands;
 
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
 import com.stuypulse.robot.subsystems.SwerveDrive;
 
 import edu.wpi.first.math.controller.PIDController;
