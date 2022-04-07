@@ -51,6 +51,10 @@ public class SwerveDrive extends SubsystemBase {
         gyro = new AHRS(SPI.Port.kMXP);
     }
 
+    /******************
+     * MODULE CONTROL *
+     ******************/
+
     public void drive(Vector2D velocity, double angular) {
         velocity = velocity.rotate(getAngle().negative());
 
@@ -60,11 +64,10 @@ public class SwerveDrive extends SubsystemBase {
             if (mag > maxMag) maxMag = mag;
         }
 
-        if (maxMag < Constants.SwerveModule.MAX_VELOCITY) 
-            return;
-
-        for (SwerveModule module : modules) {
-            module.normalizeTarget(maxMag);
+        if (maxMag > Constants.SwerveModule.MAX_VELOCITY) {
+            for (SwerveModule module : modules) {
+                module.normalizeTarget(maxMag, Constants.SwerveModule.MAX_VELOCITY);
+            }
         }
     }
 
@@ -74,14 +77,22 @@ public class SwerveDrive extends SubsystemBase {
         }
     }
 
-    public void resetGyro() {
-        gyro.reset();
+    public void stop() {
+        for (SwerveModule module : modules) {
+            module.stop();
+        }
     }
+
+    /** */
 
     public void reset() {
         for (SwerveModule module : modules) {
             module.reset();
         }
+    }
+
+    public void resetGyro() {
+        gyro.reset();
     }
 
     public double getRawAngle() {

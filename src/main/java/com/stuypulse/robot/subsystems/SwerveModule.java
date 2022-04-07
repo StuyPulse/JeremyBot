@@ -119,8 +119,8 @@ public class SwerveModule extends SubsystemBase {
      * Clamping is not a good idea in this case because proportionality between locations should be
      * retained to rotate properly, so every module's target will be normalized to the maximum.
      */
-    public void normalizeTarget(double magnitude) {
-        target = target.div(magnitude);
+    public void normalizeTarget(double maxMagnitude, double maxAllowed) {
+        target = target.div(maxMagnitude).mul(maxAllowed);
     }
 
     /****************
