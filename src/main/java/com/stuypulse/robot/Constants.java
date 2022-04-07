@@ -4,8 +4,11 @@
 
 package com.stuypulse.robot;
 
+import com.stuypulse.stuylib.control.PIDController;
 import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.network.SmartNumber;
+
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -59,9 +62,33 @@ public interface Constants {
         SmartNumber ANGLE_D = new SmartNumber("Module/AngleD", 0.0);
 
         double TARGET_DEADBAND = 0.05;
-        double MIN_ALIGN_MAGNITUDE = 0.05;
+        double MIN_ALIGN_MAGNITUDE = 0.01;
 
         int SMART_LIMIT = 5; // amps
+
+        double MAX_VELOCITY = 100.0; // m/s (leaving it uncapped for now)
+
+        public interface Feedforward {
+            double kS = 0.0;
+            double kV = 0.0;
+            double kA = 0.0;
+
+            static SimpleMotorFeedforward getFeedforward() {
+                return new SimpleMotorFeedforward(kS, kV, kA);
+            }
+        }
+
+        public interface Feedback {
+            double kP = 0.0;
+            double kI = 0.0;
+            double kD = 0.0;
+
+            static PIDController getController() {
+                return new PIDController(kP, kI, kD);
+            }
+        }
+
+
     }
 
     public interface DriveCommand {

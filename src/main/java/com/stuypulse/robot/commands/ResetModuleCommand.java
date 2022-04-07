@@ -1,7 +1,7 @@
 package com.stuypulse.robot.commands;
 
 import com.stuypulse.robot.subsystems.SwerveDrive;
-import com.stuypulse.robot.subsystems.SwerveModule;
+import com.stuypulse.robot.subsystems.SwerveModule2;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.Polar2D;
@@ -11,9 +11,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ResetModuleCommand extends CommandBase {
     
     private Gamepad driver;
-    private SwerveModule module;
+    private SwerveModule2 module;
 
-    public ResetModuleCommand(SwerveDrive drive, SwerveModule module, Gamepad driver) {
+    public ResetModuleCommand(SwerveDrive drive, SwerveModule2 module, Gamepad driver) {
         this.driver = driver;
         this.module = module;
         addRequirements(drive);

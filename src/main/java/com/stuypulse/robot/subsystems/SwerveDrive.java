@@ -4,58 +4,73 @@
 
 package com.stuypulse.robot.subsystems;
 
+import com.stuypulse.robot.Constants;
 import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.Vector2D;
 
 import static com.stuypulse.robot.Constants.SwerveDrive.*;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.kauailabs.navx.frc.AHRS;
 
 public class SwerveDrive extends SubsystemBase {
-    private SwerveModule[] modules;
+    private SwerveModule2[] modules;
     private AHRS gyro;
 
-    private static SwerveModule makeModule(String id ,double sx, double sy, int drive, int pivot) {
-        return new SwerveModule(id, new Vector2D(sx, sy).mul(TRACK_SIZE), drive, pivot);
+    private SwerveDriveKinematics kinematics;
+    private SwerveDriveOdometry odometry;
+
+    private static SwerveModule2 makeModule(String id ,double sx, double sy, int drive, int pivot) {
+        return new SwerveModule2(id, new Vector2D(sx, sy).mul(TRACK_SIZE), drive, pivot);
     }
 
     public SwerveDrive() {
-        modules = new SwerveModule[] {
+        modules = new SwerveModule2[] {
             makeModule("TR", +0.5, +0.5, Ports.TOP_RIGHT_DRIVE, Ports.TOP_RIGHT_PIVOT),
             makeModule("TL", -0.5, +0.5, Ports.TOP_LEFT_DRIVE, Ports.TOP_LEFT_PIVOT),
             makeModule("BL", -0.5, -0.5, Ports.BOTTOM_LEFT_DRIVE, Ports.BOTTOM_LEFT_PIVOT),
             makeModule("BR", +0.5, -0.5, Ports.BOTTOM_RIGHT_DRIVE, Ports.BOTTOM_RIGHT_PIVOT),
         };
-        normalizeModulePositions();
 
+        kinematics = new SwerveDriveKinematics(
+            // TODO: replace with a stream
+            modules[0].getLocation().getTranslation2d(),
+            modules[1].getLocation().getTranslation2d(),
+            modules[2].getLocation().getTranslation2d(),
+            modules[3].getLocation().getTranslation2d()
+        );
+
+        odometry = new SwerveDriveOdometry(kinematics, Angle.kZero.getRotation2d());
+        
         gyro = new AHRS(SPI.Port.kMXP);
     }
 
-    private void normalizeModulePositions() {
-        double maxDist = 0;
-        for (SwerveModule module : modules) {
-            double dist = module.getLocation().distance();
-            if (dist > maxDist) maxDist = dist;
-        }
+    public void drive(Vector2D velocity, double angular) {
+        velocity = velocity.rotate(getAngle().negative());
 
-        for (SwerveModule module : modules) {
-            module.normalizeLocation(maxDist);
-        }
-    }
-
-    public void drive(Vector2D translation, double angular) {
-        translation = translation.rotate(getAngle().negative());
-
-        double maxMag = 1.0;
-        for (SwerveModule module : modules) {
-            double mag = module.setTarget(translation, angular);
+        double maxMag = 0.0;
+        for (SwerveModule2 module : modules) {
+            double mag = module.setTarget(velocity, angular);
             if (mag > maxMag) maxMag = mag;
         }
 
-        for (SwerveModule module : modules) {
+        if (maxMag < Constants.SwerveModule.MAX_VELOCITY) 
+            return;
+
+        for (SwerveModule2 module : modules) {
             module.normalizeTarget(maxMag);
+        }
+    }
+
+    public void setStates(SwerveModuleState[] states) {
+        for (int i = 0; i < states.length; ++i) {
+            modules[i].setTarget(states[i]);
         }
     }
 
@@ -64,7 +79,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void reset() {
-        for (SwerveModule module : modules) {
+        for (SwerveModule2 module : modules) {
             module.reset();
         }
     }
@@ -77,23 +92,38 @@ public class SwerveDrive extends SubsystemBase {
         return Angle.fromDegrees(getRawAngle());
     }
 
-    @Override
-    public void periodic() {
+    public Rotation2d getRotation2d() {
+        return Rotation2d.fromDegrees(-getRawAngle());
     }
 
-    @Override
-    public void simulationPeriodic() {
+    public Pose2d getPose() {
+        updatePose();
+        return odometry.getPoseMeters();
     }
 
-    public SwerveModule getModule(String id) {
-        for (SwerveModule module : modules) {
+    public SwerveDriveKinematics getKinematics() {
+        return kinematics;
+    }
+
+    private void updatePose() {
+        odometry.update(
+            getRotation2d(), 
+            modules[0].getState(),
+            modules[1].getState(),
+            modules[2].getState(),
+            modules[3].getState()
+        );
+    }
+
+    public SwerveModule2 getModule(String id) {
+        for (SwerveModule2 module : modules) {
             if(id.equals(module.getID())) return module;
         }
 
         return null;
     }
 
-    public SwerveModule getModule(int index) {
+    public SwerveModule2 getModule(int index) {
         if (index>=0 && index<modules.length) {
             return modules[index];
         }

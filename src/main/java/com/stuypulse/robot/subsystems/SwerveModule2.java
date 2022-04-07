@@ -2,10 +2,11 @@ package com.stuypulse.robot.subsystems;
 
 
 import static com.stuypulse.robot.Constants.SwerveModule.*;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
+import com.stuypulse.robot.Constants.SwerveModule.Feedback;
+import com.stuypulse.robot.Constants.SwerveModule.Feedforward;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.PIDController;
 import com.stuypulse.stuylib.math.Angle;
@@ -13,52 +14,55 @@ import com.stuypulse.stuylib.math.Polar2D;
 import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.math.Vector2D;
 
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class SwerveModule extends SubsystemBase {
+public class SwerveModule2 extends SubsystemBase {
     private final Vector2D location; 
-    private Vector2D normalLocation;
-
-    private CANSparkMax drive;
-    private CANSparkMax pivot;
-
-    private RelativeEncoder driveEncoder;
-    private RelativeEncoder pivotEncoder;
 
     private Polar2D target;
 
+    private DriveWheel drive;
+
+    private CANSparkMax pivot;
+    private RelativeEncoder pivotEncoder;
     private Controller angleController;
 
     private String id;
 
-    public SwerveModule(String id, Vector2D location, int drivePort, int pivotPort) {
+    public SwerveModule2(String id, Vector2D location, int drivePort, int pivotPort) {
         this.id = id;
 
         this.location = location;
-        this.normalLocation = location.normalize();
 
         target = new Polar2D(0, Angle.fromDegrees(0));
 
-        drive = new CANSparkMax(drivePort, MotorType.kBrushless);
-        pivot = new CANSparkMax(pivotPort, MotorType.kBrushless);
-
-        drive.setSmartCurrentLimit(SMART_LIMIT);
-        pivot.setSmartCurrentLimit(SMART_LIMIT);
-
-        driveEncoder = drive.getEncoder();
-        pivotEncoder = pivot.getEncoder();
-
+        // create & configure drive motor / encoder
+        CANSparkMax driveMotor = new CANSparkMax(drivePort, MotorType.kBrushless);
+        driveMotor.setSmartCurrentLimit(SMART_LIMIT);
+        
+        RelativeEncoder driveEncoder = driveMotor.getEncoder();
         driveEncoder.setPositionConversionFactor(METERS_CONVERSION);
-        driveEncoder.setVelocityConversionFactor(METERS_CONVERSION / 60.0);
+        driveEncoder.setPositionConversionFactor(METERS_CONVERSION / 60.0);
+
+        // create drive wheel system
+        drive = new DriveWheel(
+            driveMotor, driveEncoder, 
+            Feedforward.getFeedforward(),
+            Feedback.getController()
+        );
+
+        // create pivot system
+        pivot = new CANSparkMax(pivotPort, MotorType.kBrushless);
+        pivot.setSmartCurrentLimit(SMART_LIMIT);
+        pivotEncoder = pivot.getEncoder();
         pivotEncoder.setPositionConversionFactor(PIVOT_CONVERSION);
 
         angleController = new PIDController(ANGLE_P, ANGLE_I, ANGLE_D);
     }
 
-    public SwerveModule(Vector2D location, int drivePort, int pivotPort) {
+    public SwerveModule2(Vector2D location, int drivePort, int pivotPort) {
         this(null, location, drivePort, pivotPort);
     }
 
@@ -66,8 +70,27 @@ public class SwerveModule extends SubsystemBase {
         return id;
     }
 
+
+    public double setTarget(SwerveModuleState target) {
+        return setTarget(new Polar2D(
+            target.speedMetersPerSecond, 
+            Angle.fromDegrees(target.angle.getDegrees())
+        ));
+    }
+
+    public void normalizeTarget(double magnitude) {
+        target = target.div(magnitude);
+    }
+
+    public SwerveModuleState getState() {
+        return new SwerveModuleState(
+            drive.getVelocity(),
+            getAngle().getRotation2d()
+        );
+    }
+
     public void reset() {
-        driveEncoder.setPosition(0);
+        drive.reset();
 
         if(isFlipped()) {
             pivotEncoder.setPosition(0);
@@ -77,7 +100,7 @@ public class SwerveModule extends SubsystemBase {
     }
 
     public double setTarget(Vector2D translation, double angular) {
-        Vector2D perp = normalLocation.rotate(Angle.fromDegrees(90));
+        Vector2D perp = location.rotate(Angle.fromDegrees(90));
         Vector2D output = translation.add(perp.mul(angular));
 
         return setTarget(output.getPolar());
@@ -90,14 +113,6 @@ public class SwerveModule extends SubsystemBase {
 
     public Vector2D getLocation() {
         return location;
-    }
-
-    public void normalizeLocation(double maxMagnitude) {
-        normalLocation = location.div(maxMagnitude);
-    }
-
-    public void normalizeTarget(double magnitude) {
-        target = target.div(magnitude);
     }
 
     private Angle getTargetAngle() {
@@ -127,10 +142,11 @@ public class SwerveModule extends SubsystemBase {
         return getTargetAngle().sub(getAngle());
     }
 
-    private void setSpeed(double speed) {
+    private void setVelocity(double velocity) {
         if (isFlipped()) 
-            speed = -speed;
-        drive.set(speed);
+            velocity = -velocity;
+
+        drive.setVelocity(velocity);
     }
 
     private void setAngularSpeed(double speed) {
@@ -141,12 +157,12 @@ public class SwerveModule extends SubsystemBase {
     public void periodic() {
         if(target.magnitude > MIN_ALIGN_MAGNITUDE) {
             Angle error = getAngleError();
-            setSpeed(error.cos() * target.magnitude);
+            setVelocity(error.cos() * target.magnitude);
             
             double angularSpeed = angleController.update(error.toRadians());
             setAngularSpeed(angularSpeed);
         } else {
-            drive.set(0);
+            drive.setVelocity(0);
             pivot.set(0);
         }
 
