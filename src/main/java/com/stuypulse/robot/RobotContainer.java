@@ -70,8 +70,4 @@ public class RobotContainer {
         return autonChooser.getSelected();
     }
 
-    public SwerveDrive getDrivetrain() {
-        return drivetrain;
-    }
-
 }

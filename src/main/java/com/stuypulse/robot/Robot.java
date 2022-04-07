@@ -95,7 +95,7 @@ public class Robot extends TimedRobot {
             autonomousCommand.cancel();
         }
 
-        robotContainer.getDrivetrain().reset();
+        robotContainer.drivetrain.reset();
     }
 
     /** This function is called periodically during operator control. */
