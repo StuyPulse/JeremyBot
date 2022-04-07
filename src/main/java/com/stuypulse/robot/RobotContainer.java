@@ -28,7 +28,7 @@ public class RobotContainer {
     public final SwerveDrive drivetrain = new SwerveDrive();
 
     // Gamepads
-    public final Gamepad driver = new AutoGamepad(Constants.Ports.DRIVER);
+    public final Gamepad driver = new AutoGamepad(Constants.Controls.Ports.DRIVER);
     
     // Autons
     private static SendableChooser<Command> autonChooser = new SendableChooser<>();

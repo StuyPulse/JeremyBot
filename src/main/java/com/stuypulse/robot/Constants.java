@@ -29,8 +29,12 @@ public interface Constants {
 
     Path DEPLOY_DIRECTORY = Filesystem.getDeployDirectory().toPath();
 
-    public interface Ports {
-        int DRIVER = 0;
+    public interface Controls {
+        public interface Ports {
+            int DRIVER = 0;
+        }
+    
+        SmartNumber TURN_RC = new SmartNumber("Controls/Turn RC", 0.2);
     }
 
     public interface SwerveDrive {
@@ -97,14 +101,9 @@ public interface Constants {
             }
         }
 
-
     }
 
-    interface Motion {
-
-        SimpleMotorFeedforward MOTOR_FEED_FORWARD = new SimpleMotorFeedforward(FeedForward.kS, FeedForward.kV,
-                FeedForward.kA);
-
+    public interface Motion {
         double MAX_VELOCITY = -1;
         double MAX_ACCELERATION = -1;
 
@@ -126,7 +125,4 @@ public interface Constants {
         }
     }
 
-    public interface DriveCommand {
-        SmartNumber DRIVE_RC = new SmartNumber("DriveCommand/DriveRC", 0.2);
-    }
 }

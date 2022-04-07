@@ -1,37 +1,32 @@
 package com.stuypulse.robot.commands;
 
+import java.util.function.Supplier;
+
+import com.stuypulse.robot.Constants.Controls;
+import com.stuypulse.robot.Constants.SwerveModule;
 import com.stuypulse.robot.subsystems.SwerveDrive;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.math.Vector2D;
-import com.stuypulse.stuylib.streams.filters.IFilter;
+import com.stuypulse.stuylib.streams.IStream;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import static com.stuypulse.robot.Constants.DriveCommand.*;
-
 public class DriveCommand extends CommandBase {
+    private SwerveDrive drive;
+
+    private Supplier<Vector2D> speed;
+    private IStream turn;
+
+    public DriveCommand(SwerveDrive drive, Gamepad driver) {
+        this.drive = drive;
     
-    private Gamepad driver;
-    private SwerveDrive drivetrain;
+        speed = () -> driver.getLeftStick().mul(SwerveModule.MAX_VELOCITY / 2);
 
-    private IFilter turnFilter;
+        turn = IStream.create(() -> driver.getRightTrigger() - driver.getLeftTrigger())
+            .filtered(new LowPassFilter(Controls.TURN_RC));
 
-    public DriveCommand(SwerveDrive drivetrain, Gamepad driver) {
-        this.driver = driver;
-        this.drivetrain = drivetrain;
-    
-        turnFilter = new LowPassFilter(DRIVE_RC);
-
-        addRequirements(drivetrain);
-    }
-
-    private double getRawTurn() {
-        return driver.getRightTrigger() - driver.getLeftTrigger();
-    }
-
-    private double getTurn() {
-        return turnFilter.get(getRawTurn());
+        addRequirements(drive);
     }
 
     @Override
@@ -40,11 +35,7 @@ public class DriveCommand extends CommandBase {
 
     @Override
     public void execute() {
-        Vector2D leftStick = driver.getLeftStick().div(2);
-        drivetrain.drive(
-            leftStick,
-            getTurn()
-        );
+        drive.drive(speed.get(), turn.get());
     }
 
     @Override
@@ -54,6 +45,7 @@ public class DriveCommand extends CommandBase {
 
     @Override
     public void end(boolean wasInterrupted) {
+        drive.stop();
     }
 
 }
