@@ -4,11 +4,14 @@
 
 package com.stuypulse.robot;
 
+import java.nio.file.Path;
+
 import com.stuypulse.stuylib.control.PIDController;
 import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.network.SmartNumber;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.Filesystem;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -23,6 +26,8 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
  * constants are needed, to reduce verbosity.
  */
 public interface Constants {
+
+    Path DEPLOY_DIRECTORY = Filesystem.getDeployDirectory().toPath();
 
     public interface Ports {
         int DRIVER = 0;
@@ -59,7 +64,7 @@ public interface Constants {
         double PIVOT_CONVERSION = 2 * Math.PI / 12.8;
 
         // this should convert drive ticks into meters
-        double METERS_CONVERSION = 1.0;
+        double METERS_CONVERSION = 1.0; // TODO: get this
 
         SmartNumber ANGLE_P = new SmartNumber("Module/AngleP", 0.1);
         SmartNumber ANGLE_I = new SmartNumber("Module/AngleI", 0.0);
@@ -121,17 +126,7 @@ public interface Constants {
         }
     }
 
-    interface Odometry {
-        Rotation2d STARTING_ANGLE = new Rotation2d();
-
-        SwerveDriveOdometry ODOMETRY = new SwerveDriveOdometry(Motion.KINEMATICS, STARTING_ANGLE);
-    }
-
-    interface DriveCommand {
+    public interface DriveCommand {
         SmartNumber DRIVE_RC = new SmartNumber("DriveCommand/DriveRC", 0.2);
-    }
-
-    interface Settings {
-        Path DEPLOY_DIRECTORY = Filesystem.getDeployDirectory().toPath();
     }
 }
