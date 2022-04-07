@@ -16,6 +16,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.SPI;
+// import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -25,6 +26,7 @@ public class SwerveDrive extends SubsystemBase {
 
     private SwerveDriveKinematics kinematics;
     private SwerveDriveOdometry odometry;
+    // private Field2d field;
 
     private static SwerveModule makeModule(String id ,double sx, double sy, int drive, int pivot) {
         return new SwerveModule(id, new Vector2D(sx, sy).mul(TRACK_SIZE), drive, pivot);
@@ -83,17 +85,15 @@ public class SwerveDrive extends SubsystemBase {
         }
     }
 
-    /** */
-
     public void reset() {
         for (SwerveModule module : modules) {
             module.reset();
         }
     }
 
-    public void resetGyro() {
-        gyro.reset();
-    }
+    /****************
+     * ANGLE & GYRO *
+     ****************/
 
     public double getRawAngle() {
         return gyro.getAngle();
@@ -107,13 +107,17 @@ public class SwerveDrive extends SubsystemBase {
         return Rotation2d.fromDegrees(-getRawAngle());
     }
 
+    public void resetGyro() {
+        gyro.reset();
+    }
+
+    /************
+     * ODOMETRY *
+     ************/
+
     public Pose2d getPose() {
         updatePose();
         return odometry.getPoseMeters();
-    }
-
-    public SwerveDriveKinematics getKinematics() {
-        return kinematics;
     }
 
     private void updatePose() {
@@ -125,6 +129,11 @@ public class SwerveDrive extends SubsystemBase {
             modules[3].getState()
         );
     }
+
+    public SwerveDriveKinematics getKinematics() {
+        return kinematics;
+    }
+
 
     public SwerveModule getModule(String id) {
         for (SwerveModule module : modules) {
@@ -139,5 +148,10 @@ public class SwerveDrive extends SubsystemBase {
             return modules[index];
         }
         return null;
+    }
+
+    @Override
+    public void periodic() {
+        updatePose();
     }
 }
