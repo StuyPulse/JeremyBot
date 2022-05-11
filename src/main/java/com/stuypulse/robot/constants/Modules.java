@@ -11,7 +11,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 
 public interface Modules {
-    double MAX_SPEED = 100.0;
+    double MAX_SPEED = Units.feetToMeters(20.0);
 
     double WIDTH = Units.feetToMeters(30.0);
     double HEIGHT = Units.feetToMeters(30.0);

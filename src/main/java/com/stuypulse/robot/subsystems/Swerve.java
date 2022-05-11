@@ -14,7 +14,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -63,7 +62,7 @@ public class Swerve extends SubsystemBase {
             throw new IllegalArgumentException("Number of desired module states does not match number of modules (" + modules.length + ")");
         }
 
-        SwerveDriveKinematics.desaturateWheelSpeeds(states, Units.feetToMeters(17.0));
+        SwerveDriveKinematics.desaturateWheelSpeeds(states, Modules.MAX_SPEED);
         
         for (int i = 0; i < states.length; ++i) {
             modules[i].setState(states[i]);
