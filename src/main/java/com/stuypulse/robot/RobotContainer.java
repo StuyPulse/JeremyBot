@@ -8,6 +8,7 @@ import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.*;
 import com.stuypulse.robot.commands.*;
 import com.stuypulse.robot.commands.autos.*;
+import com.stuypulse.robot.constants.Modules.*;
 import com.stuypulse.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -25,7 +26,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
 
     // Subsystems
-    public final SwerveDrive drivetrain = new SwerveDrive();
+    public final Swerve drivetrain = new Swerve();
 
     // Gamepads
     public final Gamepad driver = new AutoGamepad(Constants.Controls.Ports.DRIVER);
@@ -45,14 +46,14 @@ public class RobotContainer {
     }
 
     private void configureDefaultCommands() {
-        drivetrain.setDefaultCommand(new DriveCommand(drivetrain, driver));
+        // drivetrain.setDefaultCommand(new DriveCommand(drivetrain, driver));
     }
 
     private void configureButtonBindings() {
-        driver.getTopButton().whileHeld(new ResetModuleCommand(drivetrain, drivetrain.getModule("TR"), driver));
-        driver.getLeftButton().whileHeld(new ResetModuleCommand(drivetrain, drivetrain.getModule("TL"), driver));
-        driver.getBottomButton().whileHeld(new ResetModuleCommand(drivetrain, drivetrain.getModule("BL"), driver));
-        driver.getRightButton().whileHeld(new ResetModuleCommand(drivetrain, drivetrain.getModule("BR"), driver));
+        driver.getTopButton().whileHeld(new ResetModule(drivetrain, drivetrain.getModule(TopRight.ID), driver));
+        driver.getLeftButton().whileHeld(new ResetModule(drivetrain, drivetrain.getModule(TopLeft.ID), driver));
+        driver.getBottomButton().whileHeld(new ResetModule(drivetrain, drivetrain.getModule(BottomLeft.ID), driver));
+        driver.getRightButton().whileHeld(new ResetModule(drivetrain, drivetrain.getModule(BottomRight.ID), driver));
     }
 
     public void configureAutons() {
