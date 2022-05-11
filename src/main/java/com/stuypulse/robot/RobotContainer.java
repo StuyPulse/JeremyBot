@@ -46,7 +46,7 @@ public class RobotContainer {
     }
 
     private void configureDefaultCommands() {
-        // drivetrain.setDefaultCommand(new DriveCommand(drivetrain, driver));
+        drivetrain.setDefaultCommand(new DriveCommand(drivetrain, driver));
     }
 
     private void configureButtonBindings() {
