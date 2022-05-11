@@ -41,6 +41,15 @@ public class Swerve extends SubsystemBase {
 
     /** MODULE API **/
 
+    public Module getModule(String id) {
+        for (Module module : modules) {
+            if (module.getID().equals(id)) 
+                return module;
+        }
+        
+        throw new IllegalArgumentException("Couldn't find module with ID \"" + id + "\"");
+    }
+
     public void setStates(Vector2D velocity, double omega) {
         setStates(new ChassisSpeeds(velocity.x, velocity.y, omega));
     }
@@ -50,8 +59,9 @@ public class Swerve extends SubsystemBase {
     }
 
     public void setStates(SwerveModuleState... states) {
-        // check if modules and states aren't same length?
-
+        if (states.length != modules.length) {
+            throw new IllegalArgumentException("Number of desired module states does not match number of modules (" + modules.length + ")");
+        }
 
         SwerveDriveKinematics.desaturateWheelSpeeds(states, Units.feetToMeters(17.0));
         
