@@ -15,7 +15,7 @@ public class DriveControl extends SubsystemBase {
 
     private StopWatch timer;
     
-    public DriveControl(Controller feedback, SimpleMotorFeedforward feedforward) {
+    public DriveControl(SimpleMotorFeedforward feedforward, Controller feedback) {
         this.feedforward = feedforward;
         this.feedback = feedback;
         
