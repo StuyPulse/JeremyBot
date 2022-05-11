@@ -15,7 +15,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Swerve extends SubsystemBase {
@@ -26,7 +26,7 @@ public class Swerve extends SubsystemBase {
     private final SwerveDriveOdometry odometry;
 
     public Swerve() {
-        gyro = new AHRS(Port.kMXP);
+        gyro = new AHRS(SPI.Port.kMXP);
 
         modules = Modules.MODULES;
         
