@@ -1,6 +1,6 @@
 package com.stuypulse.robot.commands;
 
-import com.stuypulse.robot.subsystems.SwerveDrive;
+import com.stuypulse.robot.subsystems.Swerve;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 
 public class FollowTrajectory extends SwerveControllerCommand {
 
-    public FollowTrajectory(SwerveDrive drive, Trajectory trajectory) {
+    public FollowTrajectory(Swerve drive, Trajectory trajectory) {
         super(
             trajectory,
             drive::getPose,

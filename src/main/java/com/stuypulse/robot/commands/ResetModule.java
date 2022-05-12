@@ -1,14 +1,10 @@
 package com.stuypulse.robot.commands;
 
 import com.stuypulse.robot.subsystems.Swerve;
-import com.stuypulse.robot.subsystems.SwerveDrive;
 import com.stuypulse.robot.subsystems.swerve.Module;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.math.Angle;
-import com.stuypulse.stuylib.math.Polar2D;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ResetModule extends CommandBase {
