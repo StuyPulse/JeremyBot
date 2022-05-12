@@ -3,9 +3,9 @@ package com.stuypulse.robot.subsystems.swerve.neo;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.stuypulse.robot.constants.NEOModule.Turn;
 import com.stuypulse.robot.subsystems.swerve.TurnControl;
 import com.stuypulse.robot.util.NEOConfig;
-import com.stuypulse.stuylib.control.Controller;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 
@@ -13,11 +13,13 @@ public class NEOTurnControl extends TurnControl {
     private final CANSparkMax turn;
     private final RelativeEncoder encoder;
 
-    public NEOTurnControl(int port, Controller feedback) {
-        super(feedback);
+    public NEOTurnControl(int port) {
+        super(Turn.Feedback.getController());
 
         turn = new CANSparkMax(port, MotorType.kBrushless);
         encoder = turn.getEncoder();
+
+        configure(Turn.getConfig());
     }
 
     public NEOTurnControl configure(NEOConfig config) {

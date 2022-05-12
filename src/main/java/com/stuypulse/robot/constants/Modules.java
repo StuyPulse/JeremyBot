@@ -1,99 +1,72 @@
 package com.stuypulse.robot.constants;
 
-import com.stuypulse.robot.subsystems.swerve.DriveControl;
 import com.stuypulse.robot.subsystems.swerve.Module;
-import com.stuypulse.robot.subsystems.swerve.TurnControl;
-import com.stuypulse.stuylib.control.Controller;
-import com.stuypulse.stuylib.control.PIDController;
+import com.stuypulse.robot.subsystems.swerve.neo.NEODriveControl;
+import com.stuypulse.robot.subsystems.swerve.neo.NEOTurnControl;
 
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 
 public interface Modules {
-    double MAX_SPEED = Units.feetToMeters(20.0);
+    double WIDTH = Units.feetToMeters(29.0);
+    double HEIGHT = Units.feetToMeters(29.0);
 
-    double WIDTH = Units.feetToMeters(30.0);
-    double HEIGHT = Units.feetToMeters(30.0);
+    double MAX_SPEED = NEOModule.MAX_SPEED;
 
     public interface TopRight {
         String ID = "Top Right";
         Translation2d LOCATION = new Translation2d(WIDTH * +0.5, HEIGHT * +0.5);
 
-        public interface Drive {
-            SimpleMotorFeedforward FEEDFORWARD = new SimpleMotorFeedforward(0.0, 0.0, 0.0);
-            Controller FEEDBACK = new PIDController(0.1, 0.0, 0.02);
+        int DRIVE_PORT = 1;
+        int TURN_PORT = 2;
 
-            DriveControl CONTROLLER = new DriveControl(FEEDFORWARD, FEEDBACK);
-        }
-
-        public interface Turn {
-            Controller FEEDBACK = new PIDController(0.1, 0.0, 0.05);
-
-            TurnControl CONTROLLER = new TurnControl(FEEDBACK);
-        }
-
-        Module MODULE = new Module(ID, LOCATION, Drive.CONTROLLER, Turn.CONTROLLER);
+        Module MODULE = new Module(
+            ID, LOCATION, 
+            new NEODriveControl(DRIVE_PORT), 
+            new NEOTurnControl(TURN_PORT)
+        );
     }
 
     public interface TopLeft {
         String ID = "Top Left";
         Translation2d LOCATION = new Translation2d(WIDTH * -0.5, HEIGHT * +0.5);
 
-        public interface Drive {
-            SimpleMotorFeedforward FEEDFORWARD = new SimpleMotorFeedforward(0.0, 0.0, 0.0);
-            Controller FEEDBACK = new PIDController(0.1, 0.0, 0.02);
+        int DRIVE_PORT = 3;
+        int TURN_PORT = 4;
 
-            DriveControl CONTROLLER = new DriveControl(FEEDFORWARD, FEEDBACK);
-        }
-
-        public interface Turn {
-            Controller FEEDBACK = new PIDController(0.1, 0.0, 0.05);
-
-            TurnControl CONTROLLER = new TurnControl(FEEDBACK);
-        }
-
-        Module MODULE = new Module(ID, LOCATION, Drive.CONTROLLER, Turn.CONTROLLER);
+        Module MODULE = new Module(
+            ID, LOCATION, 
+            new NEODriveControl(DRIVE_PORT), 
+            new NEOTurnControl(TURN_PORT)
+        );
     }
 
     public interface BottomLeft {
         String ID = "Bottom Left";
         Translation2d LOCATION = new Translation2d(WIDTH * -0.5, HEIGHT * -0.5);
+        
+        int DRIVE_PORT = 5;
+        int TURN_PORT = 6;
 
-        public interface Drive {
-            SimpleMotorFeedforward FEEDFORWARD = new SimpleMotorFeedforward(0.0, 0.0, 0.0);
-            Controller FEEDBACK = new PIDController(0.1, 0.0, 0.02);
-
-            DriveControl CONTROLLER = new DriveControl(FEEDFORWARD, FEEDBACK);
-        }
-
-        public interface Turn {
-            Controller FEEDBACK = new PIDController(0.1, 0.0, 0.05);
-
-            TurnControl CONTROLLER = new TurnControl(FEEDBACK);
-        }
-
-        Module MODULE = new Module(ID, LOCATION, Drive.CONTROLLER, Turn.CONTROLLER);
+        Module MODULE = new Module(
+            ID, LOCATION, 
+            new NEODriveControl(DRIVE_PORT), 
+            new NEOTurnControl(TURN_PORT)
+        );
     }
 
     public interface BottomRight {
         String ID = "Bottom Right";
         Translation2d LOCATION = new Translation2d(WIDTH * +0.5, HEIGHT * -0.5);
 
-        public interface Drive {
-            SimpleMotorFeedforward FEEDFORWARD = new SimpleMotorFeedforward(0.0, 0.0, 0.0);
-            Controller FEEDBACK = new PIDController(0.1, 0.0, 0.02);
+        int DRIVE_PORT = 7;
+        int TURN_PORT = 8;
 
-            DriveControl CONTROLLER = new DriveControl(FEEDFORWARD, FEEDBACK);
-        }
-
-        public interface Turn {
-            Controller FEEDBACK = new PIDController(0.1, 0.0, 0.05);
-
-            TurnControl CONTROLLER = new TurnControl(FEEDBACK);
-        }
-
-        Module MODULE = new Module(ID, LOCATION, Drive.CONTROLLER, Turn.CONTROLLER);
+        Module MODULE = new Module(
+            ID, LOCATION, 
+            new NEODriveControl(DRIVE_PORT), 
+            new NEOTurnControl(TURN_PORT)
+        );
     }
 
     Module[] MODULES = {
