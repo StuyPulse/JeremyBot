@@ -61,12 +61,6 @@ public class Module extends SubsystemBase {
         drive.setVelocity(target.speedMetersPerSecond);
         turn.setAngle(target.angle);
 
-        // Shuffleboard.getTab(id)
-        //     .addNumber("Target Velocity (m/s) ", () -> target.speedMetersPerSecond))
-        //     .addNumber("Velocity (m/s)", () -> drive.getVelocity())
-        //     .addNumber("Target Angle (deg)", () -> target.angle.getDegrees())
-        //     .addNumber("Angle (deg)", turn.getAngle().getDegrees());
-
         // SmartDashboard.putNumber(id + "/Target Velocity (m/s)", target.speedMetersPerSecond);
         // SmartDashboard.putNumber(id + "/Target Angle (deg)", target.angle.getDegrees());
 
