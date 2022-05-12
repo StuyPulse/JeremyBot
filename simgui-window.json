@@ -11,25 +11,30 @@
     }
   },
   "Window": {
+    "###/FMSInfo": {
+      "Collapsed": "0",
+      "Pos": "280,786",
+      "Size": "169,167"
+    },
     "###/LiveWindow/Module": {
       "Collapsed": "0",
       "Pos": "144,48",
-      "Size": "148,86"
+      "Size": "123,69"
     },
     "###/LiveWindow/NEODriveControl": {
       "Collapsed": "0",
       "Pos": "290,60",
-      "Size": "148,86"
+      "Size": "123,69"
     },
     "###/LiveWindow/NEOTurnControl": {
       "Collapsed": "0",
       "Pos": "682,63",
-      "Size": "148,86"
+      "Size": "123,69"
     },
     "###/LiveWindow/Swerve": {
       "Collapsed": "0",
       "Pos": "447,42",
-      "Size": "198,86"
+      "Size": "123,69"
     },
     "###/SmartDashboard/Autonomous": {
       "Collapsed": "0",
@@ -55,6 +60,11 @@
       "Collapsed": "0",
       "Pos": "929,20",
       "Size": "250,695"
+    },
+    "###RoboRIO": {
+      "Collapsed": "0",
+      "Pos": "81,800",
+      "Size": "119,146"
     },
     "###System Joysticks": {
       "Collapsed": "0",

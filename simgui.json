@@ -1,4 +1,11 @@
 {
+  "HALProvider": {
+    "RoboRIO": {
+      "window": {
+        "visible": true
+      }
+    }
+  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
@@ -11,6 +18,11 @@
       "/SmartDashboard/Autonomous": "String Chooser"
     },
     "windows": {
+      "/FMSInfo": {
+        "window": {
+          "visible": true
+        }
+      },
       "/LiveWindow/Module": {
         "window": {
           "visible": true
@@ -36,6 +48,14 @@
           "visible": true
         }
       }
+    }
+  },
+  "NetworkTables": {
+    "SmartDashboard": {
+      "Autonomous": {
+        "open": true
+      },
+      "open": true
     }
   }
 }
