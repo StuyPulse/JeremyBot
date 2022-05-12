@@ -52,7 +52,7 @@ public class Swerve extends SubsystemBase {
     /** MODULE STATES API **/
 
     public void setStates(Vector2D velocity, double omega) {
-        setStates(new ChassisSpeeds(velocity.x, velocity.y, omega));
+        setStates(new ChassisSpeeds(velocity.y, velocity.x, omega));
     }
 
     public void setStates(ChassisSpeeds robotSpeed) {
@@ -91,6 +91,10 @@ public class Swerve extends SubsystemBase {
 
     public Pose2d getPose() {
         return odometry.getPoseMeters();
+    }
+
+    public SwerveDriveKinematics getKinematics() {
+        return kinematics;
     }
 
     @Override
