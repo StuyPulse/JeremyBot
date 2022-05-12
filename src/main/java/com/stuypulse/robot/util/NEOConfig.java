@@ -3,6 +3,12 @@ package com.stuypulse.robot.util;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 
+/**
+ * Convenience class for storing and applying settings
+ * to a CANSparkMax motor controller. 
+ * 
+ * @author Myles Pasetsky (myles.pasetsky@gmail.com)
+ */
 public final class NEOConfig {
     
     public boolean inverted;
