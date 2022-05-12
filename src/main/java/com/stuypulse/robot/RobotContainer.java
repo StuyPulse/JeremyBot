@@ -8,6 +8,7 @@ import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.*;
 import com.stuypulse.robot.commands.*;
 import com.stuypulse.robot.commands.autos.*;
+import com.stuypulse.robot.constants.Controls;
 import com.stuypulse.robot.constants.Modules.*;
 import com.stuypulse.robot.subsystems.*;
 
@@ -29,7 +30,7 @@ public class RobotContainer {
     public final Swerve drivetrain = new Swerve();
 
     // Gamepads
-    public final Gamepad driver = new AutoGamepad(Constants.Controls.Ports.DRIVER);
+    public final Gamepad driver = new AutoGamepad(Controls.Ports.DRIVER);
     
     // Autons
     private static SendableChooser<Command> autonChooser = new SendableChooser<>();

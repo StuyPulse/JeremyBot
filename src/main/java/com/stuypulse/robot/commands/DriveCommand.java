@@ -2,7 +2,7 @@ package com.stuypulse.robot.commands;
 
 import java.util.function.Supplier;
 
-import com.stuypulse.robot.Constants.Controls;
+import com.stuypulse.robot.constants.Controls;
 import com.stuypulse.robot.constants.Modules;
 import com.stuypulse.robot.subsystems.Swerve;
 import com.stuypulse.stuylib.input.Gamepad;
@@ -24,7 +24,10 @@ public class DriveCommand extends CommandBase {
         speed = () -> driver.getLeftStick().mul(Modules.MAX_SPEED);
 
         turn = IStream.create(() -> driver.getRightTrigger() - driver.getLeftTrigger())
-            .filtered(new LowPassFilter(Controls.TURN_RC));
+            .filtered(
+                x -> x * Modules.MAX_ANGULAR_SPEED,
+                new LowPassFilter(Controls.OMEGA_RC)
+            );
 
         addRequirements(drive);
     }
