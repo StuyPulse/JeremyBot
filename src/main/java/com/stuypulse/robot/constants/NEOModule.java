@@ -57,7 +57,7 @@ public interface NEOModule {
         public interface Feedforward {
             double kS = 0.0;
             double kV = 12.0 / MAX_SPEED;
-            double kA = 0.0;
+            double kA = 0.01;
 
             public static SimpleMotorFeedforward getFeedforward() {
                 return new SimpleMotorFeedforward(kS, kV, kA);
