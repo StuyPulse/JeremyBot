@@ -49,6 +49,8 @@ public class Swerve extends SubsystemBase {
         throw new IllegalArgumentException("Couldn't find module with ID \"" + id + "\"");
     }
 
+    /** MODULE STATES API **/
+
     public void setStates(Vector2D velocity, double omega) {
         setStates(new ChassisSpeeds(velocity.x, velocity.y, omega));
     }
