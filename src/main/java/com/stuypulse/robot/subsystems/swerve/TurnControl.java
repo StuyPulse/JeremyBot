@@ -27,6 +27,10 @@ public class TurnControl extends SubsystemBase {
 
     }
 
+    protected void reset() {
+        setAngle(new Rotation2d(0.0));
+    }
+
     @Override
     public void periodic() {
         double outputVolts = 

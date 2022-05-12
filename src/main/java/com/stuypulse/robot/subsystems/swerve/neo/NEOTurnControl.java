@@ -40,4 +40,10 @@ public class NEOTurnControl extends TurnControl {
     protected void setVoltage(double voltage) {
         turn.setVoltage(voltage);
     }
+
+    @Override
+    protected void reset() {
+        super.reset();
+        encoder.setPosition(0);
+    }
 }

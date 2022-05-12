@@ -56,6 +56,14 @@ public class Module extends SubsystemBase {
         setState(new SwerveModuleState(velocity, angle));
     }
 
+    /** RESET */
+
+    public void reset() {
+        setState(0.0, new Rotation2d(0.0));
+        drive.reset();
+        turn.reset();
+    }
+
     @Override
     public void periodic() {
         drive.setVelocity(target.speedMetersPerSecond);

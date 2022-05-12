@@ -20,7 +20,7 @@ public class ResetModule extends CommandBase {
 
     @Override
     public void initialize() {
-        // module.reset();
+        module.reset();
     }
 
     @Override
@@ -36,7 +36,7 @@ public class ResetModule extends CommandBase {
 
     @Override
     public void end(boolean wasInterrupted) {
-        // module.reset();
+        module.reset();
     }
 
 }

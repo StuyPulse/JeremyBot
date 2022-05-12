@@ -37,6 +37,10 @@ public class DriveControl extends SubsystemBase {
     protected void setVoltage(double voltage) {
         
     }
+    
+    protected void reset() {
+        setVelocity(0.0);
+    }
 
     @Override
     public void periodic() {

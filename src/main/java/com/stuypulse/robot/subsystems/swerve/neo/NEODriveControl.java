@@ -34,4 +34,10 @@ public class NEODriveControl extends DriveControl {
     protected void setVoltage(double voltage) {
         drive.setVoltage(voltage);
     }
+
+    @Override
+    protected void reset() {
+        super.reset();
+        encoder.setPosition(0);
+    }
 }
