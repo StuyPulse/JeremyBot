@@ -1,0 +1,41 @@
+{
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Module": "Subsystem",
+      "/LiveWindow/NEODriveControl": "Subsystem",
+      "/LiveWindow/NEOTurnControl": "Subsystem",
+      "/LiveWindow/Swerve": "Subsystem",
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
+      "/SmartDashboard/Autonomous": "String Chooser"
+    },
+    "windows": {
+      "/LiveWindow/Module": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/LiveWindow/NEODriveControl": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/LiveWindow/NEOTurnControl": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/LiveWindow/Swerve": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Autonomous": {
+        "window": {
+          "visible": true
+        }
+      }
+    }
+  }
+}

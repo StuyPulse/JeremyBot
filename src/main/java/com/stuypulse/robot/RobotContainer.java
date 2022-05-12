@@ -27,7 +27,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
 
     // Subsystems
-    public final Swerve drivetrain = new Swerve();
+    public final Swerve swerve = new Swerve();
 
     // Gamepads
     public final Gamepad driver = new AutoGamepad(Controls.Ports.DRIVER);
@@ -47,14 +47,14 @@ public class RobotContainer {
     }
 
     private void configureDefaultCommands() {
-        drivetrain.setDefaultCommand(new DriveCommand(drivetrain, driver));
+        swerve.setDefaultCommand(new DriveCommand(swerve, driver));
     }
 
     private void configureButtonBindings() {
-        driver.getTopButton().whileHeld(new ResetModule(drivetrain, drivetrain.getModule(TopRight.ID), driver));
-        driver.getLeftButton().whileHeld(new ResetModule(drivetrain, drivetrain.getModule(TopLeft.ID), driver));
-        driver.getBottomButton().whileHeld(new ResetModule(drivetrain, drivetrain.getModule(BottomLeft.ID), driver));
-        driver.getRightButton().whileHeld(new ResetModule(drivetrain, drivetrain.getModule(BottomRight.ID), driver));
+        driver.getTopButton().whileHeld(new ResetModule(swerve, swerve.getModule(TopRight.ID), driver));
+        driver.getLeftButton().whileHeld(new ResetModule(swerve, swerve.getModule(TopLeft.ID), driver));
+        driver.getBottomButton().whileHeld(new ResetModule(swerve, swerve.getModule(BottomLeft.ID), driver));
+        driver.getRightButton().whileHeld(new ResetModule(swerve, swerve.getModule(BottomRight.ID), driver));
     }
 
     public void configureAutons() {
