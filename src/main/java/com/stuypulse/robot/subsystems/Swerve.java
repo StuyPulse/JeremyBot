@@ -15,27 +15,30 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Swerve extends SubsystemBase {
+    private final Module[] modules;
     private final AHRS gyro;
 
-    private final Module[] modules;
     private final SwerveDriveKinematics kinematics;
     private final SwerveDriveOdometry odometry;
 
-    public Swerve() {
-        gyro = new AHRS(SPI.Port.kMXP);
+    private final Field2d field;
 
+    public Swerve() {
         modules = Modules.MODULES;
+        gyro = new AHRS(SPI.Port.kMXP);
         
         kinematics = new SwerveDriveKinematics(
             Arrays.stream(modules)
                 .map(x -> x.getLocation())
                 .toArray(Translation2d[]::new)
         );
-
         odometry = new SwerveDriveOdometry(kinematics, gyro.getRotation2d());
+
+        field = new Field2d();
     }
 
     /** MODULE API **/
@@ -100,6 +103,8 @@ public class Swerve extends SubsystemBase {
     @Override
     public void periodic() {
         updateOdometry();
+        field.setRobotPose(getPose());
+
     }
 
 }
