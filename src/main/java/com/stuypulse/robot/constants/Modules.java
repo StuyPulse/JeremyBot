@@ -7,6 +7,16 @@ import com.stuypulse.robot.subsystems.swerve.neo.NEOTurnControl;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 
+/** 
+ * This file organizes the creation of swerve modules.
+ * 
+ * It contains track size and an appropiate max speed, as well
+ * as subinterfaces for each module for module specific information.
+ * 
+ * Exposes all the modules in an array.
+ * 
+ * @author Myles Pasetsky (myles.pasetsky@gmail.com)
+ */
 public interface Modules {
     double WIDTH = Units.feetToMeters(29.0);
     double HEIGHT = Units.feetToMeters(29.0);

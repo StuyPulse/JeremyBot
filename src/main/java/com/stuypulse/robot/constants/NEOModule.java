@@ -8,6 +8,19 @@ import com.stuypulse.stuylib.control.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.util.Units;
 
+/**
+ * This file acts as a data sheet for our MK3 Swerve Module with
+ * NEO550's and CANSparkMaxes. 
+ * 
+ * It contains general information like max speed, wheel size, and gear
+ * ratios, but it also contains our Feedforward and PID constants we've
+ * found for these modules.
+ * 
+ * The specific settings we want for the CANSparkMaxes is also contained here,
+ * which includes the gearing ratio and current limit.
+ *
+ * @author Myles Pasetsky (myles.pasetsky@gmail.com) 
+ */
 public interface NEOModule {
     // https://www.swervedrivespecialties.com/products/mk3-swerve-module?variant=31575980703857
     
