@@ -37,7 +37,6 @@ public class NEODriveControl extends DriveControl {
 
     @Override
     protected void reset() {
-        super.reset();
         encoder.setPosition(0);
     }
 }

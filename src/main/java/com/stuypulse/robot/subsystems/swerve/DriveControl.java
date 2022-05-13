@@ -6,7 +6,7 @@ import com.stuypulse.stuylib.util.StopWatch;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class DriveControl extends SubsystemBase {
+public abstract class DriveControl extends SubsystemBase {
     private final SimpleMotorFeedforward feedforward;
     private final Controller feedback;
     
@@ -30,17 +30,11 @@ public class DriveControl extends SubsystemBase {
         targetVelocity = velocity;
     }
 
-    public double getVelocity() {
-        return 0.0;
-    }
+    public abstract double getVelocity();
 
-    protected void setVoltage(double voltage) {
-        
-    }
+    protected abstract void setVoltage(double voltage);
     
-    protected void reset() {
-        setVelocity(0.0);
-    }
+    protected abstract void reset();
 
     @Override
     public void periodic() {

@@ -5,7 +5,7 @@ import com.stuypulse.stuylib.control.Controller;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class TurnControl extends SubsystemBase {
+public abstract class TurnControl extends SubsystemBase {
     private Rotation2d target;
     private Controller feedback;
 
@@ -19,17 +19,11 @@ public class TurnControl extends SubsystemBase {
         this.target = target;
     }
 
-    public Rotation2d getAngle() {
-        return new Rotation2d();
-    }
+    public abstract Rotation2d getAngle();
 
-    protected void setVoltage(double voltage) {
+    protected abstract void setVoltage(double voltage); 
 
-    }
-
-    protected void reset() {
-        setAngle(new Rotation2d(0.0));
-    }
+    protected abstract void reset();
 
     @Override
     public void periodic() {

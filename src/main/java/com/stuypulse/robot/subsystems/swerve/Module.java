@@ -77,9 +77,10 @@ public class Module extends SubsystemBase {
     }
 
     public void reset() {
-        setState(0.0, new Rotation2d(0.0));
         drive.reset();
         turn.reset();
+        
+        setState(0.0, new Rotation2d(0.0));
     }
 
     @Override

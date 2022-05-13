@@ -44,7 +44,6 @@ public class NEOTurnControl extends TurnControl {
 
     @Override
     protected void reset() {
-        super.reset();
         encoder.setPosition(0);
     }
 }
