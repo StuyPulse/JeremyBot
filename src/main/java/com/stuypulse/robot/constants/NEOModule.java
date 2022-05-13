@@ -65,7 +65,7 @@ public interface NEOModule {
         }
 
         public interface Feedback {
-            double kP = 0.1;
+            double kP = 0.0;
             double kI = 0.0;
             double kD = 0.0;
 
@@ -91,9 +91,9 @@ public interface NEOModule {
         }
 
         public interface Feedback {
-            double kP = 0.01;
+            double kP = 0.1;
             double kI = 0.0;
-            double kD = 0.005;
+            double kD = 0.0;
 
             public static Controller getController() {
                 return new PIDController(kP, kI, kD);
