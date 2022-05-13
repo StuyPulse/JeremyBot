@@ -21,7 +21,7 @@ public interface Modules {
     double WIDTH = Units.feetToMeters(29.0);
     double HEIGHT = Units.feetToMeters(29.0);
 
-    double MAX_SPEED = NEOModule.MAX_SPEED;
+    double MAX_SPEED = NEOModule.MAX_SPEED / 4;
     double MAX_ACCEL = 2.5;
 
     double MAX_ANGULAR_SPEED = MAX_SPEED / Math.hypot(WIDTH/2.0, HEIGHT/2.0);
