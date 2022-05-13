@@ -23,7 +23,7 @@ public class DriveCommand extends CommandBase {
     
         speed = () -> driver.getLeftStick().mul(Modules.MAX_SPEED);
 
-        turn = IStream.create(() -> driver.getRightTrigger() - driver.getLeftTrigger())
+        turn = IStream.create(() -> driver.getRightStick().x)
             .filtered(
                 x -> x * Modules.MAX_ANGULAR_SPEED,
                 new LowPassFilter(Controls.OMEGA_RC)
@@ -48,6 +48,7 @@ public class DriveCommand extends CommandBase {
 
     @Override
     public void end(boolean wasInterrupted) {
+        drive.stop();
     }
 
 }
