@@ -55,6 +55,11 @@ public class RobotContainer {
         driver.getLeftButton().whileHeld(new ResetModule(swerve, swerve.getModule(TopLeft.ID), driver));
         driver.getBottomButton().whileHeld(new ResetModule(swerve, swerve.getModule(BottomLeft.ID), driver));
         driver.getRightButton().whileHeld(new ResetModule(swerve, swerve.getModule(BottomRight.ID), driver));
+    
+        driver.getDPadUp().whileHeld(new ControlModule(swerve, swerve.getModule(TopRight.ID), driver));
+        driver.getDPadLeft().whileHeld(new ControlModule(swerve, swerve.getModule(TopLeft.ID), driver));
+        driver.getDPadDown().whileHeld(new ControlModule(swerve, swerve.getModule(BottomLeft.ID), driver));
+        driver.getDPadRight().whileHeld(new ControlModule(swerve, swerve.getModule(BottomRight.ID), driver));
     }
 
     public void configureAutons() {
