@@ -95,7 +95,7 @@ public class Robot extends TimedRobot {
             auto.cancel();
         }
 
-        // robot.drivetrain.reset();
+        robot.swerve.reset();
     }
 
     /** This function is called periodically during operator control. */
