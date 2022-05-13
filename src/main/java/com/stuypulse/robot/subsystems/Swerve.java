@@ -5,6 +5,7 @@ import java.util.Arrays;
 import com.kauailabs.navx.frc.AHRS;
 import com.stuypulse.robot.constants.Modules;
 import com.stuypulse.robot.subsystems.swerve.Module;
+import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.Vector2D;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -16,6 +17,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Swerve extends SubsystemBase {
@@ -32,9 +34,15 @@ public class Swerve extends SubsystemBase {
         gyro = new AHRS(SPI.Port.kMXP);
         
         kinematics = new SwerveDriveKinematics(
-            Arrays.stream(modules)
-                .map(x -> x.getLocation())
-                .toArray(Translation2d[]::new)
+            // Arrays.stream(modules)
+            //     .map(x -> x.getLocation())
+            //     .toArray(Translation2d[]::new)
+
+            // TODO: revert back to stream (requires testing)
+            modules[0].getLocation(),
+            modules[1].getLocation(),
+            modules[2].getLocation(),
+            modules[3].getLocation()
         );
         odometry = new SwerveDriveOdometry(kinematics, gyro.getRotation2d());
 
@@ -52,10 +60,36 @@ public class Swerve extends SubsystemBase {
         throw new IllegalArgumentException("Couldn't find module with ID \"" + id + "\"");
     }
 
+    public Module[] getModules() {
+        return modules;
+    }
+
+    public void reset() {
+        gyro.reset();
+        for (Module module : modules) {
+            module.reset();
+        }
+    }
+
+    public void stop() {
+        for (Module module : modules) {
+            module.stop();
+        }
+    }
+
     /** MODULE STATES API **/
 
+    public void setStates(Vector2D velocity, double omega, boolean fieldRelative) {
+        if (fieldRelative) {
+            velocity = velocity.rotate(Angle.fromRotation2d(getAngle()).negative());
+        }
+
+        // we invert this because of real world 
+        setStates(new ChassisSpeeds(velocity.y, -velocity.x, omega));
+    }
+
     public void setStates(Vector2D velocity, double omega) {
-        setStates(new ChassisSpeeds(velocity.y, velocity.x, omega));
+        setStates(velocity, omega, true);
     }
 
     public void setStates(ChassisSpeeds robotSpeed) {
@@ -104,7 +138,6 @@ public class Swerve extends SubsystemBase {
     public void periodic() {
         updateOdometry();
         field.setRobotPose(getPose());
-
     }
 
 }

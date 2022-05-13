@@ -28,8 +28,8 @@ public class Module extends SubsystemBase {
 
         // setup shuffleboard
         ShuffleboardTab me = Shuffleboard.getTab(id);        
-        me.addNumber("Target Velocity (m/s) ", () -> target.speedMetersPerSecond);
-        me.addNumber("Velocity (m/s)", () -> drive.getVelocity());
+        me.addNumber("Target Velocity ", () -> target.speedMetersPerSecond);
+        me.addNumber("Velocity", () -> drive.getVelocity());
         me.addNumber("Target Angle (deg)", () -> target.angle.getDegrees());
         me.addNumber("Angle (deg)", () -> turn.getAngle().getDegrees());
     }
@@ -42,6 +42,16 @@ public class Module extends SubsystemBase {
         return location;
     }
 
+    /** SENSOR API */
+
+    public double getVelocity() {
+        return drive.getVelocity();
+    }
+
+    public Rotation2d getAngle() {
+        return turn.getAngle();
+    }
+    
     /** SWERVE STATE API **/
 
     public SwerveModuleState getState() {
@@ -56,7 +66,15 @@ public class Module extends SubsystemBase {
         setState(new SwerveModuleState(velocity, angle));
     }
 
+    public void setVelocity(double velocity) {
+        setState(velocity, getAngle());
+    }
+
     /** RESET */
+
+    public void stop() {
+        setVelocity(0.0);
+    }
 
     public void reset() {
         setState(0.0, new Rotation2d(0.0));
@@ -66,7 +84,12 @@ public class Module extends SubsystemBase {
 
     @Override
     public void periodic() {
-        drive.setVelocity(target.speedMetersPerSecond);
+        if (target.speedMetersPerSecond >= 0.1) {
+            drive.setVelocity(target.speedMetersPerSecond);
+        } else {
+            drive.setVelocity(0.0);
+        }
+
         turn.setAngle(target.angle);
 
         // SmartDashboard.putNumber(id + "/Target Velocity (m/s)", target.speedMetersPerSecond);
