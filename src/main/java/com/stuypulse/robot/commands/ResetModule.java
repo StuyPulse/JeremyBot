@@ -9,12 +9,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ResetModule extends CommandBase {
     
+    private Swerve drive;
     private Gamepad driver;
     private Module module;
 
     public ResetModule(Swerve drive, Module module, Gamepad driver) {
         this.driver = driver;
         this.module = module;
+        this.drive = drive;
         addRequirements(drive);
     }
 
@@ -26,7 +28,14 @@ public class ResetModule extends CommandBase {
     @Override
     public void execute() {
         Angle stickAngle = driver.getRightStick().getAngle();
-        module.setState(0.1, stickAngle.getRotation2d());
+
+        for (Module module : drive.getModules()) {
+            if (module == this.module) {
+                module.setState(0.0, stickAngle.getRotation2d());
+            } else {
+                module.stop();
+            }
+        }
     }
 
     @Override
