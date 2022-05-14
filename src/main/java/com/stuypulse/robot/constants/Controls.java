@@ -6,4 +6,6 @@ public interface Controls {
     }
 
     double OMEGA_RC = 0.2;
+    double SPEED_DEADBAND = 0.05;
+    double TURN_DEADBAND = 0.05;
 }

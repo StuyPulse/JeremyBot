@@ -30,8 +30,11 @@ public class Module extends SubsystemBase {
         ShuffleboardTab me = Shuffleboard.getTab(id);        
         me.addNumber("Target Velocity ", () -> target.speedMetersPerSecond);
         me.addNumber("Velocity", () -> drive.getVelocity());
-        me.addNumber("Target Angle (deg)", () -> target.angle.getDegrees());
-        me.addNumber("Angle (deg)", () -> turn.getAngle().getDegrees());
+        me.addNumber("Velocity Error", () -> target.speedMetersPerSecond - drive.getVelocity());
+
+        me.addNumber("Target Angle", () -> target.angle.getDegrees());
+        me.addNumber("Angle", () -> turn.getAngle().getDegrees());
+        me.addNumber("Angle Error", () -> target.angle.minus(turn.getAngle()).getDegrees());
     }
 
     public String getID() {
@@ -85,19 +88,8 @@ public class Module extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (target.speedMetersPerSecond >= 0.1) {
-            drive.setVelocity(target.speedMetersPerSecond);
-        } else {
-            drive.setVelocity(0.0);
-        }
-
+        drive.setVelocity(target.speedMetersPerSecond);
         turn.setAngle(target.angle);
-
-        // SmartDashboard.putNumber(id + "/Target Velocity (m/s)", target.speedMetersPerSecond);
-        // SmartDashboard.putNumber(id + "/Target Angle (deg)", target.angle.getDegrees());
-
-        // SmartDashboard.putNumber(id + "/Velocity (m/s)", drive.getVelocity());
-        // SmartDashboard.putNumber(id + "/Angle (deg)", turn.getAngle().getDegrees());
     }
 
 }
