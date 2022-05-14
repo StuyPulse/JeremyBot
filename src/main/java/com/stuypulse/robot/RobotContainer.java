@@ -8,6 +8,8 @@ import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.*;
 import com.stuypulse.robot.commands.*;
 import com.stuypulse.robot.commands.autos.*;
+import com.stuypulse.robot.constants.Controls;
+import com.stuypulse.robot.constants.Modules.*;
 import com.stuypulse.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -25,10 +27,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
 
     // Subsystems
-    public final SwerveDrive drivetrain = new SwerveDrive();
+    public final Swerve swerve = new Swerve();
 
     // Gamepads
-    public final Gamepad driver = new AutoGamepad(Constants.Ports.DRIVER);
+    public final Gamepad driver = new AutoGamepad(Controls.Ports.DRIVER);
     
     // Autons
     private static SendableChooser<Command> autonChooser = new SendableChooser<>();
@@ -36,7 +38,7 @@ public class RobotContainer {
     public RobotContainer() {
         // Disable telementry to reduce lag
         LiveWindow.disableAllTelemetry();
-        DriverStation.getInstance().silenceJoystickConnectionWarning(true);
+        DriverStation.silenceJoystickConnectionWarning(true);
 
         // Configure the button bindings
         configureDefaultCommands();
@@ -45,14 +47,19 @@ public class RobotContainer {
     }
 
     private void configureDefaultCommands() {
-        drivetrain.setDefaultCommand(new DriveCommand(drivetrain, driver));
+        swerve.setDefaultCommand(new DriveCommand(swerve, driver));
     }
 
     private void configureButtonBindings() {
-        driver.getTopButton().whileHeld(new ResetModuleCommand(drivetrain, drivetrain.getModule("TR"), driver));
-        driver.getLeftButton().whileHeld(new ResetModuleCommand(drivetrain, drivetrain.getModule("TL"), driver));
-        driver.getBottomButton().whileHeld(new ResetModuleCommand(drivetrain, drivetrain.getModule("BL"), driver));
-        driver.getRightButton().whileHeld(new ResetModuleCommand(drivetrain, drivetrain.getModule("BR"), driver));
+        driver.getTopButton().whileHeld(new ResetModule(swerve, swerve.getModule(TopRight.ID), driver));
+        driver.getLeftButton().whileHeld(new ResetModule(swerve, swerve.getModule(TopLeft.ID), driver));
+        driver.getBottomButton().whileHeld(new ResetModule(swerve, swerve.getModule(BottomLeft.ID), driver));
+        driver.getRightButton().whileHeld(new ResetModule(swerve, swerve.getModule(BottomRight.ID), driver));
+    
+        driver.getDPadUp().whileHeld(new ControlModule(swerve, swerve.getModule(TopRight.ID), driver));
+        driver.getDPadLeft().whileHeld(new ControlModule(swerve, swerve.getModule(TopLeft.ID), driver));
+        driver.getDPadDown().whileHeld(new ControlModule(swerve, swerve.getModule(BottomLeft.ID), driver));
+        driver.getDPadRight().whileHeld(new ControlModule(swerve, swerve.getModule(BottomRight.ID), driver));
     }
 
     public void configureAutons() {
@@ -68,10 +75,6 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
         return autonChooser.getSelected();
-    }
-
-    public SwerveDrive getDrivetrain() {
-        return drivetrain;
     }
 
 }

@@ -1,21 +1,22 @@
 package com.stuypulse.robot.commands;
 
-import com.stuypulse.robot.subsystems.SwerveDrive;
-import com.stuypulse.robot.subsystems.SwerveModule;
+import com.stuypulse.robot.subsystems.Swerve;
+import com.stuypulse.robot.subsystems.swerve.Module;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.math.Angle;
-import com.stuypulse.stuylib.math.Polar2D;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ResetModuleCommand extends CommandBase {
+public class ResetModule extends CommandBase {
     
+    private Swerve drive;
     private Gamepad driver;
-    private SwerveModule module;
+    private Module module;
 
-    public ResetModuleCommand(SwerveDrive drive, SwerveModule module, Gamepad driver) {
+    public ResetModule(Swerve drive, Module module, Gamepad driver) {
         this.driver = driver;
         this.module = module;
+        this.drive = drive;
         addRequirements(drive);
     }
 
@@ -28,9 +29,13 @@ public class ResetModuleCommand extends CommandBase {
     public void execute() {
         Angle stickAngle = driver.getRightStick().getAngle();
 
-        module.setTarget(
-            new Polar2D(0.1, stickAngle)
-        );
+        for (Module module : drive.getModules()) {
+            if (module == this.module) {
+                module.setState(0.0, stickAngle.getRotation2d());
+            } else {
+                module.stop();
+            }
+        }
     }
 
     @Override
