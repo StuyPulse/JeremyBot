@@ -5,7 +5,6 @@ import java.util.Arrays;
 import com.kauailabs.navx.frc.AHRS;
 import com.stuypulse.robot.constants.Modules;
 import com.stuypulse.robot.subsystems.swerve.Module;
-import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.Vector2D;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -78,12 +77,14 @@ public class Swerve extends SubsystemBase {
     /** MODULE STATES API **/
 
     public void setStates(Vector2D velocity, double omega, boolean fieldRelative) {
+        // TODO: we negate vyMetersPerSecond because real life results, may be changed later
         if (fieldRelative) {
-            velocity = velocity.rotate(Angle.fromRotation2d(getAngle()).negative());
+            setStates(ChassisSpeeds.fromFieldRelativeSpeeds(velocity.y, -velocity.x, omega, getAngle()));
+        } 
+        
+        else {
+            setStates(new ChassisSpeeds(velocity.y, -velocity.x, omega));
         }
-
-        // we invert this because of real world 
-        setStates(new ChassisSpeeds(velocity.y, -velocity.x, omega));
     }
 
     public void setStates(Vector2D velocity, double omega) {
