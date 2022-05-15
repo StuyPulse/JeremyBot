@@ -12,10 +12,9 @@ public class MotorSim {
     private final FlywheelSim sim;
     private double voltage;
     private double distance;
-    private double circumference;
+    private double distancePerRotation;
 
-
-    public MotorSim(LinearSystem<N1, N1, N1> plant, double gearing, double wheelDiameter) {
+    public MotorSim(LinearSystem<N1, N1, N1> plant, double gearing) {
         sim = new FlywheelSim(
             plant,
             DCMotor.getNEO(1),
@@ -24,20 +23,24 @@ public class MotorSim {
 
         voltage = 0;
         distance = 0;
-        circumference = wheelDiameter * Math.PI;
+        distancePerRotation = 1;
     }
 
 
     public double getSpeedMetersPerSecond() {
-        return sim.getAngularVelocityRPM() * circumference / 60.0;
+        return sim.getAngularVelocityRPM() * distancePerRotation / 60.0;
     }
 
-    public double getDistanceMeters() {
+    public double getDistance() {
         return distance;
     }
 
     public void setVoltage(double voltage) {
         this.voltage = voltage;
+    }
+
+    public void setDistancePerRotation(double d) {
+        distancePerRotation = d;
     }
 
     public void update(double seconds) {

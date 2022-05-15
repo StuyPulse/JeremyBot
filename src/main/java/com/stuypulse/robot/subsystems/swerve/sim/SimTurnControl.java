@@ -13,7 +13,8 @@ public class SimTurnControl extends TurnControl {
 	public SimTurnControl() {
 		super(Turn.Feedback.getController());
 
-		sim = new MotorSim(Turn.Feedforward.getPlant(), Turn.Encoder.GEAR_RATIO, SimModule.WHEEL_DIAMETER);
+		sim = new MotorSim(Turn.Feedforward.getPlant(), Turn.Encoder.GEAR_RATIO);
+		sim.setDistancePerRotation(SimModule.WHEEL_DIAMETER);
 	}
 
 	private double getRadians() {

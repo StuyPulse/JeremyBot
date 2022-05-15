@@ -11,7 +11,8 @@ public class SimDriveControl extends DriveControl {
     public SimDriveControl() {
         super(Drive.Feedforward.getFeedforward(), Drive.Feedback.getController());
 
-        sim = new MotorSim(Drive.Feedforward.getPlant(), Drive.Encoder.GEARING, SimModule.WHEEL_DIAMETER);
+        sim = new MotorSim(Drive.Feedforward.getPlant(), Drive.Encoder.GEARING);
+        sim.setDistancePerRotation(SimModule.WHEEL_CIRCUMFERENCE);
     }
 
     @Override
