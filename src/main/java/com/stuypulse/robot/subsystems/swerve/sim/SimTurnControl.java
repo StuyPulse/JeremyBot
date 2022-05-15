@@ -36,4 +36,9 @@ public class SimTurnControl extends TurnControl {
 	protected void reset() {
 		sim.reset();
 	}
+	
+    @Override
+    public void simulationPeriodic() {
+        sim.update(0.020);
+    }
 }
