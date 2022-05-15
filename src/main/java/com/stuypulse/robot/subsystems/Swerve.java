@@ -45,6 +45,8 @@ public class Swerve extends SubsystemBase {
         odometry = new SwerveDriveOdometry(kinematics, gyro.getRotation2d());
 
         field = new Field2d();
+
+        SmartDashboard.putData("Field", field);
     }
 
     /** MODULE API **/

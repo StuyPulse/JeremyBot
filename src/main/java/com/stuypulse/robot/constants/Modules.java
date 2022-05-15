@@ -3,6 +3,8 @@ package com.stuypulse.robot.constants;
 import com.stuypulse.robot.subsystems.swerve.Module;
 import com.stuypulse.robot.subsystems.swerve.neo.NEODriveControl;
 import com.stuypulse.robot.subsystems.swerve.neo.NEOTurnControl;
+import com.stuypulse.robot.subsystems.swerve.sim.SimDriveControl;
+import com.stuypulse.robot.subsystems.swerve.sim.SimTurnControl;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
@@ -36,8 +38,8 @@ public interface Modules {
 
         Module MODULE = new Module(
             ID, LOCATION, 
-            new NEODriveControl(DRIVE_PORT), 
-            new NEOTurnControl(TURN_PORT)
+            new SimDriveControl(), 
+            new SimTurnControl()
         );
     }
 
@@ -50,8 +52,8 @@ public interface Modules {
 
         Module MODULE = new Module(
             ID, LOCATION, 
-            new NEODriveControl(DRIVE_PORT), 
-            new NEOTurnControl(TURN_PORT)
+            new SimDriveControl(), 
+            new SimTurnControl()
         );
     }
 
@@ -64,8 +66,8 @@ public interface Modules {
 
         Module MODULE = new Module(
             ID, LOCATION, 
-            new NEODriveControl(DRIVE_PORT), 
-            new NEOTurnControl(TURN_PORT)
+            new SimDriveControl(), 
+            new SimTurnControl()
         );
     }
 
@@ -78,8 +80,8 @@ public interface Modules {
 
         Module MODULE = new Module(
             ID, LOCATION, 
-            new NEODriveControl(DRIVE_PORT), 
-            new NEOTurnControl(TURN_PORT)
+            new SimDriveControl(), 
+            new SimTurnControl()
         );
     }
 

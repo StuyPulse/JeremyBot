@@ -21,15 +21,12 @@ public interface SimModule {
 			double GEARING = 1.0;
 
 			double DISTANCE_PER_PULSE = 1.0;
-
-			int PORT_A = 10;
-			int PORT_B = 11;
 		}
 
 		public interface Feedforward {
-			double kS = 0;
-			double kA = 0;
-			double kV = 0;
+            double kS = 0.0;
+            double kV = 3.0;
+            double kA = 0.01;
 
 			public static SimpleMotorFeedforward getFeedforward() {
 				return new SimpleMotorFeedforward(kS, kV, kA);
@@ -58,9 +55,6 @@ public interface SimModule {
 			double GRAYHILL_PULSES_PER_REVOLUTION = 256;
 			double GRAYHILL_DISTANCE_PER_PULSE =
 					(WHEEL_CIRCUMFERENCE / GRAYHILL_PULSES_PER_REVOLUTION);
-
-			int PORT_A = 0;
-			int PORT_B = 1;
 		}
 
 		public interface Feedforward {
