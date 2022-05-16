@@ -8,9 +8,8 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.system.LinearSystem;
 import edu.wpi.first.math.system.LinearSystemLoop;
 import edu.wpi.first.math.system.plant.LinearSystemId;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public abstract class KalmanDriveControl extends SubsystemBase {
+public abstract class KalmanDriveControl extends DriveControl {
 
     private final LinearSystem<N1, N1, N1> model;
     private final KalmanFilter<N1, N1, N1> observer;
@@ -56,12 +55,6 @@ public abstract class KalmanDriveControl extends SubsystemBase {
     public void setVelocity(double velocity) {
         loop.setNextR(velocity);
     }
-
-    public abstract double getVelocity();
-
-    protected abstract void setVoltage(double voltage);
-    
-    protected abstract void reset();
 
     @Override
     public void periodic() {

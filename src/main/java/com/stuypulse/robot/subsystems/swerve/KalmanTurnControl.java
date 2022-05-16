@@ -10,9 +10,8 @@ import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.math.system.LinearSystem;
 import edu.wpi.first.math.system.LinearSystemLoop;
 import edu.wpi.first.math.system.plant.LinearSystemId;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public abstract class KalmanTurnControl extends SubsystemBase {
+public abstract class KalmanTurnControl extends TurnControl {
 
     private final LinearSystem<N2, N1, N1> model;
     private final KalmanFilter<N2, N1, N1> observer;
@@ -58,12 +57,6 @@ public abstract class KalmanTurnControl extends SubsystemBase {
     public void setAngle(Rotation2d target) {
         loop.setNextR(target.getRadians());
     }
-
-    public abstract Rotation2d getAngle();
-
-    protected abstract void setVoltage(double voltage); 
-
-    protected abstract void reset();
 
     @Override
     public void periodic() {

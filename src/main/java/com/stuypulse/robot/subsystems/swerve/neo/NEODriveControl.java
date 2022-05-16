@@ -4,10 +4,10 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.stuypulse.robot.constants.NEOModule.Drive;
-import com.stuypulse.robot.subsystems.swerve.DriveControl;
+import com.stuypulse.robot.subsystems.swerve.FFBDriveControl;
 import com.stuypulse.robot.util.NEOConfig;
 
-public class NEODriveControl extends DriveControl {
+public class NEODriveControl extends FFBDriveControl {
     private final CANSparkMax drive;
     private final RelativeEncoder encoder;
 

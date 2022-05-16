@@ -4,12 +4,12 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.stuypulse.robot.constants.NEOModule.Turn;
-import com.stuypulse.robot.subsystems.swerve.TurnControl;
+import com.stuypulse.robot.subsystems.swerve.FFBTurnControl;
 import com.stuypulse.robot.util.NEOConfig;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 
-public class NEOTurnControl extends TurnControl {
+public class NEOTurnControl extends FFBTurnControl {
     private final CANSparkMax turn;
     private final RelativeEncoder encoder;
 
