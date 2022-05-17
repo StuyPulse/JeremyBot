@@ -78,13 +78,10 @@ public class Swerve extends SubsystemBase {
     /** MODULE STATES API **/
 
     public void setStates(Vector2D velocity, double omega, boolean fieldRelative) {
-        // TODO: we negate vyMetersPerSecond because real life results, may be changed later
         if (fieldRelative) {
-            setStates(ChassisSpeeds.fromFieldRelativeSpeeds(velocity.y, -velocity.x, omega, getAngle()));
-        } 
-        
-        else {
-            setStates(new ChassisSpeeds(velocity.y, -velocity.x, omega));
+            setStates(ChassisSpeeds.fromFieldRelativeSpeeds(velocity.y, velocity.x, omega, getAngle()));
+        } else {
+            setStates(new ChassisSpeeds(velocity.y, velocity.x, omega));
         }
     }
 
