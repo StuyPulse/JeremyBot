@@ -1,28 +1,26 @@
-package com.stuypulse.robot.subsystems.swerve.neo;
+package com.stuypulse.robot.subsystems.modules.physical;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.stuypulse.robot.constants.NEOModule.Turn;
-import com.stuypulse.robot.subsystems.swerve.FFBTurnControl;
+import com.stuypulse.robot.subsystems.modules.TurnControl;
 import com.stuypulse.robot.util.NEOConfig;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 
-public class NEOTurnControl extends FFBTurnControl {
+public class NEOTurn implements TurnControl.PhysicalControl {
     private final CANSparkMax turn;
     private final RelativeEncoder encoder;
 
-    public NEOTurnControl(int port) {
-        super(Turn.Feedback.getController());
-
+    public NEOTurn(int port) {
         turn = new CANSparkMax(port, MotorType.kBrushless);
         encoder = turn.getEncoder();
 
         configure(Turn.getConfig());
     }
 
-    public NEOTurnControl configure(NEOConfig config) {
+    public NEOTurn configure(NEOConfig config) {
         config.setup(turn);
         return this;
     }
@@ -38,12 +36,12 @@ public class NEOTurnControl extends FFBTurnControl {
     }
 
     @Override
-    protected void setVoltage(double voltage) {
+    public void setVoltage(double voltage) {
         turn.setVoltage(voltage);
     }
 
     @Override
-    protected void reset() {
+    public void reset() {
         encoder.setPosition(0);
     }
 }

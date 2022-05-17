@@ -1,14 +1,17 @@
-package com.stuypulse.robot.subsystems.swerve;
+package com.stuypulse.robot.subsystems.modules.implementations.feedforwardback;
 
+import com.stuypulse.robot.subsystems.modules.TurnControl;
 import com.stuypulse.stuylib.control.Controller;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 
-public abstract class FFBTurnControl extends TurnControl {
+public class FFBTurnControl extends TurnControl {
     private Rotation2d target;
     private Controller feedback;
 
-    public FFBTurnControl(Controller feedback) {
+    public FFBTurnControl(PhysicalControl physicalControl, Controller feedback) {
+        super(physicalControl);
+
         this.feedback = feedback;
 
         this.target = new Rotation2d(0.0);

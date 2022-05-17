@@ -1,8 +1,10 @@
 package com.stuypulse.robot.constants;
 
-import com.stuypulse.robot.subsystems.swerve.Module;
-import com.stuypulse.robot.subsystems.swerve.neo.NEODriveControl;
-import com.stuypulse.robot.subsystems.swerve.neo.NEOTurnControl;
+import com.stuypulse.robot.subsystems.modules.Module;
+import com.stuypulse.robot.subsystems.modules.implementations.feedforwardback.FFBDriveControl;
+import com.stuypulse.robot.subsystems.modules.implementations.feedforwardback.FFBTurnControl;
+import com.stuypulse.robot.subsystems.modules.physical.NEODrive;
+import com.stuypulse.robot.subsystems.modules.physical.NEOTurn;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
@@ -36,8 +38,15 @@ public interface Modules {
 
         Module MODULE = new Module(
             ID, LOCATION, 
-            new NEODriveControl(DRIVE_PORT), 
-            new NEOTurnControl(TURN_PORT)
+            new FFBDriveControl(
+                new NEODrive(DRIVE_PORT), 
+                NEOModule.Drive.Feedforward.getFeedforward(),
+                NEOModule.Drive.Feedback.getController()
+            ), 
+            new FFBTurnControl(
+                new NEOTurn(TURN_PORT), 
+                NEOModule.Turn.Feedback.getController()
+            )
         );
     }
 
@@ -50,8 +59,15 @@ public interface Modules {
 
         Module MODULE = new Module(
             ID, LOCATION, 
-            new NEODriveControl(DRIVE_PORT), 
-            new NEOTurnControl(TURN_PORT)
+            new FFBDriveControl(
+                new NEODrive(DRIVE_PORT), 
+                NEOModule.Drive.Feedforward.getFeedforward(),
+                NEOModule.Drive.Feedback.getController()
+            ), 
+            new FFBTurnControl(
+                new NEOTurn(TURN_PORT), 
+                NEOModule.Turn.Feedback.getController()
+            )
         );
     }
 
@@ -64,8 +80,15 @@ public interface Modules {
 
         Module MODULE = new Module(
             ID, LOCATION, 
-            new NEODriveControl(DRIVE_PORT), 
-            new NEOTurnControl(TURN_PORT)
+            new FFBDriveControl(
+                new NEODrive(DRIVE_PORT), 
+                NEOModule.Drive.Feedforward.getFeedforward(),
+                NEOModule.Drive.Feedback.getController()
+            ), 
+            new FFBTurnControl(
+                new NEOTurn(TURN_PORT), 
+                NEOModule.Turn.Feedback.getController()
+            )
         );
     }
 
@@ -78,8 +101,15 @@ public interface Modules {
 
         Module MODULE = new Module(
             ID, LOCATION, 
-            new NEODriveControl(DRIVE_PORT), 
-            new NEOTurnControl(TURN_PORT)
+            new FFBDriveControl(
+                new NEODrive(DRIVE_PORT), 
+                NEOModule.Drive.Feedforward.getFeedforward(),
+                NEOModule.Drive.Feedback.getController()
+            ), 
+            new FFBTurnControl(
+                new NEOTurn(TURN_PORT), 
+                NEOModule.Turn.Feedback.getController()
+            )
         );
     }
 

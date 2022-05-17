@@ -1,11 +1,12 @@
-package com.stuypulse.robot.subsystems.swerve;
+package com.stuypulse.robot.subsystems.modules.implementations.feedforwardback;
 
+import com.stuypulse.robot.subsystems.modules.DriveControl;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.util.StopWatch;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 
-public abstract class FFBDriveControl extends DriveControl {
+public class FFBDriveControl extends DriveControl {
     private final SimpleMotorFeedforward feedforward;
     private final Controller feedback;
     
@@ -14,7 +15,9 @@ public abstract class FFBDriveControl extends DriveControl {
 
     private StopWatch timer;
     
-    public FFBDriveControl(SimpleMotorFeedforward feedforward, Controller feedback) {
+    public FFBDriveControl(PhysicalControl physicalControl, SimpleMotorFeedforward feedforward, Controller feedback) {
+        super(physicalControl);
+
         this.feedforward = feedforward;
         this.feedback = feedback;
         

@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.stuypulse.robot.constants.Modules;
-import com.stuypulse.robot.subsystems.swerve.Module;
+import com.stuypulse.robot.subsystems.modules.Module;
 import com.stuypulse.stuylib.math.Vector2D;
 
 import edu.wpi.first.math.geometry.Pose2d;
