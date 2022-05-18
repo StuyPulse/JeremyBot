@@ -80,9 +80,9 @@ public class Swerve extends SubsystemBase {
 
     public void setStates(Vector2D velocity, double omega, boolean fieldRelative) {
         if (fieldRelative) {
-            setStates(ChassisSpeeds.fromFieldRelativeSpeeds(velocity.y, -velocity.x, omega, getAngle()));
+            setStates(ChassisSpeeds.fromFieldRelativeSpeeds(velocity.y, -velocity.x, -omega, getAngle()));
         } else {
-            setStates(new ChassisSpeeds(velocity.y, -velocity.x, omega));
+            setStates(new ChassisSpeeds(velocity.y, -velocity.x, -omega));
         }
     }
 
