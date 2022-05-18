@@ -6,14 +6,22 @@ package com.stuypulse.robot;
 
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.*;
+
+import java.util.List;
+
 import com.stuypulse.robot.commands.*;
 import com.stuypulse.robot.commands.autos.*;
 import com.stuypulse.robot.constants.Controls;
+import com.stuypulse.robot.constants.Modules;
 import com.stuypulse.robot.constants.Modules.*;
 import com.stuypulse.robot.subsystems.*;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.constraint.SwerveDriveKinematicsConstraint;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -73,7 +81,17 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return autonChooser.getSelected();
+        // return autonChooser.getSelected();
+    
+        return new FollowTrajectory(
+            swerve, 
+            TrajectoryGenerator.generateTrajectory(
+                new Pose2d(0.0, 0.0, new Rotation2d(0)), List.of(), new Pose2d(5, -0.5, new Rotation2d(0.0)),
+                new TrajectoryConfig(Modules.MAX_SPEED, Modules.MAX_ACCEL).addConstraint(
+                    new SwerveDriveKinematicsConstraint(swerve.getKinematics(), Modules.MAX_SPEED)
+                )
+            )
+        );
     }
 
 }
