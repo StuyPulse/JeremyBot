@@ -31,7 +31,7 @@ public interface Modules {
 
     public interface TopRight {
         String ID = "Top Right";
-        Translation2d LOCATION = new Translation2d(WIDTH * +0.5, HEIGHT * +0.5);
+        Translation2d LOCATION = new Translation2d(WIDTH * +0.5, HEIGHT * -0.5);
 
         int DRIVE_PORT = 1;
         int TURN_PORT = 2;
@@ -52,7 +52,7 @@ public interface Modules {
 
     public interface TopLeft {
         String ID = "Top Left";
-        Translation2d LOCATION = new Translation2d(WIDTH * -0.5, HEIGHT * +0.5);
+        Translation2d LOCATION = new Translation2d(WIDTH * +0.5, HEIGHT * +0.5);
 
         int DRIVE_PORT = 3;
         int TURN_PORT = 4;
@@ -73,7 +73,7 @@ public interface Modules {
 
     public interface BottomLeft {
         String ID = "Bottom Left";
-        Translation2d LOCATION = new Translation2d(WIDTH * -0.5, HEIGHT * -0.5);
+        Translation2d LOCATION = new Translation2d(WIDTH * -0.5, HEIGHT * +0.5);
         
         int DRIVE_PORT = 5;
         int TURN_PORT = 6;
@@ -94,7 +94,7 @@ public interface Modules {
 
     public interface BottomRight {
         String ID = "Bottom Right";
-        Translation2d LOCATION = new Translation2d(WIDTH * +0.5, HEIGHT * -0.5);
+        Translation2d LOCATION = new Translation2d(WIDTH * -0.5, HEIGHT * -0.5);
 
         int DRIVE_PORT = 7;
         int TURN_PORT = 8;

@@ -9,6 +9,7 @@ import com.stuypulse.stuylib.math.Vector2D;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -32,15 +33,15 @@ public class Swerve extends SubsystemBase {
         gyro = new AHRS(SPI.Port.kMXP);
         
         kinematics = new SwerveDriveKinematics(
-            // Arrays.stream(modules)
-            //     .map(x -> x.getLocation())
-            //     .toArray(Translation2d[]::new)
+            Arrays.stream(modules)
+                .map(x -> x.getLocation())
+                .toArray(Translation2d[]::new)
 
             // TODO: revert back to stream (requires testing)
-            modules[0].getLocation(),
-            modules[1].getLocation(),
-            modules[2].getLocation(),
-            modules[3].getLocation()
+            // modules[0].getLocation(),
+            // modules[1].getLocation(),
+            // modules[2].getLocation(),
+            // modules[3].getLocation()
         );
         odometry = new SwerveDriveOdometry(kinematics, gyro.getRotation2d());
 
@@ -78,13 +79,10 @@ public class Swerve extends SubsystemBase {
     /** MODULE STATES API **/
 
     public void setStates(Vector2D velocity, double omega, boolean fieldRelative) {
-        // TODO: we negate vyMetersPerSecond because real life results, may be changed later
         if (fieldRelative) {
-            setStates(ChassisSpeeds.fromFieldRelativeSpeeds(velocity.y, -velocity.x, omega, getAngle()));
-        } 
-        
-        else {
-            setStates(new ChassisSpeeds(velocity.y, -velocity.x, omega));
+            setStates(ChassisSpeeds.fromFieldRelativeSpeeds(velocity.y, -velocity.x, -omega, getAngle()));
+        } else {
+            setStates(new ChassisSpeeds(velocity.y, -velocity.x, -omega));
         }
     }
 

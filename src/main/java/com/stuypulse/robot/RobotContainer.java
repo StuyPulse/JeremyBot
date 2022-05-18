@@ -36,8 +36,7 @@ public class RobotContainer {
     private static SendableChooser<Command> autonChooser = new SendableChooser<>();
 
     public RobotContainer() {
-        // Disable telementry to reduce lag
-        LiveWindow.disableAllTelemetry();
+        // Disabling joystick connect allows for AutoGamepad to not be noisy
         DriverStation.silenceJoystickConnectionWarning(true);
 
         // Configure the button bindings
