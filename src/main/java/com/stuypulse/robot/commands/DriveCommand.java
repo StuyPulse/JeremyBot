@@ -18,7 +18,7 @@ public class DriveCommand extends CommandBase {
 
     public DriveCommand(Swerve drive, Gamepad driver) {
         this.drive = drive;
-    
+
         IStream leftX = IStream.create(driver::getLeftX).filtered(Controls.Drive.getFilter());
         IStream leftY = IStream.create(driver::getLeftY).filtered(Controls.Drive.getFilter());
 
