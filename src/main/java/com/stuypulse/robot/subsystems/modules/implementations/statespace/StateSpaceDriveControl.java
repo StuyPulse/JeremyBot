@@ -1,5 +1,6 @@
 package com.stuypulse.robot.subsystems.modules.implementations.statespace;
 
+import com.stuypulse.robot.constants.Motion;
 import com.stuypulse.robot.subsystems.modules.DriveControl;
 
 import edu.wpi.first.math.VecBuilder;
@@ -22,7 +23,7 @@ public class StateSpaceDriveControl extends DriveControl {
     @Override
     public void periodic() {
         loop.correct(VecBuilder.fill(getVelocity()));
-        loop.predict(0.020);
+        loop.predict(Motion.dt);
 
         double outputVolts = loop.getU(0);
 

@@ -1,5 +1,6 @@
 package com.stuypulse.robot.subsystems.modules.implementations.statespace;
 
+import com.stuypulse.robot.constants.Motion;
 import com.stuypulse.robot.subsystems.modules.TurnControl;
 
 import edu.wpi.first.math.VecBuilder;
@@ -24,7 +25,7 @@ public class StateSpaceTurnControl extends TurnControl {
     @Override
     public void periodic() {
         loop.correct(VecBuilder.fill(getAngle().getRadians()));
-        loop.predict(0.020);
+        loop.predict(Motion.dt);
 
         double outputVolts = loop.getU(0);
 
