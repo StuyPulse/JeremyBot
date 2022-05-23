@@ -1,8 +1,8 @@
 package com.stuypulse.robot.constants;
 
 import com.stuypulse.robot.subsystems.modules.Module;
-import com.stuypulse.robot.subsystems.modules.implementations.feedforwardback.FFBDriveControl;
 import com.stuypulse.robot.subsystems.modules.implementations.feedforwardback.FFBTurnControl;
+import com.stuypulse.robot.subsystems.modules.implementations.statespace.StateSpaceDriveControl;
 import com.stuypulse.robot.subsystems.modules.physical.NEODrive;
 import com.stuypulse.robot.subsystems.modules.physical.NEOTurn;
 
@@ -38,10 +38,10 @@ public interface Modules {
 
         Module MODULE = new Module(
             ID, LOCATION, 
-            new FFBDriveControl(
-                new NEODrive(DRIVE_PORT), 
-                NEOModule.Drive.Feedforward.getFeedforward(),
-                NEOModule.Drive.Feedback.getController()
+            new StateSpaceDriveControl(
+                new NEODrive(DRIVE_PORT),
+                NEOModule.Drive.Feedforward.kV,
+                NEOModule.Drive.Feedforward.kA
             ), 
             new FFBTurnControl(
                 new NEOTurn(TURN_PORT), 
@@ -59,10 +59,10 @@ public interface Modules {
 
         Module MODULE = new Module(
             ID, LOCATION, 
-            new FFBDriveControl(
-                new NEODrive(DRIVE_PORT), 
-                NEOModule.Drive.Feedforward.getFeedforward(),
-                NEOModule.Drive.Feedback.getController()
+            new StateSpaceDriveControl(
+                new NEODrive(DRIVE_PORT),
+                NEOModule.Drive.Feedforward.kV,
+                NEOModule.Drive.Feedforward.kA
             ), 
             new FFBTurnControl(
                 new NEOTurn(TURN_PORT), 
@@ -80,10 +80,10 @@ public interface Modules {
 
         Module MODULE = new Module(
             ID, LOCATION, 
-            new FFBDriveControl(
-                new NEODrive(DRIVE_PORT), 
-                NEOModule.Drive.Feedforward.getFeedforward(),
-                NEOModule.Drive.Feedback.getController()
+            new StateSpaceDriveControl(
+                new NEODrive(DRIVE_PORT),
+                NEOModule.Drive.Feedforward.kV,
+                NEOModule.Drive.Feedforward.kA
             ), 
             new FFBTurnControl(
                 new NEOTurn(TURN_PORT), 
@@ -101,10 +101,10 @@ public interface Modules {
 
         Module MODULE = new Module(
             ID, LOCATION, 
-            new FFBDriveControl(
-                new NEODrive(DRIVE_PORT), 
-                NEOModule.Drive.Feedforward.getFeedforward(),
-                NEOModule.Drive.Feedback.getController()
+            new StateSpaceDriveControl(
+                new NEODrive(DRIVE_PORT),
+                NEOModule.Drive.Feedforward.kV,
+                NEOModule.Drive.Feedforward.kA
             ), 
             new FFBTurnControl(
                 new NEOTurn(TURN_PORT), 
