@@ -5,7 +5,15 @@ import com.stuypulse.robot.util.NEOConfig;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.PIDController;
 
+import edu.wpi.first.math.Nat;
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.controller.LinearQuadraticRegulator;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.estimator.KalmanFilter;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.system.LinearSystem;
+import edu.wpi.first.math.system.LinearSystemLoop;
+import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -71,6 +79,41 @@ public interface NEOModule {
 
             public static Controller getController() {
                 return new PIDController(kP, kI, kD);
+            }
+        }
+
+        public interface StateSpace {
+            double STATE_STDEV = 3.0;
+            double MEASURE_STDEV = 0.01;
+
+            double Q_ERROR_TOLERANCE = 4.0;
+            double R_CONTROL_TOLERANCE = 12.0;
+
+            double MAX_VOLTS = 12.0;
+
+            public static LinearSystemLoop<N1, N1, N1> getControlLoop() {
+                LinearSystem<N1, N1, N1> model = LinearSystemId.identifyVelocitySystem(Feedforward.kV, Feedforward.kA);
+                KalmanFilter<N1, N1, N1> observer = new KalmanFilter<>(
+                    Nat.N1(), 
+                    Nat.N1(), 
+                    model, 
+                    VecBuilder.fill(STATE_STDEV), 
+                    VecBuilder.fill(MEASURE_STDEV),
+                    Motion.dt
+                );
+                LinearQuadraticRegulator<N1, N1, N1> controller = new LinearQuadraticRegulator<>(
+                    model,
+                    VecBuilder.fill(Q_ERROR_TOLERANCE),
+                    VecBuilder.fill(R_CONTROL_TOLERANCE),
+                    Motion.dt
+                );
+                return new LinearSystemLoop<>(
+                    model,
+                    controller,
+                    observer,
+                    MAX_VOLTS,
+                    Motion.dt
+                );
             }
         }
     }

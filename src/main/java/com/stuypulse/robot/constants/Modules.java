@@ -40,8 +40,7 @@ public interface Modules {
             ID, LOCATION, 
             new StateSpaceDriveControl(
                 new NEODrive(DRIVE_PORT),
-                NEOModule.Drive.Feedforward.kV,
-                NEOModule.Drive.Feedforward.kA
+                NEOModule.Drive.StateSpace.getControlLoop()
             ), 
             new FFBTurnControl(
                 new NEOTurn(TURN_PORT), 
@@ -61,9 +60,8 @@ public interface Modules {
             ID, LOCATION, 
             new StateSpaceDriveControl(
                 new NEODrive(DRIVE_PORT),
-                NEOModule.Drive.Feedforward.kV,
-                NEOModule.Drive.Feedforward.kA
-            ), 
+                NEOModule.Drive.StateSpace.getControlLoop()
+            ),  
             new FFBTurnControl(
                 new NEOTurn(TURN_PORT), 
                 NEOModule.Turn.Feedback.getController()
@@ -82,8 +80,7 @@ public interface Modules {
             ID, LOCATION, 
             new StateSpaceDriveControl(
                 new NEODrive(DRIVE_PORT),
-                NEOModule.Drive.Feedforward.kV,
-                NEOModule.Drive.Feedforward.kA
+                NEOModule.Drive.StateSpace.getControlLoop()
             ), 
             new FFBTurnControl(
                 new NEOTurn(TURN_PORT), 
@@ -103,8 +100,7 @@ public interface Modules {
             ID, LOCATION, 
             new StateSpaceDriveControl(
                 new NEODrive(DRIVE_PORT),
-                NEOModule.Drive.Feedforward.kV,
-                NEOModule.Drive.Feedforward.kA
+                NEOModule.Drive.StateSpace.getControlLoop()
             ), 
             new FFBTurnControl(
                 new NEOTurn(TURN_PORT), 

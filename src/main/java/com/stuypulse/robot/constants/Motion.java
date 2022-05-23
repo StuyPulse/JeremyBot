@@ -5,6 +5,8 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 
 public interface Motion {
+
+    double dt = 0.020;
     // double MAX_VELOCITY = Modules.MAX_SPEED;
     // double MAX_ACCELERATION = 2.5;
 
