@@ -16,7 +16,7 @@ public class NEOMagTurnControl extends TurnControl {
     private final DutyCycleEncoder encoder;
 
     public NEOMagTurnControl(int port, int encoderPort) {
-        super(Turn.Feedback.getController());
+        super(Turn.Feedback.getController().enableContinuous(MagEncoder.MIN_VALUE, MagEncoder.MAX_VALUE));
 
         turn = new CANSparkMax(port, MotorType.kBrushless);
         
@@ -32,7 +32,7 @@ public class NEOMagTurnControl extends TurnControl {
     }
 
     private double getRadians() {
-        return encoder.getAbsolutePosition() * MagEncoder.CONVERSION;
+        return encoder.getAbsolutePosition() * MagEncoder.CONVERSION - Math.PI;
     }
 
     @Override
