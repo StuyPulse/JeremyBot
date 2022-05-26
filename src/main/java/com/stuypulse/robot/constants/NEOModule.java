@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.stuypulse.robot.util.NEOConfig;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.PIDController;
+import com.stuypulse.stuylib.network.SmartNumber;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.util.Units;
@@ -91,9 +92,9 @@ public interface NEOModule {
         }
 
         public interface Feedback {
-            double kP = 0.1;
-            double kI = 0.0;
-            double kD = 0.0;
+            SmartNumber kP = new SmartNumber("Turn P", 0.1);
+            SmartNumber kI = new SmartNumber("Turn I", 0.0);
+            SmartNumber kD = new SmartNumber("Turn D", 0.0);
 
             public static Controller getController() {
                 return new PIDController(kP, kI, kD);
