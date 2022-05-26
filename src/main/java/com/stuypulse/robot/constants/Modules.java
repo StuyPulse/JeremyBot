@@ -2,6 +2,7 @@ package com.stuypulse.robot.constants;
 
 import com.stuypulse.robot.subsystems.swerve.Module;
 import com.stuypulse.robot.subsystems.swerve.neo.NEODriveControl;
+import com.stuypulse.robot.subsystems.swerve.neo.NEOMagTurnControl;
 import com.stuypulse.robot.subsystems.swerve.neo.NEOTurnControl;
 
 import edu.wpi.first.math.geometry.Translation2d;
@@ -34,10 +35,12 @@ public interface Modules {
         int DRIVE_PORT = 1;
         int TURN_PORT = 2;
 
+        int ENCODER_PORT = 3;
+
         Module MODULE = new Module(
             ID, LOCATION, 
             new NEODriveControl(DRIVE_PORT), 
-            new NEOTurnControl(TURN_PORT)
+            new NEOMagTurnControl(TURN_PORT, ENCODER_PORT)
         );
     }
 
@@ -48,10 +51,12 @@ public interface Modules {
         int DRIVE_PORT = 3;
         int TURN_PORT = 4;
 
+        int ENCODER_PORT = 1;
+
         Module MODULE = new Module(
             ID, LOCATION, 
             new NEODriveControl(DRIVE_PORT), 
-            new NEOTurnControl(TURN_PORT)
+            new NEOMagTurnControl(TURN_PORT, ENCODER_PORT)
         );
     }
 
@@ -62,10 +67,12 @@ public interface Modules {
         int DRIVE_PORT = 5;
         int TURN_PORT = 6;
 
+        int ENCODER_PORT = 0;
+
         Module MODULE = new Module(
             ID, LOCATION, 
             new NEODriveControl(DRIVE_PORT), 
-            new NEOTurnControl(TURN_PORT)
+            new NEOMagTurnControl(TURN_PORT, ENCODER_PORT)
         );
     }
 
@@ -76,10 +83,12 @@ public interface Modules {
         int DRIVE_PORT = 7;
         int TURN_PORT = 8;
 
+        int ENCODER_PORT = 2;
+
         Module MODULE = new Module(
             ID, LOCATION, 
             new NEODriveControl(DRIVE_PORT), 
-            new NEOTurnControl(TURN_PORT)
+            new NEOMagTurnControl(TURN_PORT, ENCODER_PORT)
         );
     }
 
