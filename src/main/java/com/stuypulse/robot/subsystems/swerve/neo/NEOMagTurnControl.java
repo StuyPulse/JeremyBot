@@ -15,15 +15,24 @@ public class NEOMagTurnControl extends TurnControl {
     private final CANSparkMax turn;
     private final DutyCycleEncoder encoder;
 
-    public NEOMagTurnControl(int port, int encoderPort) {
+    // what the encoder reads when the drive is facing forward,
+    // meaning we have to subtract this from the absolute encoder
+    // reading to get back to forward being 0 radians
+    private final Rotation2d offset; 
+
+    public NEOMagTurnControl(int port, int encoderPort, Rotation2d readingWhenForward) {
         super(Turn.Feedback.getController().enableContinuous(MagEncoder.MIN_VALUE, MagEncoder.MAX_VALUE));
 
         turn = new CANSparkMax(port, MotorType.kBrushless);
         
         encoder = new DutyCycleEncoder(encoderPort);
 
-        
+        offset = readingWhenForward;
         configure(Turn.getConfig());
+    }
+
+    public NEOMagTurnControl(int port, int encoderPort) {
+        this(port, encoderPort, new Rotation2d());
     }
 
     public NEOMagTurnControl configure(NEOConfig config) {
@@ -37,7 +46,7 @@ public class NEOMagTurnControl extends TurnControl {
 
     @Override
     public Rotation2d getAngle() {
-        return new Rotation2d(getRadians());
+        return new Rotation2d(getRadians()).minus(offset);
     }
 
     @Override

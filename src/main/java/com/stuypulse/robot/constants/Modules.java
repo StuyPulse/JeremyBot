@@ -3,8 +3,8 @@ package com.stuypulse.robot.constants;
 import com.stuypulse.robot.subsystems.swerve.Module;
 import com.stuypulse.robot.subsystems.swerve.neo.NEODriveControl;
 import com.stuypulse.robot.subsystems.swerve.neo.NEOMagTurnControl;
-import com.stuypulse.robot.subsystems.swerve.neo.NEOTurnControl;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 
@@ -37,10 +37,13 @@ public interface Modules {
 
         int ENCODER_PORT = 3;
 
+        // 45 + 90 * (quadrant - 1)
+        Rotation2d OFFSET = Rotation2d.fromDegrees(45.0);
+
         Module MODULE = new Module(
             ID, LOCATION, 
             new NEODriveControl(DRIVE_PORT), 
-            new NEOMagTurnControl(TURN_PORT, ENCODER_PORT)
+            new NEOMagTurnControl(TURN_PORT, ENCODER_PORT, OFFSET)
         );
     }
 
@@ -53,10 +56,12 @@ public interface Modules {
 
         int ENCODER_PORT = 1;
 
+        Rotation2d OFFSET = Rotation2d.fromDegrees(135.0);
+
         Module MODULE = new Module(
             ID, LOCATION, 
             new NEODriveControl(DRIVE_PORT), 
-            new NEOMagTurnControl(TURN_PORT, ENCODER_PORT)
+            new NEOMagTurnControl(TURN_PORT, ENCODER_PORT, OFFSET)
         );
     }
 
@@ -69,10 +74,12 @@ public interface Modules {
 
         int ENCODER_PORT = 0;
 
+        Rotation2d OFFSET = Rotation2d.fromDegrees(225.0);
+
         Module MODULE = new Module(
             ID, LOCATION, 
             new NEODriveControl(DRIVE_PORT), 
-            new NEOMagTurnControl(TURN_PORT, ENCODER_PORT)
+            new NEOMagTurnControl(TURN_PORT, ENCODER_PORT, OFFSET)
         );
     }
 
@@ -85,10 +92,12 @@ public interface Modules {
 
         int ENCODER_PORT = 2;
 
+        Rotation2d OFFSET = Rotation2d.fromDegrees(315.0);
+
         Module MODULE = new Module(
             ID, LOCATION, 
             new NEODriveControl(DRIVE_PORT), 
-            new NEOMagTurnControl(TURN_PORT, ENCODER_PORT)
+            new NEOMagTurnControl(TURN_PORT, ENCODER_PORT, OFFSET)
         );
     }
 
