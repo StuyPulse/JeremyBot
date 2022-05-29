@@ -3,7 +3,6 @@ package com.stuypulse.robot.commands;
 import com.stuypulse.robot.subsystems.Swerve;
 import com.stuypulse.robot.subsystems.swerve.Module;
 import com.stuypulse.stuylib.input.Gamepad;
-import com.stuypulse.stuylib.math.Angle;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
