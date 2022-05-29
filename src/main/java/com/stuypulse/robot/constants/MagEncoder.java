@@ -1,9 +1,17 @@
 package com.stuypulse.robot.constants;
 
+import com.stuypulse.stuylib.math.SLMath;
+
+/** Contains contants about the SRX Mag Encoder on our swerve modules */
 public interface MagEncoder {
+    double MIN_INPUT = 0.0;
+    double MAX_INPUT = 1.0;
     
-    double CONVERSION = 2.0 * Math.PI;
-    
-    double MAX_VALUE = -Math.PI;
-    double MIN_VALUE = +Math.PI;
+    double MIN_OUTPUT = -Math.PI;
+    double MAX_OUTPUT = +Math.PI;
+
+    public static double getRadians(double input) {
+        return SLMath.map(input, MIN_INPUT, MAX_INPUT, MIN_OUTPUT, MAX_OUTPUT);
+    }
 }
+
