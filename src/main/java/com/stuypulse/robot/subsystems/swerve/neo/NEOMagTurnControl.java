@@ -56,8 +56,6 @@ public class NEOMagTurnControl extends TurnControl {
 
     @Override
     protected void reset() {
-        DriverStation.reportWarning("Trying to reset absolute encoder, don't know what this means?", false);
-        // encoder.reset();
-        // encoder.setPosition(0);
+        DriverStation.reportWarning("Trying to reset absolute encoder, this is likely unintended behavior!", false);
     }
 }
