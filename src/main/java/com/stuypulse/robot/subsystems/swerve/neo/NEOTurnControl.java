@@ -33,7 +33,8 @@ public class NEOTurnControl extends TurnControl {
 
     @Override
     public Rotation2d getAngle() {
-        // TODO: NOT CONTINUOUS 
+        // readings are not continuous but this gets handled
+        // by rotation2d plus/minus
         return new Rotation2d(getRadians());
     }
 
