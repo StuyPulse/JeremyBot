@@ -21,7 +21,7 @@ public class NEOMagTurnControl extends TurnControl {
     private final Rotation2d offset; 
 
     public NEOMagTurnControl(int port, int encoderPort, Rotation2d readingWhenForward) {
-        super(Turn.Feedback.getController().enableContinuous(MagEncoder.MIN_VALUE, MagEncoder.MAX_VALUE));
+        super(Turn.Feedback.getController());
 
         turn = new CANSparkMax(port, MotorType.kBrushless);
         
@@ -41,7 +41,7 @@ public class NEOMagTurnControl extends TurnControl {
     }
 
     private double getRadians() {
-        return encoder.getAbsolutePosition() * MagEncoder.CONVERSION - Math.PI;
+        return MagEncoder.getRadians(encoder.getAbsolutePosition());
     }
 
     @Override
