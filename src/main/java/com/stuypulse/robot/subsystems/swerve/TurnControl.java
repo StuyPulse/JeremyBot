@@ -28,7 +28,7 @@ public abstract class TurnControl extends SubsystemBase {
     @Override
     public void periodic() {
         double outputVolts = 
-            feedback.update(target.getRadians(), getAngle().getRadians());
+            feedback.update(target.minus(getAngle()).getDegrees());
 
         setVoltage(outputVolts);
     }
