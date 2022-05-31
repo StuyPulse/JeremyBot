@@ -4,17 +4,19 @@ import java.util.Arrays;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.stuypulse.robot.constants.Modules;
+import com.stuypulse.robot.constants.Motion.Odometry;
 import com.stuypulse.robot.subsystems.swerve.Module;
 import com.stuypulse.stuylib.math.Vector2D;
 
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -24,7 +26,7 @@ public class Swerve extends SubsystemBase {
     private final AHRS gyro;
 
     private final SwerveDriveKinematics kinematics;
-    private final SwerveDriveOdometry odometry;
+    private final SwerveDrivePoseEstimator odometry;
 
     private final Field2d field;
 
@@ -37,7 +39,7 @@ public class Swerve extends SubsystemBase {
                 .map(x -> x.getLocation())
                 .toArray(Translation2d[]::new)
         );
-        odometry = new SwerveDriveOdometry(kinematics, gyro.getRotation2d());
+        odometry = new SwerveDrivePoseEstimator(getGyroAngle(), Odometry.START, kinematics, Odometry.STATE_STD, Odometry.MEASUREMENT_STD, Odometry.VISION_STD);
 
         field = new Field2d();
     }
@@ -57,11 +59,15 @@ public class Swerve extends SubsystemBase {
         return modules;
     }
 
-    public void reset() {
-        gyro.reset();
+    public void reset(Pose2d position) {
+        odometry.resetPosition(position, getGyroAngle());
         for (Module module : modules) {
             module.reset();
         }
+    }
+
+    public void reset() {
+        reset(getPose());
     }
 
     public void stop() {
@@ -102,7 +108,7 @@ public class Swerve extends SubsystemBase {
 
     /** GYRO API */
     
-    public Rotation2d getAngle() {
+    public Rotation2d getGyroAngle() {
         return gyro.getRotation2d();
     }
 
@@ -110,7 +116,7 @@ public class Swerve extends SubsystemBase {
 
     private void updateOdometry() {
         odometry.update(
-            getAngle(), 
+            getGyroAngle(), 
     
             Arrays.stream(modules)
                 .map(x -> x.getState())
@@ -118,8 +124,16 @@ public class Swerve extends SubsystemBase {
         );
     }
 
+    public void updateOdometry(Pose2d visionMeasurement) {
+        odometry.addVisionMeasurement(visionMeasurement, Timer.getFPGATimestamp());
+    }
+
     public Pose2d getPose() {
-        return odometry.getPoseMeters();
+        return odometry.getEstimatedPosition();
+    }
+
+    public Rotation2d getAngle() {
+        return getPose().getRotation();
     }
 
     public SwerveDriveKinematics getKinematics() {
