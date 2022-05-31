@@ -4,15 +4,16 @@ import java.util.Arrays;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.stuypulse.robot.constants.Modules;
+import com.stuypulse.robot.constants.Motion.Odometry;
 import com.stuypulse.robot.subsystems.modules.Module;
 import com.stuypulse.stuylib.math.Vector2D;
 
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -24,7 +25,7 @@ public class Swerve extends SubsystemBase {
     private final AHRS gyro;
 
     private final SwerveDriveKinematics kinematics;
-    private final SwerveDriveOdometry odometry;
+    private final SwerveDrivePoseEstimator odometry;
 
     private final Field2d field;
 
@@ -43,7 +44,14 @@ public class Swerve extends SubsystemBase {
             // modules[2].getLocation(),
             // modules[3].getLocation()
         );
-        odometry = new SwerveDriveOdometry(kinematics, gyro.getRotation2d());
+        odometry = new SwerveDrivePoseEstimator(
+            gyro.getRotation2d(),
+            new Pose2d(),
+            kinematics,
+            Odometry.STATE_STDDEV,
+            Odometry.MEASURE_STDDEV,
+            Odometry.VISION_STDDEV
+        );
 
         field = new Field2d();
     }
@@ -125,7 +133,7 @@ public class Swerve extends SubsystemBase {
     }
 
     public Pose2d getPose() {
-        return odometry.getPoseMeters();
+        return odometry.getEstimatedPosition();
     }
 
     public SwerveDriveKinematics getKinematics() {
