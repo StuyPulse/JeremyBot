@@ -36,12 +36,6 @@ public class Swerve extends SubsystemBase {
             Arrays.stream(modules)
                 .map(x -> x.getLocation())
                 .toArray(Translation2d[]::new)
-
-            // TODO: revert back to stream (requires testing)
-            // modules[0].getLocation(),
-            // modules[1].getLocation(),
-            // modules[2].getLocation(),
-            // modules[3].getLocation()
         );
         odometry = new SwerveDriveOdometry(kinematics, gyro.getRotation2d());
 
