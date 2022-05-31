@@ -11,8 +11,8 @@ public interface Controls {
         int DRIVER = 0;
     }
 
-    double MAX_TELEOP_SPEED = Modules.MAX_SPEED / 4.0;
-    double MAX_TELEOP_ANGULAR = Modules.MAX_ANGULAR_SPEED / 4.0;
+    double MAX_TELEOP_SPEED = Modules.MAX_SPEED;
+    double MAX_TELEOP_ANGULAR = Modules.MAX_ANGULAR_SPEED;
 
     public interface Drive {
         SmartNumber DEADBAND = new SmartNumber("Controls/Drive/Deadband", 0.05);
