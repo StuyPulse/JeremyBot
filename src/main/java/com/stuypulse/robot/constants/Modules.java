@@ -4,8 +4,9 @@ import com.stuypulse.robot.subsystems.modules.Module;
 import com.stuypulse.robot.subsystems.modules.implementations.feedforwardback.FFBTurnControl;
 import com.stuypulse.robot.subsystems.modules.implementations.statespace.StateSpaceDriveControl;
 import com.stuypulse.robot.subsystems.modules.physical.NEODrive;
-import com.stuypulse.robot.subsystems.modules.physical.NEOTurn;
+import com.stuypulse.robot.subsystems.modules.physical.NEOMagTurn;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 
@@ -36,6 +37,11 @@ public interface Modules {
         int DRIVE_PORT = 1;
         int TURN_PORT = 2;
 
+        int ENCODER_PORT = 3;
+
+        // 45 + 90 * (quadrant - 1)
+        Rotation2d OFFSET = Rotation2d.fromDegrees(45.0);
+
         Module MODULE = new Module(
             ID, LOCATION, 
             new StateSpaceDriveControl(
@@ -43,7 +49,7 @@ public interface Modules {
                 NEOModule.Drive.StateSpace.getControlLoop()
             ), 
             new FFBTurnControl(
-                new NEOTurn(TURN_PORT), 
+                new NEOMagTurn(TURN_PORT, ENCODER_PORT, OFFSET), 
                 NEOModule.Turn.Feedback.getController()
             )
         );
@@ -56,6 +62,10 @@ public interface Modules {
         int DRIVE_PORT = 3;
         int TURN_PORT = 4;
 
+        int ENCODER_PORT = 1;
+
+        Rotation2d OFFSET = Rotation2d.fromDegrees(135.0);
+
         Module MODULE = new Module(
             ID, LOCATION, 
             new StateSpaceDriveControl(
@@ -63,7 +73,7 @@ public interface Modules {
                 NEOModule.Drive.StateSpace.getControlLoop()
             ),  
             new FFBTurnControl(
-                new NEOTurn(TURN_PORT), 
+                new NEOMagTurn(TURN_PORT, ENCODER_PORT, OFFSET), 
                 NEOModule.Turn.Feedback.getController()
             )
         );
@@ -76,6 +86,10 @@ public interface Modules {
         int DRIVE_PORT = 5;
         int TURN_PORT = 6;
 
+        int ENCODER_PORT = 0;
+
+        Rotation2d OFFSET = Rotation2d.fromDegrees(225.0);
+
         Module MODULE = new Module(
             ID, LOCATION, 
             new StateSpaceDriveControl(
@@ -83,7 +97,7 @@ public interface Modules {
                 NEOModule.Drive.StateSpace.getControlLoop()
             ), 
             new FFBTurnControl(
-                new NEOTurn(TURN_PORT), 
+                new NEOMagTurn(TURN_PORT, ENCODER_PORT, OFFSET), 
                 NEOModule.Turn.Feedback.getController()
             )
         );
@@ -96,6 +110,10 @@ public interface Modules {
         int DRIVE_PORT = 7;
         int TURN_PORT = 8;
 
+        int ENCODER_PORT = 2;
+
+        Rotation2d OFFSET = Rotation2d.fromDegrees(315.0);
+
         Module MODULE = new Module(
             ID, LOCATION, 
             new StateSpaceDriveControl(
@@ -103,7 +121,7 @@ public interface Modules {
                 NEOModule.Drive.StateSpace.getControlLoop()
             ), 
             new FFBTurnControl(
-                new NEOTurn(TURN_PORT), 
+                new NEOMagTurn(TURN_PORT, ENCODER_PORT, OFFSET), 
                 NEOModule.Turn.Feedback.getController()
             )
         );
