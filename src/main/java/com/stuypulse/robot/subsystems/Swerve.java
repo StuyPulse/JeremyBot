@@ -65,6 +65,10 @@ public class Swerve extends SubsystemBase {
         }
     }
 
+    public void reset() {
+        reset(getPose());
+    }
+
     public void stop() {
         for (Module module : modules) {
             module.stop();
