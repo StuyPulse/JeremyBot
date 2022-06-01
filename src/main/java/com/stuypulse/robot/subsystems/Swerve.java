@@ -57,8 +57,9 @@ public class Swerve extends SubsystemBase {
         return modules;
     }
 
-    public void reset() {
-        gyro.reset();
+    public void reset(Pose2d pose) {
+        odometry.resetPosition(pose, getAngle());
+        // gyro.reset();
         for (Module module : modules) {
             module.reset();
         }
@@ -102,15 +103,11 @@ public class Swerve extends SubsystemBase {
 
     /** GYRO API */
     
-    public Rotation2d getAngle() {
-        return gyro.getRotation2d();
-    }
-
     /** ODOMETRY API */
 
     private void updateOdometry() {
         odometry.update(
-            getAngle(), 
+            gyro.getRotation2d(), 
     
             Arrays.stream(modules)
                 .map(x -> x.getState())
@@ -120,6 +117,10 @@ public class Swerve extends SubsystemBase {
 
     public Pose2d getPose() {
         return odometry.getPoseMeters();
+    }
+
+    public Rotation2d getAngle() {
+        return getPose().getRotation();
     }
 
     public SwerveDriveKinematics getKinematics() {
