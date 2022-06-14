@@ -138,8 +138,8 @@ public class Swerve extends SubsystemBase {
        
         SmartDashboard.putNumber("Swerve/Pose X", getPose().getTranslation().getX());
         SmartDashboard.putNumber("Swerve/Pose Y", getPose().getTranslation().getY());
-        SmartDashboard.putNumber("Swerve/Pose Angle", getPose().getRotation().getDegrees());
-        SmartDashboard.putNumber("Swerve/Gyro Angle", getAngle().getDegrees());
+        SmartDashboard.putNumber("Swerve/Pose Angle", getAngle().getDegrees());
+        SmartDashboard.putNumber("Swerve/Gyro Angle", gyro.getRotation2d().getDegrees());
     }
 
 }
