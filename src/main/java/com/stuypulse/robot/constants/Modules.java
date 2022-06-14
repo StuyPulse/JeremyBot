@@ -59,7 +59,7 @@ public interface Modules {
         int ENCODER_PORT = 1;
 
         // Rotation2d OFFSET = Rotation2d.fromDegrees(145);
-        IStream OFFSET = new SmartNumber("Top Left/Zero Angle", 145.0)
+        IStream OFFSET = new SmartNumber("Top Left/Zero Angle", -145.0)
             .filtered(Math::toRadians);
 
         Module MODULE = new Module(
@@ -97,7 +97,7 @@ public interface Modules {
 
         int ENCODER_PORT = 2;
 
-        IStream OFFSET = new SmartNumber("Bottom Right/Zero Angle", -145.0)
+        IStream OFFSET = new SmartNumber("Bottom Right/Zero Angle", 145.0)
             .filtered(Math::toRadians);
 
         Module MODULE = new Module(
