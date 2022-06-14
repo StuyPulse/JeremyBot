@@ -1,6 +1,7 @@
 package com.stuypulse.robot.subsystems;
 
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.stuypulse.robot.constants.Modules;
@@ -33,11 +34,11 @@ public class Swerve extends SubsystemBase {
         gyro = new AHRS(SPI.Port.kMXP);
         
         kinematics = new SwerveDriveKinematics(
-            Arrays.stream(modules)
+            getModuleStream()
                 .map(x -> x.getLocation())
                 .toArray(Translation2d[]::new)
         );
-        odometry = new SwerveDriveOdometry(kinematics, gyro.getRotation2d());
+        odometry = new SwerveDriveOdometry(kinematics, getGyroAngle());
 
         field = new Field2d();
     }
@@ -53,12 +54,16 @@ public class Swerve extends SubsystemBase {
         throw new IllegalArgumentException("Couldn't find module with ID \"" + id + "\"");
     }
 
+    public Stream<Module> getModuleStream() {
+        return Arrays.stream(getModules());
+    }
+
     public Module[] getModules() {
         return modules;
     }
 
     public void reset(Pose2d pose) {
-        odometry.resetPosition(pose, getAngle());
+        odometry.resetPosition(pose, getGyroAngle());
         // gyro.reset();
         for (Module module : modules) {
             module.reset();
@@ -106,14 +111,18 @@ public class Swerve extends SubsystemBase {
     }
 
     /** GYRO API */
+
+    public Rotation2d getGyroAngle() {
+        return gyro.getRotation2d();
+    }
     
     /** ODOMETRY API */
 
     private void updateOdometry() {
         odometry.update(
-            gyro.getRotation2d(), 
+            getGyroAngle(), 
     
-            Arrays.stream(modules)
+            getModuleStream()
                 .map(x -> x.getState())
                 .toArray(SwerveModuleState[]::new)
         );
