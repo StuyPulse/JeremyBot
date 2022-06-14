@@ -6,10 +6,12 @@ import com.stuypulse.robot.constants.MagEncoder;
 import com.stuypulse.robot.constants.NEOModule.Turn;
 import com.stuypulse.robot.subsystems.swerve.TurnControl;
 import com.stuypulse.robot.util.NEOConfig;
+import com.stuypulse.stuylib.streams.IStream;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class NEOMagTurnControl extends TurnControl {
     private final CANSparkMax turn;
@@ -18,21 +20,21 @@ public class NEOMagTurnControl extends TurnControl {
     // what the encoder reads when the drive is facing forward,
     // meaning we have to subtract this from the absolute encoder
     // reading to get back to forward being 0 radians
-    private final Rotation2d offset; 
+    private final IStream offset; 
 
-    public NEOMagTurnControl(int port, int encoderPort, Rotation2d readingWhenForward) {
+    public NEOMagTurnControl(int port, int encoderPort, IStream radiansWhenForward) {
         super(Turn.Feedback.getController());
 
         turn = new CANSparkMax(port, MotorType.kBrushless);
         
         encoder = new DutyCycleEncoder(encoderPort);
 
-        offset = readingWhenForward;
+        offset = radiansWhenForward;
         configure(Turn.getConfig());
     }
 
     public NEOMagTurnControl(int port, int encoderPort) {
-        this(port, encoderPort, new Rotation2d());
+        this(port, encoderPort, () -> 0);
     }
 
     public NEOMagTurnControl configure(NEOConfig config) {
@@ -44,9 +46,18 @@ public class NEOMagTurnControl extends TurnControl {
         return MagEncoder.getRadians(encoder.getAbsolutePosition());
     }
 
+    private Rotation2d getOffsetAngle() {
+        return new Rotation2d(offset.get());
+    }
+
     @Override
     public Rotation2d getAngle() {
-        return new Rotation2d(getRadians()).minus(offset);
+        return new Rotation2d(getRadians()).minus(getOffsetAngle());
+    }
+
+    @Override
+    protected void log(String id) {
+        SmartDashboard.putNumber(id + "/Abs Position", Math.toDegrees(getRadians()));
     }
 
     @Override
