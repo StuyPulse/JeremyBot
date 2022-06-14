@@ -25,18 +25,6 @@ public class Module extends SubsystemBase {
         this.turn = turn;
 
         target = new SwerveModuleState(0.0, new Rotation2d(0.0));
-
-        // setup shuffleboard
-
-        // TODO: move this into control classes log metod
-        ShuffleboardTab me = Shuffleboard.getTab(id);
-        me.addNumber("Target Velocity ", () -> target.speedMetersPerSecond);
-        me.addNumber("Velocity", () -> drive.getVelocity());
-        me.addNumber("Velocity Error", () -> target.speedMetersPerSecond - drive.getVelocity());
-
-        me.addNumber("Target Angle", () -> target.angle.getDegrees());
-        me.addNumber("Angle", () -> turn.getAngle().getDegrees());
-        me.addNumber("Angle Error", () -> target.angle.minus(turn.getAngle()).getDegrees());
     }
 
     public String getID() {

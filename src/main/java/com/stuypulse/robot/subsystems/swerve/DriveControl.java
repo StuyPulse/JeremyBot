@@ -4,6 +4,7 @@ import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.util.StopWatch;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class DriveControl extends SubsystemBase {
@@ -36,7 +37,10 @@ public abstract class DriveControl extends SubsystemBase {
     
     protected abstract void reset();
 
-    protected void log(String id) {
+    protected void log(String who) {
+        SmartDashboard.putNumber(who + "/Target Velocity", targetVelocity);
+        SmartDashboard.putNumber(who + "/Velocity", getVelocity());
+        SmartDashboard.putNumber(who + "/Velocity Error", targetVelocity - getVelocity());
     }
 
     @Override

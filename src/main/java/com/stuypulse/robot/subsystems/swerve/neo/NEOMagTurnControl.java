@@ -57,6 +57,8 @@ public class NEOMagTurnControl extends TurnControl {
 
     @Override
     protected void log(String id) {
+        super.log(id);
+
         SmartDashboard.putNumber(id + "/Abs Position", Math.toDegrees(getRadians()));
     }
 
