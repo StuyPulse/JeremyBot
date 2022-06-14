@@ -36,6 +36,9 @@ public abstract class DriveControl extends SubsystemBase {
     
     protected abstract void reset();
 
+    protected void log(String id) {
+    }
+
     @Override
     public void periodic() {
         double outputVolts = 

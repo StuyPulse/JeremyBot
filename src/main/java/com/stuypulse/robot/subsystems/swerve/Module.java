@@ -27,7 +27,9 @@ public class Module extends SubsystemBase {
         target = new SwerveModuleState(0.0, new Rotation2d(0.0));
 
         // setup shuffleboard
-        ShuffleboardTab me = Shuffleboard.getTab(id);        
+
+        // TODO: move this into control classes log metod
+        ShuffleboardTab me = Shuffleboard.getTab(id);
         me.addNumber("Target Velocity ", () -> target.speedMetersPerSecond);
         me.addNumber("Velocity", () -> drive.getVelocity());
         me.addNumber("Velocity Error", () -> target.speedMetersPerSecond - drive.getVelocity());
@@ -90,6 +92,9 @@ public class Module extends SubsystemBase {
     public void periodic() {
         drive.setVelocity(target.speedMetersPerSecond);
         turn.setAngle(target.angle);
+
+        turn.log(id);
+        drive.log(id);
     }
 
 }

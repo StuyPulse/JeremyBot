@@ -25,6 +25,9 @@ public abstract class TurnControl extends SubsystemBase {
 
     protected abstract void reset();
 
+    protected void log(String who) {
+    }
+
     @Override
     public void periodic() {
         double outputVolts = 
