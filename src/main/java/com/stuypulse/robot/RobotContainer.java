@@ -54,8 +54,7 @@ public class RobotContainer {
     }
 
     private void configureDefaultCommands() {
-        // swerve.setDefaultCommand(new DriveCommand(swerve, driver));
-        swerve.setDefaultCommand(new TurnModule(swerve, driver));
+        swerve.setDefaultCommand(new DriveCommand(swerve, driver ));
     }
 
     private void configureButtonBindings() {
