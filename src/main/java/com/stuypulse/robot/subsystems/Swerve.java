@@ -63,8 +63,10 @@ public class Swerve extends SubsystemBase {
     }
 
     public void reset(Pose2d pose) {
-        odometry.resetPosition(pose, getGyroAngle());
-        // gyro.reset();
+        // TODO: switch back to using odomety, because with autons it should start
+        // at the right angle anyway -- add manual reset?
+        odometry.resetPosition(pose, Rotation2d.fromDegrees(0)); 
+        gyro.reset();
         for (Module module : modules) {
             module.reset();
         }
@@ -84,7 +86,7 @@ public class Swerve extends SubsystemBase {
 
     public void setStates(Vector2D velocity, double omega, boolean fieldRelative) {
         if (fieldRelative) {
-            setStates(ChassisSpeeds.fromFieldRelativeSpeeds(velocity.y, -velocity.x, -omega, getAngle()));
+            setStates(ChassisSpeeds.fromFieldRelativeSpeeds(velocity.y, -velocity.x, -omega, getGyroAngle())); // TODO: see TODO above
         } else {
             setStates(new ChassisSpeeds(velocity.y, -velocity.x, -omega));
         }
