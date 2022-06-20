@@ -3,7 +3,6 @@ package com.stuypulse.robot.commands;
 import com.stuypulse.robot.constants.Controls;
 import com.stuypulse.robot.constants.Motion.Theta;
 import com.stuypulse.robot.subsystems.Swerve;
-import com.stuypulse.stuylib.control.PIDController;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.Vector2D;
