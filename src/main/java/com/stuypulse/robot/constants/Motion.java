@@ -33,11 +33,10 @@ public interface Motion {
         double kI = 0.0;
         double kD = 0.0;
 
+        Constraints kConstraints = new Constraints(Modules.MAX_ANGULAR_SPEED, Modules.MAX_ANGULAR_ACCEL);
+
         public static ProfiledPIDController getController() {
-            return new ProfiledPIDController(
-                kP, kI, kD, 
-                new Constraints(Modules.MAX_ANGULAR_SPEED, Modules.MAX_ANGULAR_ACCEL)
-            );
+            return new ProfiledPIDController(kP, kI, kD, kConstraints);
         }
     }
 }
