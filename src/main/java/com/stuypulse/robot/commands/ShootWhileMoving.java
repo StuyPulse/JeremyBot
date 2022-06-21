@@ -38,11 +38,11 @@ public class ShootWhileMoving extends CommandBase {
   }
 
   private Vector2D getPosition() {
-    return new Vector2D(swerve.getPose().getTranslation());
+    return new Vector2D(robot.swerve.getPose().getTranslation());
   }
 
   private Vector2D getVirtualPosition() {
-    Vector2D velocity = swerve.getVelocity();
+    Vector2D velocity = robot.swerve.getVelocity();
     return getPosition().add(velocity.mul(dT));
   }
 
