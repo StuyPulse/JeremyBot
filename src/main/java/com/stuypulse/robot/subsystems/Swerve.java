@@ -32,12 +32,11 @@ public class Swerve extends SubsystemBase {
     public Swerve() {
         modules = Modules.MODULES;
         gyro = new AHRS(SPI.Port.kMXP);
-        
+
         kinematics = new SwerveDriveKinematics(
-            getModuleStream()
-                .map(x -> x.getLocation())
-                .toArray(Translation2d[]::new)
-        );
+                getModuleStream()
+                        .map(x -> x.getLocation())
+                        .toArray(Translation2d[]::new));
         odometry = new SwerveDriveOdometry(kinematics, getGyroAngle());
 
         field = new Field2d();
@@ -47,10 +46,10 @@ public class Swerve extends SubsystemBase {
 
     public Module getModule(String id) {
         for (Module module : modules) {
-            if (module.getID().equals(id)) 
+            if (module.getID().equals(id))
                 return module;
         }
-        
+
         throw new IllegalArgumentException("Couldn't find module with ID \"" + id + "\"");
     }
 
@@ -65,7 +64,7 @@ public class Swerve extends SubsystemBase {
     public void reset(Pose2d pose) {
         // TODO: switch back to using odomety, because with autons it should start
         // at the right angle anyway -- add manual reset?
-        odometry.resetPosition(pose, Rotation2d.fromDegrees(0)); 
+        odometry.resetPosition(pose, Rotation2d.fromDegrees(0));
         gyro.reset();
         for (Module module : modules) {
             module.reset();
@@ -86,7 +85,10 @@ public class Swerve extends SubsystemBase {
 
     public void setStates(Vector2D velocity, double omega, boolean fieldRelative) {
         if (fieldRelative) {
-            setStates(ChassisSpeeds.fromFieldRelativeSpeeds(velocity.y, -velocity.x, -omega, getGyroAngle())); // TODO: see TODO above
+            setStates(ChassisSpeeds.fromFieldRelativeSpeeds(velocity.y, -velocity.x, -omega, getGyroAngle())); // TODO:
+                                                                                                               // see
+                                                                                                               // TODO
+                                                                                                               // above
         } else {
             setStates(new ChassisSpeeds(velocity.y, -velocity.x, -omega));
         }
@@ -102,11 +104,12 @@ public class Swerve extends SubsystemBase {
 
     public void setStates(SwerveModuleState... states) {
         if (states.length != modules.length) {
-            throw new IllegalArgumentException("Number of desired module states does not match number of modules (" + modules.length + ")");
+            throw new IllegalArgumentException(
+                    "Number of desired module states does not match number of modules (" + modules.length + ")");
         }
 
         SwerveDriveKinematics.desaturateWheelSpeeds(states, Modules.MAX_SPEED);
-        
+
         for (int i = 0; i < states.length; ++i) {
             modules[i].setState(states[i]);
         }
@@ -117,17 +120,22 @@ public class Swerve extends SubsystemBase {
     public Rotation2d getGyroAngle() {
         return gyro.getRotation2d();
     }
-    
+
     /** ODOMETRY API */
 
     private void updateOdometry() {
-        odometry.update(
-            getGyroAngle(), 
-    
-            getModuleStream()
+        odometry.update(getGyroAngle(), getStates());
+    }
+
+    private SwerveModuleState[] getStates() {
+        return getModuleStream()
                 .map(x -> x.getState())
-                .toArray(SwerveModuleState[]::new)
-        );
+                .toArray(SwerveModuleState[]::new);
+    }
+
+    public Vector2D getVelocity() {
+        ChassisSpeeds speeds = kinematics.toChassisSpeeds(getStates());
+        return new Vector2D(speeds.vyMetersPerSecond, speeds.vxMetersPerSecond);
     }
 
     public Pose2d getPose() {
@@ -146,7 +154,7 @@ public class Swerve extends SubsystemBase {
     public void periodic() {
         updateOdometry();
         field.setRobotPose(getPose());
-       
+
         SmartDashboard.putNumber("Swerve/Pose X", getPose().getTranslation().getX());
         SmartDashboard.putNumber("Swerve/Pose Y", getPose().getTranslation().getY());
         SmartDashboard.putNumber("Swerve/Pose Angle", getAngle().getDegrees());

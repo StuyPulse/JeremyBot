@@ -15,15 +15,14 @@ public class FollowTrajectory extends SwerveControllerCommand {
 
     public FollowTrajectory(Swerve swerve, Trajectory trajectory) {
         super(
-            trajectory,
-            swerve::getPose,
-            swerve.getKinematics(),
-            Motion.X.getController(),
-            Motion.Y.getController(),
-            Motion.Theta.getController(),
-            swerve::setStates,
-            swerve
-        );
+                trajectory,
+                swerve::getPose,
+                swerve.getKinematics(),
+                Motion.X.getController(),
+                Motion.Y.getController(),
+                Motion.Theta.getController(),
+                swerve::setStates,
+                swerve);
 
         this.swerve = swerve;
 
