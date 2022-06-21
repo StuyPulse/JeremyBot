@@ -42,8 +42,12 @@ public class NEOMagTurnControl extends TurnControl {
         return this;
     }
 
-    private double getRadians() {
+    private double getRawRadians() {
         return MagEncoder.getRadians(encoder.getAbsolutePosition());
+    }
+
+    public Rotation2d getEncoderRadians() {
+        return new Rotation2d(getRawRadians());
     }
 
     private Rotation2d getOffsetAngle() {
@@ -52,14 +56,14 @@ public class NEOMagTurnControl extends TurnControl {
 
     @Override
     public Rotation2d getAngle() {
-        return new Rotation2d(getRadians()).minus(getOffsetAngle());
+        return getEncoderRadians().minus(getOffsetAngle());
     }
 
     @Override
     protected void log(String id) {
         super.log(id);
 
-        SmartDashboard.putNumber(id + "/Abs Position", Math.toDegrees(getRadians()));
+        SmartDashboard.putNumber(id + "/Abs Position", Math.toDegrees(getRawRadians()));
     }
 
     @Override
