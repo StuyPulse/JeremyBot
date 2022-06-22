@@ -37,21 +37,19 @@ public class ShootWhileMoving extends CommandBase {
   public void initialize() {
   }
 
-  private Vector2D getPosition() {
-    return new Vector2D(robot.swerve.getPose().getTranslation());
+  private Translation2d getPosition() {
+    return robot.swerve.getPose().getTranslation();
   }
 
-  private Vector2D getVirtualPosition() {
-    Vector2D velocity = robot.swerve.getVelocity();
-    return getPosition().add(velocity.mul(dT));
+  private Translation2d getVirtualPosition() {
+    return getPosition().plus(robot.swerve.getVelocity().times(dT));
   }
 
   private Pose2d getVirtualPose() {
-    Vector2D position = getVirtualPosition();
+    Translation2d position = getVirtualPosition();
+    Translation2d toHub = Field.Hub.CENTER2D.minus(position);
 
-    return new Pose2d(
-        position.getTranslation2d(),
-        Field.Hub.CENTER.sub(position).getAngle().getRotation2d());
+    return new Pose2d(position, new Rotation2d(toHub.getX(), toHub.getY()));
   }
 
   @Override

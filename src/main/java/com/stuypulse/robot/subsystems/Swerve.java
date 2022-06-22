@@ -133,9 +133,10 @@ public class Swerve extends SubsystemBase {
                 .toArray(SwerveModuleState[]::new);
     }
 
-    public Vector2D getVelocity() {
+    public Translation2d getVelocity() {
         ChassisSpeeds speeds = kinematics.toChassisSpeeds(getStates());
-        return new Vector2D(speeds.vyMetersPerSecond, speeds.vxMetersPerSecond);
+        // TODO: is this dy, dx or dx, dy
+        return new Translation2d(speeds.vyMetersPerSecond, speeds.vxMetersPerSecond);
     }
 
     public Pose2d getPose() {
