@@ -49,7 +49,6 @@ public class DriveCommand extends CommandBase {
 
     @Override
     public void end(boolean wasInterrupted) {
-        drive.stop();
     }
 
 }
