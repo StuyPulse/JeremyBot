@@ -6,7 +6,7 @@ import com.stuypulse.robot.constants.MagEncoder;
 import com.stuypulse.robot.constants.NEOModule.Turn;
 import com.stuypulse.robot.subsystems.swerve.TurnControl;
 import com.stuypulse.robot.util.NEOConfig;
-import com.stuypulse.stuylib.streams.IStream;
+import com.stuypulse.stuylib.network.SmartAngle;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -17,12 +17,9 @@ public class NEOMagTurnControl extends TurnControl {
     private final CANSparkMax turn;
     private final DutyCycleEncoder encoder;
 
-    // what the encoder reads when the drive is facing forward,
-    // meaning we have to subtract this from the absolute encoder
-    // reading to get back to forward being 0 radians
-    private final IStream offset; 
+    private final SmartAngle offset; 
 
-    public NEOMagTurnControl(int port, int encoderPort, IStream radiansWhenForward) {
+    public NEOMagTurnControl(int port, int encoderPort, SmartAngle radiansWhenForward) {
         super(Turn.Feedback.getController());
 
         turn = new CANSparkMax(port, MotorType.kBrushless);
@@ -31,10 +28,6 @@ public class NEOMagTurnControl extends TurnControl {
 
         offset = radiansWhenForward;
         configure(Turn.getConfig());
-    }
-
-    public NEOMagTurnControl(int port, int encoderPort) {
-        this(port, encoderPort, () -> 0);
     }
 
     public NEOMagTurnControl configure(NEOConfig config) {
@@ -50,13 +43,11 @@ public class NEOMagTurnControl extends TurnControl {
         return new Rotation2d(getRawRadians());
     }
 
-    private Rotation2d getOffsetAngle() {
-        return new Rotation2d(offset.get());
-    }
 
     @Override
     public Rotation2d getAngle() {
-        return getEncoderRadians().minus(getOffsetAngle());
+        return getEncoderRadians()
+            .minus(offset.getRotation2d());
     }
 
     @Override

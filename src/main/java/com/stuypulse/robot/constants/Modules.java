@@ -3,10 +3,9 @@ package com.stuypulse.robot.constants;
 import com.stuypulse.robot.subsystems.swerve.Module;
 import com.stuypulse.robot.subsystems.swerve.neo.NEODriveControl;
 import com.stuypulse.robot.subsystems.swerve.neo.NEOMagTurnControl;
-import com.stuypulse.stuylib.network.SmartNumber;
-import com.stuypulse.stuylib.streams.IStream;
+import com.stuypulse.stuylib.math.Angle;
+import com.stuypulse.stuylib.network.SmartAngle;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 
@@ -39,8 +38,7 @@ public interface Modules {
 
         int ENCODER_PORT = 3;
 
-        IStream OFFSET = new SmartNumber("Top Right/Zero Angle", 125.0)
-            .filtered(Math::toRadians);
+        SmartAngle OFFSET = new SmartAngle("Top Right/Zero Angle", Angle.fromDegrees(125.0)).degrees();
 
         Module MODULE = new Module(
             ID, LOCATION, 
@@ -58,9 +56,7 @@ public interface Modules {
 
         int ENCODER_PORT = 1;
 
-        // Rotation2d OFFSET = Rotation2d.fromDegrees(145);
-        IStream OFFSET = new SmartNumber("Top Left/Zero Angle", -145.0)
-            .filtered(Math::toRadians);
+        SmartAngle OFFSET = new SmartAngle("Top Left/Zero Angle", Angle.fromDegrees(-145.0)).degrees();
 
         Module MODULE = new Module(
             ID, LOCATION, 
@@ -78,8 +74,7 @@ public interface Modules {
 
         int ENCODER_PORT = 0;
 
-        IStream OFFSET = new SmartNumber("Bottom Left/Zero Angle", -35.0)
-            .filtered(Math::toRadians);
+        SmartAngle OFFSET = new SmartAngle("Bottom Left/Zero Angle", Angle.fromDegrees(-35.0)).degrees();
 
         Module MODULE = new Module(
             ID, LOCATION, 
@@ -97,8 +92,7 @@ public interface Modules {
 
         int ENCODER_PORT = 2;
 
-        IStream OFFSET = new SmartNumber("Bottom Right/Zero Angle", 145.0)
-            .filtered(Math::toRadians);
+        SmartAngle OFFSET = new SmartAngle("Bottom Right/Zero Angle", Angle.fromDegrees(145.0)).degrees();
 
         Module MODULE = new Module(
             ID, LOCATION, 

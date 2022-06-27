@@ -1,6 +1,7 @@
 package com.stuypulse.robot.subsystems.swerve;
 
 import com.stuypulse.stuylib.control.Controller;
+import com.stuypulse.stuylib.control.angle.AngleController;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -8,10 +9,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class TurnControl extends SubsystemBase {
     private Rotation2d target;
-    private Controller feedback;
+    private AngleController feedback;
 
     public TurnControl(Controller feedback) {
-        this.feedback = feedback;
+        this.feedback = feedback.angle().useDegrees();
 
         this.target = new Rotation2d(0.0);
     }
@@ -34,9 +35,7 @@ public abstract class TurnControl extends SubsystemBase {
 
     @Override
     public void periodic() {
-        double outputVolts = 
-            feedback.update(target.minus(getAngle()).getDegrees());
-
+        double outputVolts = feedback.update(target, getAngle());
         setVoltage(outputVolts);
     }
 

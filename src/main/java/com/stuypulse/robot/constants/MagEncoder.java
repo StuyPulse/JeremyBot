@@ -11,7 +11,7 @@ public interface MagEncoder {
     double MAX_OUTPUT = +Math.PI;
 
     public static double getRadians(double input) {
-        return SLMath.map(input, MIN_INPUT, MAX_INPUT, MIN_OUTPUT, MAX_OUTPUT);
+        return SLMath.lerp(MIN_INPUT, MAX_INPUT, (input - MIN_INPUT) / (MAX_INPUT - MIN_INPUT));
     }
 }
 
