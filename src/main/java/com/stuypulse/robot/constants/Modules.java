@@ -38,7 +38,7 @@ public interface Modules {
 
         int ENCODER_PORT = 3;
 
-        SmartAngle OFFSET = new SmartAngle("Top Right/Zero Angle", Angle.fromDegrees(125.0)).degrees();
+        SmartAngle OFFSET = new SmartAngle("Top Right/Zero Angle", Angle.fromDegrees(125.0)).useDegrees();
 
         Module MODULE = new Module(
             ID, LOCATION, 
@@ -56,7 +56,7 @@ public interface Modules {
 
         int ENCODER_PORT = 1;
 
-        SmartAngle OFFSET = new SmartAngle("Top Left/Zero Angle", Angle.fromDegrees(-145.0)).degrees();
+        SmartAngle OFFSET = new SmartAngle("Top Left/Zero Angle", Angle.fromDegrees(-145.0)).useDegrees();
 
         Module MODULE = new Module(
             ID, LOCATION, 
@@ -74,7 +74,7 @@ public interface Modules {
 
         int ENCODER_PORT = 0;
 
-        SmartAngle OFFSET = new SmartAngle("Bottom Left/Zero Angle", Angle.fromDegrees(-35.0)).degrees();
+        SmartAngle OFFSET = new SmartAngle("Bottom Left/Zero Angle", Angle.fromDegrees(-35.0)).useDegrees();
 
         Module MODULE = new Module(
             ID, LOCATION, 
@@ -92,7 +92,7 @@ public interface Modules {
 
         int ENCODER_PORT = 2;
 
-        SmartAngle OFFSET = new SmartAngle("Bottom Right/Zero Angle", Angle.fromDegrees(145.0)).degrees();
+        SmartAngle OFFSET = new SmartAngle("Bottom Right/Zero Angle", Angle.fromDegrees(145.0)).useDegrees();
 
         Module MODULE = new Module(
             ID, LOCATION, 

@@ -8,13 +8,15 @@ import com.stuypulse.stuylib.streams.vectors.filters.VDeadZone;
 import com.stuypulse.stuylib.streams.vectors.filters.VFilter;
 import com.stuypulse.stuylib.streams.vectors.filters.VLowPassFilter;
 
+import edu.wpi.first.math.util.Units;
+
 public interface Controls {
     public interface Ports {
         int DRIVER = 0;
     }
 
-    double MAX_TELEOP_SPEED = Modules.MAX_SPEED;
-    double MAX_TELEOP_ANGULAR = Modules.MAX_ANGULAR_SPEED;
+    Number MAX_TELEOP_SPEED = new SmartNumber("Controls/Max Speed (ft/s)", 14).filtered(Units::feetToMeters).number();
+    Number MAX_TELEOP_ANGULAR = new SmartNumber("Controls/Max Angular (rad/s)", Modules.MAX_ANGULAR_SPEED);
 
     public interface Drive {
         SmartNumber DEADBAND = new SmartNumber("Controls/Drive/Deadband", 0.05);
@@ -23,7 +25,7 @@ public interface Controls {
         public static VFilter getFilter() {
             return new VDeadZone(DEADBAND)
                 .then(new VLowPassFilter(RC))
-                .then(x -> x.mul(MAX_TELEOP_ANGULAR));
+                .then(x -> x.mul(MAX_TELEOP_ANGULAR.doubleValue()));
         }
     }
 
@@ -34,7 +36,7 @@ public interface Controls {
         public static IFilter getFilter() {
             return IFilter.create(x -> SLMath.deadband(x, DEADBAND.get()))
                 .then(new LowPassFilter(RC))
-                .then(x -> x * MAX_TELEOP_ANGULAR);
+                .then(x -> x * MAX_TELEOP_ANGULAR.doubleValue());
         }
     }
 }
