@@ -1,13 +1,13 @@
 {
   "MainWindow": {
     "GLOBAL": {
-      "height": "1080",
+      "height": "1000",
       "maximized": "0",
       "style": "0",
       "userScale": "2",
-      "width": "1920",
-      "xpos": "0",
-      "ypos": "0"
+      "width": "1904",
+      "xpos": "8",
+      "ypos": "40"
     }
   },
   "Window": {
@@ -43,23 +43,23 @@
     },
     "###/SmartDashboard/Field": {
       "Collapsed": "0",
-      "Pos": "187,679",
+      "Pos": "184,589",
       "Size": "747,362"
     },
     "###FMS": {
       "Collapsed": "0",
-      "Pos": "5,540",
+      "Pos": "12,538",
       "Size": "283,146"
     },
     "###Joysticks": {
       "Collapsed": "0",
-      "Pos": "250,465",
+      "Pos": "226,510",
       "Size": "796,155"
     },
     "###NetworkTables": {
       "Collapsed": "0",
-      "Pos": "929,152",
-      "Size": "750,737"
+      "Pos": "1098,162",
+      "Size": "750,739"
     },
     "###Other Devices": {
       "Collapsed": "0",

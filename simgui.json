@@ -68,7 +68,7 @@
   },
   "NetworkTables": {
     "SmartDashboard": {
-      "Autonomous": {
+      "Controls": {
         "open": true
       },
       "Swerve": {
