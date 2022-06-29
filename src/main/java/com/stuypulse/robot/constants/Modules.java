@@ -34,17 +34,10 @@ public interface Modules {
         String ID = "Top Right";
         Translation2d LOCATION = new Translation2d(WIDTH * +0.5, HEIGHT * -0.5);
 
-        int DRIVE_PORT = 1;
-        int TURN_PORT = 2;
-
-        int ENCODER_PORT = 3;
-
-        SmartAngle OFFSET = new SmartAngle("Top Right/Zero Angle", Angle.fromDegrees(125.0)).useDegrees();
-
         Module MODULE = new Module(
-            ID, LOCATION, 
-            new NEODriveControl(DRIVE_PORT), 
-            new NEOMagTurnControl(TURN_PORT, ENCODER_PORT, OFFSET)
+            ID, LOCATION,
+            new SimDriveControl(),
+            new SimTurnControl()
         );
     }
 
@@ -52,17 +45,10 @@ public interface Modules {
         String ID = "Top Left";
         Translation2d LOCATION = new Translation2d(WIDTH * +0.5, HEIGHT * +0.5);
 
-        int DRIVE_PORT = 3;
-        int TURN_PORT = 4;
-
-        int ENCODER_PORT = 1;
-
-        SmartAngle OFFSET = new SmartAngle("Top Left/Zero Angle", Angle.fromDegrees(-145.0)).useDegrees();
-
         Module MODULE = new Module(
             ID, LOCATION, 
-            new NEODriveControl(DRIVE_PORT), 
-            new NEOMagTurnControl(TURN_PORT, ENCODER_PORT, OFFSET)
+            new SimDriveControl(), 
+            new SimTurnControl()
         );
     }
 
@@ -70,17 +56,10 @@ public interface Modules {
         String ID = "Bottom Left";
         Translation2d LOCATION = new Translation2d(WIDTH * -0.5, HEIGHT * +0.5);
         
-        int DRIVE_PORT = 5;
-        int TURN_PORT = 6;
-
-        int ENCODER_PORT = 0;
-
-        SmartAngle OFFSET = new SmartAngle("Bottom Left/Zero Angle", Angle.fromDegrees(-35.0)).useDegrees();
-
         Module MODULE = new Module(
             ID, LOCATION, 
-            new NEODriveControl(DRIVE_PORT), 
-            new NEOMagTurnControl(TURN_PORT, ENCODER_PORT, OFFSET)
+            new SimDriveControl(), 
+            new SimTurnControl()
         );
     }
 
@@ -88,17 +67,10 @@ public interface Modules {
         String ID = "Bottom Right";
         Translation2d LOCATION = new Translation2d(WIDTH * -0.5, HEIGHT * -0.5);
 
-        int DRIVE_PORT = 7;
-        int TURN_PORT = 8;
-
-        int ENCODER_PORT = 2;
-
-        SmartAngle OFFSET = new SmartAngle("Bottom Right/Zero Angle", Angle.fromDegrees(145.0)).useDegrees();
-
         Module MODULE = new Module(
             ID, LOCATION, 
-            new NEODriveControl(DRIVE_PORT), 
-            new NEOMagTurnControl(TURN_PORT, ENCODER_PORT, OFFSET)
+            new SimDriveControl(), 
+            new SimTurnControl()
         );
     }
 
