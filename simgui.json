@@ -13,6 +13,8 @@
       "/LiveWindow/NEODriveControl": "Subsystem",
       "/LiveWindow/NEOMagTurnControl": "Subsystem",
       "/LiveWindow/NEOTurnControl": "Subsystem",
+      "/LiveWindow/SimDriveControl": "Subsystem",
+      "/LiveWindow/SimTurnControl": "Subsystem",
       "/LiveWindow/Swerve": "Subsystem",
       "/LiveWindow/Ungrouped/DigitalInput[0]": "Digital Input",
       "/LiveWindow/Ungrouped/DigitalInput[1]": "Digital Input",
@@ -67,6 +69,12 @@
   "NetworkTables": {
     "SmartDashboard": {
       "Autonomous": {
+        "open": true
+      },
+      "Swerve": {
+        "open": true
+      },
+      "Top Right": {
         "open": true
       },
       "open": true
