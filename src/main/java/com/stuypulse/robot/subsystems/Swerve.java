@@ -149,4 +149,12 @@ public class Swerve extends SubsystemBase {
         SmartDashboard.putNumber("Swerve/Gyro Angle", gyro.getRotation2d().getDegrees());
     }
 
+    @Override
+    public void simulationPeriodic() {
+        var states = getModuleStream().map(x -> x.getState()).toArray(SwerveModuleState[]::new);
+        var speeds = getKinematics().toChassisSpeeds(states);
+        
+        gyro.setAngleAdjustment(gyro.getAngle() + Math.toDegrees(speeds.omegaRadiansPerSecond * 0.02));
+    }
+
 }
