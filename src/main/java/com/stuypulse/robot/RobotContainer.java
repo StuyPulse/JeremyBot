@@ -4,30 +4,20 @@
 
 package com.stuypulse.robot;
 
-import com.stuypulse.stuylib.input.Gamepad;
-import com.stuypulse.stuylib.input.gamepads.*;
-
-import java.util.List;
-
-import com.stuypulse.robot.commands.*;
-import com.stuypulse.robot.commands.autos.*;
+import com.stuypulse.robot.commands.DriveCommand;
+import com.stuypulse.robot.commands.autos.DoNothingAuto;
+import com.stuypulse.robot.commands.autos.TestAuto;
 import com.stuypulse.robot.constants.Controls;
-import com.stuypulse.robot.constants.Modules;
-import com.stuypulse.robot.constants.Modules.*;
-import com.stuypulse.robot.subsystems.*;
+import com.stuypulse.robot.subsystems.Swerve;
 import com.stuypulse.robot.util.BootlegXbox;
+import com.stuypulse.stuylib.input.Gamepad;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.math.trajectory.constraint.SwerveDriveKinematicsConstraint;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -58,7 +48,7 @@ public class RobotContainer {
     }
 
     private void configureDefaultCommands() {
-        swerve.setDefaultCommand(new DriveCommand(swerve, driver ));
+        swerve.setDefaultCommand(new DriveCommand(swerve, driver));
     }
 
     private void configureButtonBindings() {
@@ -67,6 +57,8 @@ public class RobotContainer {
 
     public void configureAutons() {
         autonChooser.addOption("Do Nothing", new DoNothingAuto());
+        autonChooser.addOption("Test Auto", new TestAuto(this));
+
         SmartDashboard.putData("Autonomous", autonChooser);
     }
 
@@ -76,18 +68,7 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        // An ExampleCommand will run in autonomous
-        // return autonChooser.getSelected();
-    
-        return new FollowTrajectory(
-            swerve, 
-            TrajectoryGenerator.generateTrajectory(
-                new Pose2d(0.0, 0.0, new Rotation2d(0)), List.of(), new Pose2d(5, -0.5, new Rotation2d(0.0)),
-                new TrajectoryConfig(Modules.MAX_SPEED, Modules.MAX_ACCEL).addConstraint(
-                    new SwerveDriveKinematicsConstraint(swerve.getKinematics(), Modules.MAX_SPEED)
-                )
-            )
-        );
+        return autonChooser.getSelected();
     }
 
 }

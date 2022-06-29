@@ -5,12 +5,12 @@ import java.util.stream.Stream;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.stuypulse.robot.constants.Modules;
+import com.stuypulse.robot.constants.Motion;
 import com.stuypulse.robot.subsystems.swerve.Module;
 import com.stuypulse.stuylib.math.Vector2D;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -33,11 +33,7 @@ public class Swerve extends SubsystemBase {
         modules = Modules.MODULES;
         gyro = new AHRS(SPI.Port.kMXP);
         
-        kinematics = new SwerveDriveKinematics(
-            getModuleStream()
-                .map(x -> x.getLocation())
-                .toArray(Translation2d[]::new)
-        );
+        kinematics = Motion.KINEMATICS;
         odometry = new SwerveDriveOdometry(kinematics, getGyroAngle());
 
         field = new Field2d();

@@ -2,6 +2,7 @@ package com.stuypulse.robot.commands;
 
 import com.stuypulse.robot.constants.Motion;
 import com.stuypulse.robot.subsystems.Swerve;
+import com.stuypulse.robot.util.TrajectoryLoader;
 
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -29,6 +30,10 @@ public class FollowTrajectory extends SwerveControllerCommand {
 
         this.trajectory = trajectory;
         robotRelative = false;
+    }
+
+    public FollowTrajectory(Swerve swerve, String path) {
+        this(swerve, TrajectoryLoader.getTrajectory(path));
     }
 
     public FollowTrajectory robotRelative() {
