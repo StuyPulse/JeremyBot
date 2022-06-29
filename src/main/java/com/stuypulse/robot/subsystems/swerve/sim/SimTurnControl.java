@@ -1,45 +1,62 @@
 package com.stuypulse.robot.subsystems.swerve.sim;
 
-import com.stuypulse.robot.constants.SimModule;
 import com.stuypulse.robot.constants.SimModule.Turn;
 import com.stuypulse.robot.subsystems.swerve.TurnControl;
-import com.stuypulse.robot.util.MotorSim;
+import com.stuypulse.stuylib.util.StopWatch;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N2;
+import edu.wpi.first.wpilibj.simulation.LinearSystemSim;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SimTurnControl extends TurnControl {
-	private final MotorSim sim;
+
+    private LinearSystemSim<N2, N1, N1> position;
+    private StopWatch timer;
+
+    private double voltage;
+    private double offset;
 
 	public SimTurnControl() {
 		super(Turn.Feedback.getController());
+        position = new LinearSystemSim<>(Turn.Feedforward.getPlant());
+        voltage = 0.0;
+        offset = 0.0;
 
-		sim = new MotorSim(Turn.Feedforward.getPlant(), Turn.Encoder.GEAR_RATIO);
-		sim.setDistancePerRotation(SimModule.WHEEL_DIAMETER);
+        timer = new StopWatch();
 	}
 
-	private double getRadians() {
-		double rotations = sim.getDistance() / SimModule.WHEEL_CIRCUMFERENCE;
-
-		return rotations / (2 * Math.PI);
-	}
+    private double getRawRadians() {
+        return position.getOutput(0);
+    }
 
 	@Override
 	public Rotation2d getAngle() {
-		return new Rotation2d(getRadians());
+		return new Rotation2d(getRawRadians() - offset);
 	}
 
 	@Override
 	protected void setVoltage(double voltage) {
-		sim.setVoltage(voltage);	
+        this.voltage = voltage;
 	}
 
 	@Override
 	protected void reset() {
-		sim.reset();
+        offset = getRawRadians();
 	}
+
+    @Override
+    protected void log(String id) {
+        super.log(id);
+
+        SmartDashboard.putNumber(id + "/Turn Voltage", voltage);
+    }
 	
     @Override
-    public void simulationPeriodic() {
-        sim.update(0.020);
+    public void periodic() {
+        super.periodic();
+        position.setInput(voltage);
+        position.update(timer.reset());
     }
 }
