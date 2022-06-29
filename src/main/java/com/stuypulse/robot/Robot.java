@@ -88,8 +88,6 @@ public class Robot extends TimedRobot {
         if (auto != null) {
             auto.cancel();
         }
-
-        robot.swerve.reset();
     }
 
     /** This function is called periodically during operator control. */
