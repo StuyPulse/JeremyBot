@@ -3,8 +3,6 @@ package com.stuypulse.robot.subsystems.swerve;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Module extends SubsystemBase {
@@ -25,16 +23,6 @@ public class Module extends SubsystemBase {
         this.turn = turn;
 
         target = new SwerveModuleState(0.0, new Rotation2d(0.0));
-
-        // setup shuffleboard
-        ShuffleboardTab me = Shuffleboard.getTab(id);        
-        me.addNumber("Target Velocity ", () -> target.speedMetersPerSecond);
-        me.addNumber("Velocity", () -> drive.getVelocity());
-        me.addNumber("Velocity Error", () -> target.speedMetersPerSecond - drive.getVelocity());
-
-        me.addNumber("Target Angle", () -> target.angle.getDegrees());
-        me.addNumber("Angle", () -> turn.getAngle().getDegrees());
-        me.addNumber("Angle Error", () -> target.angle.minus(turn.getAngle()).getDegrees());
     }
 
     public String getID() {
@@ -90,6 +78,9 @@ public class Module extends SubsystemBase {
     public void periodic() {
         drive.setVelocity(target.speedMetersPerSecond);
         turn.setAngle(target.angle);
+
+        turn.log(id);
+        drive.log(id);
     }
 
 }

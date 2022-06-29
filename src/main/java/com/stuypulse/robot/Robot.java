@@ -4,6 +4,7 @@
 
 package com.stuypulse.robot;
 
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -20,15 +21,6 @@ public class Robot extends TimedRobot {
     private RobotContainer robot;
 
     /**
-     * Initialize the robot with a certain run period.
-     *
-     * <p>This will run code every 0.02s, or 50hz
-     */
-    public Robot() {
-        super(0.02);
-    }
-
-    /**
      * This function is run when the robot is first started up and should be used for any
      * initialization code.
      */
@@ -38,6 +30,8 @@ public class Robot extends TimedRobot {
         // and put our
         // autonomous chooser on the dashboard.
         robot = new RobotContainer();
+
+        DataLogManager.start();
     }
 
     /**
@@ -94,8 +88,6 @@ public class Robot extends TimedRobot {
         if (auto != null) {
             auto.cancel();
         }
-
-        robot.swerve.reset();
     }
 
     /** This function is called periodically during operator control. */

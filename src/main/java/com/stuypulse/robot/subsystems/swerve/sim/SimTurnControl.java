@@ -18,7 +18,7 @@ public class SimTurnControl extends TurnControl {
 	}
 
 	private double getRadians() {
-		double rotations = sim.getDistanceMeters() / SimModule.WHEEL_CIRCUMFERENCE;
+		double rotations = sim.getDistance() / SimModule.WHEEL_CIRCUMFERENCE;
 
 		return rotations / (2 * Math.PI);
 	}

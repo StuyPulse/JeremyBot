@@ -1,9 +1,11 @@
 package com.stuypulse.robot.subsystems;
 
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.stuypulse.robot.constants.Modules;
+import com.stuypulse.robot.constants.Motion;
 import com.stuypulse.robot.subsystems.swerve.Module;
 import com.stuypulse.stuylib.math.Vector2D;
 
@@ -31,22 +33,13 @@ public class Swerve extends SubsystemBase {
         modules = Modules.MODULES;
         gyro = new AHRS(SPI.Port.kMXP);
         
-        kinematics = new SwerveDriveKinematics(
-            // Arrays.stream(modules)
-            //     .map(x -> x.getLocation())
-            //     .toArray(Translation2d[]::new)
-
-            // TODO: revert back to stream (requires testing)
-            modules[0].getLocation(),
-            modules[1].getLocation(),
-            modules[2].getLocation(),
-            modules[3].getLocation()
-        );
-        odometry = new SwerveDriveOdometry(kinematics, gyro.getRotation2d());
+        kinematics = Motion.KINEMATICS;
+        odometry = new SwerveDriveOdometry(kinematics, getGyroAngle());
 
         field = new Field2d();
-
         SmartDashboard.putData("Field", field);
+
+        reset(new Pose2d());
     }
 
     /** MODULE API **/
@@ -60,15 +53,23 @@ public class Swerve extends SubsystemBase {
         throw new IllegalArgumentException("Couldn't find module with ID \"" + id + "\"");
     }
 
+    public Stream<Module> getModuleStream() {
+        return Arrays.stream(getModules());
+    }
+
     public Module[] getModules() {
         return modules;
     }
 
-    public void reset() {
-        gyro.reset();
+    public void reset(Pose2d pose) {
+        odometry.resetPosition(pose, getGyroAngle()); 
         for (Module module : modules) {
             module.reset();
         }
+    }
+
+    public void reset() {
+        reset(getPose());
     }
 
     public void stop() {
@@ -80,13 +81,10 @@ public class Swerve extends SubsystemBase {
     /** MODULE STATES API **/
 
     public void setStates(Vector2D velocity, double omega, boolean fieldRelative) {
-        // TODO: we negate vyMetersPerSecond because real life results, may be changed later
         if (fieldRelative) {
-            setStates(ChassisSpeeds.fromFieldRelativeSpeeds(velocity.y, -velocity.x, omega, getAngle()));
-        } 
-        
-        else {
-            setStates(new ChassisSpeeds(velocity.y, -velocity.x, omega));
+            setStates(ChassisSpeeds.fromFieldRelativeSpeeds(velocity.y, -velocity.x, -omega, getAngle())); // TODO: see TODO above
+        } else {
+            setStates(new ChassisSpeeds(velocity.y, -velocity.x, -omega));
         }
     }
 
@@ -111,18 +109,18 @@ public class Swerve extends SubsystemBase {
     }
 
     /** GYRO API */
-    
-    public Rotation2d getAngle() {
+
+    public Rotation2d getGyroAngle() {
         return gyro.getRotation2d();
     }
-
+    
     /** ODOMETRY API */
 
     private void updateOdometry() {
         odometry.update(
-            getAngle(), 
+            getGyroAngle(), 
     
-            Arrays.stream(modules)
+            getModuleStream()
                 .map(x -> x.getState())
                 .toArray(SwerveModuleState[]::new)
         );
@@ -130,6 +128,10 @@ public class Swerve extends SubsystemBase {
 
     public Pose2d getPose() {
         return odometry.getPoseMeters();
+    }
+
+    public Rotation2d getAngle() {
+        return getPose().getRotation();
     }
 
     public SwerveDriveKinematics getKinematics() {
@@ -143,8 +145,8 @@ public class Swerve extends SubsystemBase {
        
         SmartDashboard.putNumber("Swerve/Pose X", getPose().getTranslation().getX());
         SmartDashboard.putNumber("Swerve/Pose Y", getPose().getTranslation().getY());
-        SmartDashboard.putNumber("Swerve/Pose Angle", getPose().getRotation().getDegrees());
-        SmartDashboard.putNumber("Swerve/Gyro Angle", getAngle().getDegrees());
+        SmartDashboard.putNumber("Swerve/Pose Angle", getAngle().getDegrees());
+        SmartDashboard.putNumber("Swerve/Gyro Angle", gyro.getRotation2d().getDegrees());
     }
 
 }

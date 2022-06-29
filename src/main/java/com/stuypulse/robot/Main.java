@@ -4,6 +4,8 @@
 
 package com.stuypulse.robot;
 
+import com.stuypulse.stuylib.util.StopWatch;
+
 import edu.wpi.first.wpilibj.RobotBase;
 
 /**
@@ -20,6 +22,7 @@ public final class Main {
 	 * <p>If you change your main robot class, change the parameter type.
 	 */
 	public static void main(String... args) {
+        StopWatch.setDefaultEngine(StopWatch.kFPGAEngine);
 		RobotBase.startRobot(Robot::new);
 	}
 }
