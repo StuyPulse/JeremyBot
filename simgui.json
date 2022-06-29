@@ -11,11 +11,20 @@
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/Module": "Subsystem",
       "/LiveWindow/NEODriveControl": "Subsystem",
+      "/LiveWindow/NEOMagTurnControl": "Subsystem",
       "/LiveWindow/NEOTurnControl": "Subsystem",
       "/LiveWindow/Swerve": "Subsystem",
+      "/LiveWindow/Ungrouped/DigitalInput[0]": "Digital Input",
+      "/LiveWindow/Ungrouped/DigitalInput[1]": "Digital Input",
+      "/LiveWindow/Ungrouped/DigitalInput[2]": "Digital Input",
+      "/LiveWindow/Ungrouped/DigitalInput[3]": "Digital Input",
+      "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[2]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[3]": "PIDController",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
-      "/SmartDashboard/Autonomous": "String Chooser"
+      "/SmartDashboard/Autonomous": "String Chooser",
+      "/SmartDashboard/Field": "Field2d"
     },
     "windows": {
       "/FMSInfo": {
@@ -44,6 +53,11 @@
         }
       },
       "/SmartDashboard/Autonomous": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Field": {
         "window": {
           "visible": true
         }
