@@ -25,7 +25,7 @@ public interface Controls {
         public static VFilter getFilter() {
             return new VDeadZone(DEADBAND)
                 .then(new VLowPassFilter(RC))
-                .then(x -> x.mul(MAX_TELEOP_ANGULAR.doubleValue()));
+                .then(x -> x.mul(MAX_TELEOP_SPEED.doubleValue()));
         }
     }
 
