@@ -92,7 +92,7 @@ public interface NEOModule {
         }
 
         public interface Feedback {
-            SmartNumber kP = new SmartNumber("Turn P", 0.1);
+            SmartNumber kP = new SmartNumber("Turn P", 1.2);
             SmartNumber kI = new SmartNumber("Turn I", 0.0);
             SmartNumber kD = new SmartNumber("Turn D", 0.0);
 
