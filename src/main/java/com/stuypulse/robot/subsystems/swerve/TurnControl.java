@@ -12,7 +12,7 @@ public abstract class TurnControl extends SubsystemBase {
     private AngleController feedback;
 
     public TurnControl(Controller feedback) {
-        this.feedback = feedback.angle().useDegrees();
+        this.feedback = feedback.angle().useRadians();
 
         this.target = new Rotation2d(0.0);
     }
