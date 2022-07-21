@@ -19,6 +19,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -31,6 +32,7 @@ public class Swerve extends SubsystemBase {
     private final SwerveDriveOdometry odometry;
 
     private final Field2d field;
+    private final FieldObject2d[] moduleObjects;
 
     public Swerve() {
         modules = Modules.MODULES;
@@ -42,6 +44,11 @@ public class Swerve extends SubsystemBase {
 
         field = new Field2d();
         SmartDashboard.putData("Field", field);
+
+        moduleObjects = new FieldObject2d[modules.length];
+        for (int i = 0; i < modules.length; ++i) {
+            moduleObjects[i] = field.getObject(modules[i].getID() + " Module");
+        }
 
         reset(new Pose2d());
     }
@@ -146,11 +153,27 @@ public class Swerve extends SubsystemBase {
         return kinematics;
     }
 
+    private void updateField() {
+        field.setRobotPose(getPose());
+
+        for (int i = 0; i < modules.length; ++i) {
+            var module = modules[i];
+            var object = moduleObjects[i];
+
+            var rotation = getPose().getRotation();
+
+            object.setPose(new Pose2d(
+                getPose().getTranslation().plus(module.getLocation().rotateBy(getPose().getRotation())),
+                module.getAngle().plus(rotation)
+            ));
+        }
+    }
+
     @Override
     public void periodic() {
         updateOdometry();
-        field.setRobotPose(getPose());
-       
+        updateField();
+
         SmartDashboard.putNumber("Swerve/Pose X", getPose().getTranslation().getX());
         SmartDashboard.putNumber("Swerve/Pose Y", getPose().getTranslation().getY());
         SmartDashboard.putNumber("Swerve/Pose Angle", getAngle().getDegrees());
