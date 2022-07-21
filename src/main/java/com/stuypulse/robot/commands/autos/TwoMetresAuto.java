@@ -14,11 +14,11 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class TwoMetresAuto extends SequentialCommandGroup {
 
-    private static final Trajectory TO_INFINITY_AND_BEYOND = TrajectoryLoader.getTrajectory("TwoMetresAuto/output/DriveForward.wpilib.json");
-    
+    private static final Trajectory TO_INFINITY_AND_BEYOND = TrajectoryLoader
+            .getTrajectory("TwoMetresAuto/output/DriveForward.wpilib.json");
+
     public TwoMetresAuto(RobotContainer robot) {
         addCommands(
-            new FollowTrajectory(robot.swerve, TO_INFINITY_AND_BEYOND).robotRelative()
-        );
+                new FollowTrajectory(robot.swerve, TO_INFINITY_AND_BEYOND).robotRelative());
     }
 }
