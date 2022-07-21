@@ -66,9 +66,9 @@ public interface SimModule {
 		}
 
 		public interface Feedback {
-            SmartNumber kP = new SmartNumber("Turn P", 0.1);
+            SmartNumber kP = new SmartNumber("Turn P", 1.0);
             SmartNumber kI = new SmartNumber("Turn I", 0.0);
-            SmartNumber kD = new SmartNumber("Turn D", 0.0);
+            SmartNumber kD = new SmartNumber("Turn D", 0.2);
 
             public static Controller getController() {
                 return new PIDController(kP, kI, kD);
