@@ -5,8 +5,7 @@
 package com.stuypulse.robot;
 
 import com.stuypulse.robot.commands.DriveCommand;
-import com.stuypulse.robot.commands.autos.DoNothingAuto;
-import com.stuypulse.robot.commands.autos.TestAuto;
+import com.stuypulse.robot.commands.autos.*;
 import com.stuypulse.robot.constants.Controls;
 import com.stuypulse.robot.subsystems.Swerve;
 import com.stuypulse.robot.util.BootlegXbox;
@@ -60,6 +59,10 @@ public class RobotContainer {
     public void configureAutons() {
         autonChooser.addOption("Do Nothing", new DoNothingAuto());
         autonChooser.addOption("Test Auto", new TestAuto(this));
+        autonChooser.setDefaultOption("Two Metres Auto", new TwoMetresAuto(this));
+        autonChooser.addOption("Four Ball Auto", new FourBallAuto(this));
+        autonChooser.addOption("Five Ball Auto", new FiveBallAuto(this));
+        autonChooser.addOption("Six Ball Auto", new SixBallAuto(this));
 
         SmartDashboard.putData("Autonomous", autonChooser);
     }

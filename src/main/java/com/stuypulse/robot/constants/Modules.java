@@ -6,6 +6,7 @@ import com.stuypulse.robot.subsystems.swerve.sim.*;
 
 import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.network.SmartAngle;
+import com.stuypulse.stuylib.network.SmartNumber;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
@@ -21,14 +22,18 @@ import edu.wpi.first.math.util.Units;
  * @author Myles Pasetsky (myles.pasetsky@gmail.com)
  */
 public interface Modules {
-    double WIDTH = Units.feetToMeters(29.0);
-    double HEIGHT = Units.feetToMeters(29.0);
+    double WIDTH = Units.inchesToMeters(29.0);
+    double HEIGHT = Units.inchesToMeters(29.0);
 
     double MAX_SPEED = NEOModule.MAX_SPEED;
     double MAX_ACCEL = 2.5;
 
     double MAX_ANGULAR_SPEED = MAX_SPEED / Math.hypot(WIDTH/2.0, HEIGHT/2.0);
     double MAX_ANGULAR_ACCEL = 2.5;
+
+    // center of gravity, 
+    SmartNumber COG_X = new SmartNumber("Swerve/C.O.G. X", 0 /* WIDTH/4*/ );
+    SmartNumber COG_Y = new SmartNumber("Swerve/C.O.G. Y", 0);
 
     public interface TopRight {
         String ID = "Top Right";

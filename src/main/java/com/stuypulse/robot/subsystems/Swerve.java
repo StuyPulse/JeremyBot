@@ -11,6 +11,7 @@ import com.stuypulse.stuylib.math.Vector2D;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -40,6 +41,10 @@ public class Swerve extends SubsystemBase {
         SmartDashboard.putData("Field", field);
 
         reset(new Pose2d());
+    }
+
+    private Translation2d getCenterOfGravity() {
+        return new Translation2d(Modules.COG_X.get(), Modules.COG_Y.get());
     }
 
     /** MODULE API **/
@@ -93,7 +98,7 @@ public class Swerve extends SubsystemBase {
     }
 
     public void setStates(ChassisSpeeds robotSpeed) {
-        setStates(kinematics.toSwerveModuleStates(robotSpeed));
+        setStates(kinematics.toSwerveModuleStates(robotSpeed, getCenterOfGravity()));
     }
 
     public void setStates(SwerveModuleState... states) {
