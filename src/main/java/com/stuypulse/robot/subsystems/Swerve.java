@@ -8,6 +8,7 @@ import com.stuypulse.robot.constants.Modules;
 import com.stuypulse.robot.constants.Motion;
 import com.stuypulse.robot.subsystems.swerve.Module;
 import com.stuypulse.stuylib.math.Vector2D;
+import com.stuypulse.stuylib.util.StopWatch;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -24,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Swerve extends SubsystemBase {
     private final Module[] modules;
     private final AHRS gyro;
+    private final StopWatch simGyroTimer;
 
     private final SwerveDriveKinematics kinematics;
     private final SwerveDriveOdometry odometry;
@@ -33,7 +35,8 @@ public class Swerve extends SubsystemBase {
     public Swerve() {
         modules = Modules.MODULES;
         gyro = new AHRS(SPI.Port.kMXP);
-        
+        simGyroTimer = new StopWatch();
+
         kinematics = Motion.KINEMATICS;
         odometry = new SwerveDriveOdometry(kinematics, getGyroAngle());
 
@@ -159,7 +162,7 @@ public class Swerve extends SubsystemBase {
         var states = getModuleStream().map(x -> x.getState()).toArray(SwerveModuleState[]::new);
         var speeds = getKinematics().toChassisSpeeds(states);
         
-        gyro.setAngleAdjustment(gyro.getAngle() + Math.toDegrees(speeds.omegaRadiansPerSecond * 0.02));
+        gyro.setAngleAdjustment(gyro.getAngle() + Math.toDegrees(speeds.omegaRadiansPerSecond * simGyroTimer.reset()));
     }
 
 }
