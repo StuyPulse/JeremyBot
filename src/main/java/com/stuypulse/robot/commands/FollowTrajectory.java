@@ -4,6 +4,7 @@ import com.stuypulse.robot.constants.Motion;
 import com.stuypulse.robot.subsystems.Swerve;
 import com.stuypulse.robot.util.TrajectoryLoader;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 
@@ -22,6 +23,25 @@ public class FollowTrajectory extends SwerveControllerCommand {
             Motion.X.getController(),
             Motion.Y.getController(),
             Motion.Theta.getController(),
+            swerve::setStates,
+            swerve
+        );
+
+        this.swerve = swerve;
+
+        this.trajectory = trajectory;
+        robotRelative = false;
+    }
+
+    public FollowTrajectory(Swerve swerve, Trajectory trajectory, Rotation2d endAngle) {
+        super(
+            trajectory,
+            swerve::getPose,
+            swerve.getKinematics(),
+            Motion.X.getController(),
+            Motion.Y.getController(),
+            Motion.Theta.getController(),
+            () -> endAngle,
             swerve::setStates,
             swerve
         );
