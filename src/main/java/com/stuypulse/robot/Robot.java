@@ -20,6 +20,10 @@ public class Robot extends TimedRobot {
     private Command auto;
     private RobotContainer robot;
 
+    public Robot() {
+        super(1.0 / 100.0);
+    }
+
     /**
      * This function is run when the robot is first started up and should be used for any
      * initialization code.
