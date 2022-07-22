@@ -11,7 +11,7 @@ import edu.wpi.first.math.util.Units;
 
 /**
  * This file acts as a data sheet for our MK3 Swerve Module with
- * NEO550's and CANSparkMaxes. 
+ * NEO550's and CANSparkMaxes.
  * 
  * It contains general information like max speed, wheel size, and gear
  * ratios, but it also contains our Feedforward and PID constants we've
@@ -20,11 +20,11 @@ import edu.wpi.first.math.util.Units;
  * The specific settings we want for the CANSparkMaxes is also contained here,
  * which includes the gearing ratio and current limit.
  *
- * @author Myles Pasetsky (myles.pasetsky@gmail.com) 
+ * @author Myles Pasetsky (myles.pasetsky@gmail.com)
  */
 public interface NEOModule {
     // https://www.swervedrivespecialties.com/products/mk3-swerve-module?variant=31575980703857
-    
+
     double MAX_SPEED = Units.feetToMeters(14.4);
 
     double WHEEL_DIAMETER = Units.inchesToMeters(4.0);
@@ -35,7 +35,7 @@ public interface NEOModule {
 
         public interface Encoder {
             public interface Stages {
-                // input / output 
+                // input / output
                 double FIRST = 14.0 / 50.0;
                 double SECOND = 28.0 / 16.0;
                 double THIRD = 15.0 / 60.0;
@@ -49,10 +49,10 @@ public interface NEOModule {
 
         public static NEOConfig getConfig() {
             return new NEOConfig()
-                .setIdleMode(IdleMode.kCoast)
-                .setSmartCurrentLimit(CURRENT_LIMIT)
-                .setPositionConversion(Encoder.POSITION_CONVERSION)
-                .setVelocityConversion(Encoder.VELOCITY_CONVERSION);
+                    .setIdleMode(IdleMode.kBrake)
+                    .setSmartCurrentLimit(CURRENT_LIMIT)
+                    .setPositionConversion(Encoder.POSITION_CONVERSION)
+                    .setVelocityConversion(Encoder.VELOCITY_CONVERSION);
         }
 
         public interface Feedforward {
@@ -86,9 +86,9 @@ public interface NEOModule {
 
         public static NEOConfig getConfig() {
             return new NEOConfig()
-                .setIdleMode(IdleMode.kBrake)
-                .setSmartCurrentLimit(CURRENT_LIMIT)
-                .setPositionConversion(Encoder.POSITION_CONVERSION);
+                    .setIdleMode(IdleMode.kBrake)
+                    .setSmartCurrentLimit(CURRENT_LIMIT)
+                    .setPositionConversion(Encoder.POSITION_CONVERSION);
         }
 
         public interface Feedback {
