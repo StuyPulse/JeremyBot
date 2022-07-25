@@ -1,6 +1,8 @@
 package com.stuypulse.robot.constants;
 
+import com.stuypulse.robot.util.SmartPIDController;
 import com.stuypulse.stuylib.control.Controller;
+import com.stuypulse.stuylib.control.PIDCalculator;
 import com.stuypulse.stuylib.control.PIDController;
 import com.stuypulse.stuylib.network.SmartNumber;
 
@@ -66,12 +68,15 @@ public interface SimModule {
 		}
 
 		public interface Feedback {
-            SmartNumber kP = new SmartNumber("Turn P", 1.0);
-            SmartNumber kI = new SmartNumber("Turn I", 0.0);
-            SmartNumber kD = new SmartNumber("Turn D", 0.2);
+            // SmartNumber kP = new SmartNumber("Turn P", 1.0);
+            // SmartNumber kI = new SmartNumber("Turn I", 0.0);
+            // SmartNumber kD = new SmartNumber("Turn D", 0.2);
 
             public static Controller getController() {
-                return new PIDController(kP, kI, kD);
+                // return new PIDController(kP, kI, kD);
+                return new SmartPIDController("Turn Controller")
+                    .setControlSpeed(1.0)
+                    .setPID(1.0, 0.0, 0.2);
             }
         }
 	}
