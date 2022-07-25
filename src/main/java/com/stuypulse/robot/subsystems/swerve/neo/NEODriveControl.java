@@ -6,13 +6,20 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.stuypulse.robot.constants.NEOModule.Drive;
 import com.stuypulse.robot.subsystems.swerve.DriveControl;
 import com.stuypulse.robot.util.NEOConfig;
+// import com.stuypulse.stuylib.control.PIDController;
+
+import edu.wpi.first.math.controller.PIDController;
 
 public class NEODriveControl extends DriveControl {
     private final CANSparkMax drive;
     private final RelativeEncoder encoder;
 
+    private static PIDController getController() {
+        return new PIDController(1.6, 0.0, 0.0);
+    }
+
     public NEODriveControl(int port) {
-        super(Drive.Feedforward.getFeedforward(), Drive.Feedback.getController());
+        super(Drive.Feedforward.getFeedforward(), getController());
 
         drive = new CANSparkMax(port, MotorType.kBrushless);
         encoder = drive.getEncoder();

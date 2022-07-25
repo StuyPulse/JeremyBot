@@ -8,6 +8,7 @@ import com.stuypulse.robot.subsystems.swerve.TurnControl;
 import com.stuypulse.robot.util.NEOConfig;
 import com.stuypulse.stuylib.network.SmartAngle;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -19,11 +20,16 @@ public class NEOMagTurnControl extends TurnControl {
 
     private final SmartAngle offset; 
 
+    private static PIDController getController() {
+        PIDController poopfucker = new PIDController(3.0, 0.0, 0.1);
+        poopfucker.enableContinuousInput(-Math.PI, +Math.PI);
+        return poopfucker;
+    }
+
     public NEOMagTurnControl(int port, int encoderPort, SmartAngle radiansWhenForward) {
-        super(Turn.Feedback.getController());
+        super(getController());
 
         turn = new CANSparkMax(port, MotorType.kBrushless);
-        
         encoder = new DutyCycleEncoder(encoderPort);
 
         offset = radiansWhenForward;

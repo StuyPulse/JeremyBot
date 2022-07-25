@@ -3,20 +3,21 @@ package com.stuypulse.robot.subsystems.swerve;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.util.StopWatch;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class DriveControl extends SubsystemBase {
     private final SimpleMotorFeedforward feedforward;
-    private final Controller feedback;
+    private final PIDController feedback;
     
     private double targetVelocity;
     private double previousTarget;
 
     private StopWatch timer;
-    
-    public DriveControl(SimpleMotorFeedforward feedforward, Controller feedback) {
+
+    public DriveControl(SimpleMotorFeedforward feedforward, PIDController feedback) {
         this.feedforward = feedforward;
         this.feedback = feedback;
         
@@ -47,7 +48,7 @@ public abstract class DriveControl extends SubsystemBase {
     public void periodic() {
         double outputVolts = 
             feedforward.calculate(previousTarget, targetVelocity, timer.reset()) + 
-            feedback.update(targetVelocity, getVelocity());
+            feedback.calculate(targetVelocity, getVelocity());
 
         setVoltage(outputVolts);
 
