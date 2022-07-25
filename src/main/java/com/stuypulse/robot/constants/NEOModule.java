@@ -3,7 +3,8 @@ package com.stuypulse.robot.constants;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.stuypulse.robot.util.NEOConfig;
 import com.stuypulse.stuylib.control.Controller;
-import com.stuypulse.stuylib.control.PIDController;
+import com.stuypulse.stuylib.control.feedback.PIDController;
+import com.stuypulse.stuylib.control.feedforward.Feedforward;
 import com.stuypulse.stuylib.network.SmartNumber;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -77,7 +78,7 @@ public interface NEOModule {
     }
 
     public interface Turn {
-        int CURRENT_LIMIT = 20;
+        int CURRENT_LIMIT = 80;
 
         public interface Encoder {
             double GEAR_RATIO = 1.0 / 12.8;
@@ -91,13 +92,26 @@ public interface NEOModule {
                 .setPositionConversion(Encoder.POSITION_CONVERSION);
         }
 
+        public interface Feedforward {
+            SmartNumber kS = new SmartNumber("Turn/S", 0.14242);
+            SmartNumber kV = new SmartNumber("Turn/K", 0.25439);
+            SmartNumber kA = new SmartNumber("Turn/A", 0.0067566);
+        
+            public static Feedforward getFeedforward() {
+                return new F.Motor(kS, kV, kA).angle;
+            }
+        }
+
         public interface Feedback {
-            SmartNumber kP = new SmartNumber("Turn P", 3.0);
-            SmartNumber kI = new SmartNumber("Turn I", 0.0);
-            SmartNumber kD = new SmartNumber("Turn D", 0.1);
+            // SmartNumber kP = new SmartNumber("Turn P", 3.0);
+            // SmartNumber kI = new SmartNumber("Turn I", 0.0);
+            // SmartNumber kD = new SmartNumber("Turn D", 0.1);
+
+            SmartNumber kP = new SmartNumber("Turn/P", 1.2018);
+            SmartNumber kD = new SmartNumber("Turn/D", 0.038091);
 
             public static Controller getController() {
-                return new PIDController(kP, kI, kD);
+                return new PIDController(kP, 0.0, kD);
             }
         }
     }

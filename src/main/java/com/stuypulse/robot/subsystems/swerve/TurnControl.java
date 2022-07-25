@@ -2,6 +2,7 @@ package com.stuypulse.robot.subsystems.swerve;
 
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.angle.AngleController;
+import com.stuypulse.stuylib.math.Angle;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,8 +29,8 @@ public abstract class TurnControl extends SubsystemBase {
     protected abstract void reset();
 
     protected void log(String who) {
-        SmartDashboard.putNumber(who + "/Target Angle", target.getDegrees());
-        SmartDashboard.putNumber(who + "/Angle", getAngle().getDegrees());
+        SmartDashboard.putNumber(who + "/Target Angle", Angle.fromRotation2d(target).toDegrees());
+        SmartDashboard.putNumber(who + "/Angle", Angle.fromRotation2d(getAngle()).toDegrees());
         SmartDashboard.putNumber(who + "/Angle Error", target.minus(getAngle()).getDegrees());
     }
 
