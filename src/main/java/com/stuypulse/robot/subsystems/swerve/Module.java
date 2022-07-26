@@ -50,7 +50,8 @@ public class Module extends SubsystemBase {
     }
 
     public void setState(SwerveModuleState target) {
-        this.target = SwerveModuleState.optimize(target, turn.getAngle());
+        // this.target = SwerveModuleState.optimize(target, turn.getAngle());
+        this.target = target; 
     }
 
     public void setState(double velocity, Rotation2d angle) {

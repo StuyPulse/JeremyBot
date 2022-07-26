@@ -41,7 +41,7 @@ public interface Modules {
         int DRIVE_PORT = 1;
         int TURN_PORT = 2;
 
-        int ENCODER_PORT = 3;
+        int ENCODER_PORT = 4;
 
         SmartAngle OFFSET = new SmartAngle("Top Right/Zero Angle", Angle.fromDegrees(127.65)).useDegrees();
 
@@ -59,7 +59,7 @@ public interface Modules {
         int DRIVE_PORT = 3;
         int TURN_PORT = 4;
 
-        int ENCODER_PORT = 4;
+        int ENCODER_PORT = 3;
 
         SmartAngle OFFSET = new SmartAngle("Top Left/Zero Angle", Angle.fromDegrees(-148.8)).useDegrees();
 
