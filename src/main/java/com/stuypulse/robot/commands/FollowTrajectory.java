@@ -1,7 +1,7 @@
 package com.stuypulse.robot.commands;
 
 import com.stuypulse.robot.constants.Settings.Motion;
-import com.stuypulse.robot.subsystems.Swerve;
+import com.stuypulse.robot.subsystems.SwerveDrive;
 import com.stuypulse.robot.util.TrajectoryLoader;
 
 import edu.wpi.first.math.trajectory.Trajectory;
@@ -9,12 +9,12 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 
 public class FollowTrajectory extends SwerveControllerCommand {
 
-    private final Swerve swerve;
+    private final SwerveDrive swerve;
 
     private final Trajectory trajectory;
     private boolean robotRelative;
 
-    public FollowTrajectory(Swerve swerve, Trajectory trajectory) {
+    public FollowTrajectory(SwerveDrive swerve, Trajectory trajectory) {
         super(
             trajectory,
             swerve::getPose,
@@ -32,7 +32,7 @@ public class FollowTrajectory extends SwerveControllerCommand {
         robotRelative = false;
     }
 
-    public FollowTrajectory(Swerve swerve, String path) {
+    public FollowTrajectory(SwerveDrive swerve, String path) {
         this(swerve, TrajectoryLoader.getTrajectory(path));
     }
 

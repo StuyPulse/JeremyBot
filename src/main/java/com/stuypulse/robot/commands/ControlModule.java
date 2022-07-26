@@ -1,6 +1,6 @@
 package com.stuypulse.robot.commands;
 
-import com.stuypulse.robot.subsystems.Swerve;
+import com.stuypulse.robot.subsystems.SwerveDrive;
 import com.stuypulse.robot.subsystems.swerve.Module;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.math.Vector2D;
@@ -10,11 +10,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ControlModule extends CommandBase {
 
-    private final Swerve swerve;
+    private final SwerveDrive swerve;
     private final Module module;
     private final Gamepad gamepad;
 
-    public ControlModule(Swerve swerve, Module module, Gamepad gamepad) {
+    public ControlModule(SwerveDrive swerve, Module module, Gamepad gamepad) {
         this.swerve = swerve;
         this.module = module; 
         this.gamepad = gamepad;

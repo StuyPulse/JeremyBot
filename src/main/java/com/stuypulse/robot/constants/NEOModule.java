@@ -47,7 +47,6 @@ public interface NEOModule {
             double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
         }
 
-        public static NEOConfig getConfig() {
             return new NEOConfig()
                 .setIdleMode(IdleMode.kCoast)
                 .setSmartCurrentLimit(CURRENT_LIMIT)
@@ -59,20 +58,12 @@ public interface NEOModule {
             double kS = 0.11114;
             double kV = 2.7851;
             double kA = 0.30103;
-
-            public static SimpleMotorFeedforward getFeedforward() {
-                return new SimpleMotorFeedforward(kS, kV, kA);
-            }
         }
 
         public interface Feedback {
             double kP = 1.6029;
             double kI = 0.0;
             double kD = 0.0;
-
-            public static Controller getController() {
-                return new PIDController(kP, kI, kD);
-            }
         }
     }
 
@@ -95,10 +86,6 @@ public interface NEOModule {
             SmartNumber kP = new SmartNumber("Turn P", 3.0);
             SmartNumber kI = new SmartNumber("Turn I", 0.0);
             SmartNumber kD = new SmartNumber("Turn D", 0.1);
-
-            public static Controller getController() {
-                return new PIDController(kP, kI, kD);
-            }
         }
     }
 
