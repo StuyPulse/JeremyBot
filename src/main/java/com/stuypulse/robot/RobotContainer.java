@@ -56,7 +56,6 @@ public class RobotContainer {
 
     public void configureAutons() {
         autonChooser.addOption("Do Nothing", new DoNothingAuto());
-        autonChooser.addOption("Test Auto", new TestAuto(this));
         autonChooser.setDefaultOption("Two Metres Auto", new TwoMetresAuto(this));
         autonChooser.addOption("Four Ball Auto", new FourBallAuto(this));
         autonChooser.addOption("Five Ball Auto", new FiveBallAuto(this));
