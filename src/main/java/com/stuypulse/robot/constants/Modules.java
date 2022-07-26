@@ -1,8 +1,5 @@
 package com.stuypulse.robot.constants;
 
-import com.stuypulse.robot.subsystems.swerve.Module;
-import com.stuypulse.robot.subsystems.swerve.neo.NEODriveControl;
-import com.stuypulse.robot.subsystems.swerve.neo.NEOMagTurnControl;
 import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.network.SmartAngle;
 import com.stuypulse.stuylib.network.SmartNumber;
@@ -45,11 +42,11 @@ public interface Modules {
 
         SmartAngle OFFSET = new SmartAngle("Top Right/Zero Angle", Angle.fromDegrees(127.65)).useDegrees();
 
-        Module MODULE = new Module(
-            ID, LOCATION, 
-            new NEODriveControl(DRIVE_PORT), 
-            new NEOMagTurnControl(TURN_PORT, ENCODER_PORT, OFFSET)
-        );
+        // Module MODULE = new Module(
+        //     ID, LOCATION, 
+        //     new NEODriveControl(DRIVE_PORT), 
+        //     new NEOMagTurnControl(TURN_PORT, ENCODER_PORT, OFFSET)
+        // );
     }
 
     public interface TopLeft {
@@ -63,11 +60,11 @@ public interface Modules {
 
         SmartAngle OFFSET = new SmartAngle("Top Left/Zero Angle", Angle.fromDegrees(-148.8)).useDegrees();
 
-        Module MODULE = new Module(
-            ID, LOCATION, 
-            new NEODriveControl(DRIVE_PORT), 
-            new NEOMagTurnControl(TURN_PORT, ENCODER_PORT, OFFSET)
-        );
+        // Module MODULE = new Module(
+        //     ID, LOCATION, 
+        //     new NEODriveControl(DRIVE_PORT), 
+        //     new NEOMagTurnControl(TURN_PORT, ENCODER_PORT, OFFSET)
+        // );
     }
 
     public interface BottomLeft {
@@ -81,11 +78,11 @@ public interface Modules {
 
         SmartAngle OFFSET = new SmartAngle("Bottom Left/Zero Angle", Angle.fromDegrees(-34.2)).useDegrees();
 
-        Module MODULE = new Module(
-            ID, LOCATION, 
-            new NEODriveControl(DRIVE_PORT), 
-            new NEOMagTurnControl(TURN_PORT, ENCODER_PORT, OFFSET)
-        );
+        // Module MODULE = new Module(
+        //     ID, LOCATION, 
+        //     new NEODriveControl(DRIVE_PORT), 
+        //     new NEOMagTurnControl(TURN_PORT, ENCODER_PORT, OFFSET)
+        // );
     }
 
     public interface BottomRight {
@@ -99,17 +96,17 @@ public interface Modules {
 
         SmartAngle OFFSET = new SmartAngle("Bottom Right/Zero Angle", Angle.fromDegrees(143.65)).useDegrees();
 
-        Module MODULE = new Module(
-            ID, LOCATION, 
-            new NEODriveControl(DRIVE_PORT), 
-            new NEOMagTurnControl(TURN_PORT, ENCODER_PORT, OFFSET)
-        );
+        // Module MODULE = new Module(
+        //     ID, LOCATION, 
+        //     new NEODriveControl(DRIVE_PORT), 
+        //     new NEOMagTurnControl(TURN_PORT, ENCODER_PORT, OFFSET)
+        // );
     }
 
-    Module[] MODULES = {
-            TopRight.MODULE,
-            TopLeft.MODULE,
-            BottomLeft.MODULE,
-            BottomRight.MODULE
-    };
+    // Module[] MODULES = {
+    //         TopRight.MODULE,
+    //         TopLeft.MODULE,
+    //         BottomLeft.MODULE,
+    //         BottomRight.MODULE
+    // };
 }

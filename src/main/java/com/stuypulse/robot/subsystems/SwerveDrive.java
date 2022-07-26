@@ -1,25 +1,25 @@
-                    package com.stuypulse.robot.subsystems;
+package com.stuypulse.robot.subsystems;
+
+import java.util.Arrays;
+import java.util.stream.Stream;
                     
-                    import java.util.Arrays;
-                    import java.util.stream.Stream;
+import com.kauailabs.navx.frc.AHRS;
+import com.stuypulse.stuylib.math.Vector2D;
                     
-                    import com.kauailabs.navx.frc.AHRS;
-                    import com.stuypulse.stuylib.math.Vector2D;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
                     
-                    import edu.wpi.first.math.geometry.Pose2d;
-                    import edu.wpi.first.math.geometry.Rotation2d;
-                    import edu.wpi.first.math.geometry.Translation2d;
-                    import edu.wpi.first.math.kinematics.ChassisSpeeds;
-                    import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-                    import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
-                    import edu.wpi.first.math.kinematics.SwerveModuleState;
-                    import edu.wpi.first.math.util.Units;
-                    import edu.wpi.first.wpilibj.SPI;
-                    import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-                    import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-                    import edu.wpi.first.wpilibj2.command.SubsystemBase;
-                    
-                    public class SwerveDrive extends SubsystemBase {
+public class SwerveDrive extends SubsystemBase {
                     
     /** CONSTANTS **/
                     

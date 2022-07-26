@@ -1,7 +1,6 @@
 package com.stuypulse.robot.constants;
 
 import com.revrobotics.CANSparkMax.IdleMode;
-import com.stuypulse.robot.util.NEOConfig;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.PIDController;
 import com.stuypulse.stuylib.network.SmartNumber;
@@ -47,12 +46,11 @@ public interface NEOModule {
             double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
         }
 
-            return new NEOConfig()
-                .setIdleMode(IdleMode.kCoast)
-                .setSmartCurrentLimit(CURRENT_LIMIT)
-                .setPositionConversion(Encoder.POSITION_CONVERSION)
-                .setVelocityConversion(Encoder.VELOCITY_CONVERSION);
-        }
+        // return new NEOConfig()
+        //         .setIdleMode(IdleMode.kCoast)
+        //         .setSmartCurrentLimit(CURRENT_LIMIT)
+        //         .setPositionConversion(Encoder.POSITION_CONVERSION)
+        //         .setVelocityConversion(Encoder.VELOCITY_CONVERSION);
 
         public interface Feedforward {
             double kS = 0.11114;
@@ -75,12 +73,12 @@ public interface NEOModule {
             double POSITION_CONVERSION = 2 * Math.PI * GEAR_RATIO;
         }
 
-        public static NEOConfig getConfig() {
-            return new NEOConfig()
-                .setIdleMode(IdleMode.kBrake)
-                .setSmartCurrentLimit(CURRENT_LIMIT)
-                .setPositionConversion(Encoder.POSITION_CONVERSION);
-        }
+        // public static NEOConfig getConfig() {
+        //     return new NEOConfig()
+        //         .setIdleMode(IdleMode.kBrake)
+        //         .setSmartCurrentLimit(CURRENT_LIMIT)
+        //         .setPositionConversion(Encoder.POSITION_CONVERSION);
+        // }
 
         public interface Feedback {
             SmartNumber kP = new SmartNumber("Turn P", 3.0);

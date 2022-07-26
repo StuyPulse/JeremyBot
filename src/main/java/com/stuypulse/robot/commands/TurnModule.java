@@ -1,9 +1,10 @@
 package com.stuypulse.robot.commands;
 
 import com.stuypulse.robot.subsystems.SwerveDrive;
-import com.stuypulse.robot.subsystems.swerve.Module;
+import com.stuypulse.robot.subsystems.WPI_SwerveModule;
 import com.stuypulse.stuylib.input.Gamepad;
 
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class TurnModule extends CommandBase {
@@ -18,8 +19,8 @@ public class TurnModule extends CommandBase {
     }
 
     public void execute() {
-        for (Module module : swerve.getModules()) {
-            module.setState(0.01, gamepad.getRightStick().getAngle().getRotation2d());
+        for (WPI_SwerveModule module : swerve.getModules()) {
+            module.setTargetState(new SwerveModuleState(0.01, gamepad.getRightStick().getAngle().getRotation2d()));
         }
     }
 }
