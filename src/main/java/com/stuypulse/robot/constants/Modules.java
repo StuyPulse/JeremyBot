@@ -5,6 +5,7 @@ import com.stuypulse.robot.subsystems.swerve.neo.NEODriveControl;
 import com.stuypulse.robot.subsystems.swerve.neo.NEOMagTurnControl;
 import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.network.SmartAngle;
+import com.stuypulse.stuylib.network.SmartNumber;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
@@ -20,14 +21,18 @@ import edu.wpi.first.math.util.Units;
  * @author Myles Pasetsky (myles.pasetsky@gmail.com)
  */
 public interface Modules {
-    double WIDTH = Units.feetToMeters(29.0);
-    double HEIGHT = Units.feetToMeters(29.0);
+    double WIDTH = Units.inchesToMeters(29.0);
+    double HEIGHT = Units.inchesToMeters(29.0);
 
     double MAX_SPEED = NEOModule.MAX_SPEED;
     double MAX_ACCEL = 2.5;
 
     double MAX_ANGULAR_SPEED = MAX_SPEED / Math.hypot(WIDTH/2.0, HEIGHT/2.0);
     double MAX_ANGULAR_ACCEL = 2.5;
+
+    // center of gravity, 
+    SmartNumber COG_X = new SmartNumber("Swerve/C.O.G. X", 0 /* WIDTH/4*/ );
+    SmartNumber COG_Y = new SmartNumber("Swerve/C.O.G. Y", 0);
 
     public interface TopRight {
         String ID = "Top Right";
@@ -38,7 +43,7 @@ public interface Modules {
 
         int ENCODER_PORT = 3;
 
-        SmartAngle OFFSET = new SmartAngle("Top Right/Zero Angle", Angle.fromDegrees(125.0)).useDegrees();
+        SmartAngle OFFSET = new SmartAngle("Top Right/Zero Angle", Angle.fromDegrees(127.65)).useDegrees();
 
         Module MODULE = new Module(
             ID, LOCATION, 
@@ -56,7 +61,7 @@ public interface Modules {
 
         int ENCODER_PORT = 4;
 
-        SmartAngle OFFSET = new SmartAngle("Top Left/Zero Angle", Angle.fromDegrees(-145.0)).useDegrees();
+        SmartAngle OFFSET = new SmartAngle("Top Left/Zero Angle", Angle.fromDegrees(-148.8)).useDegrees();
 
         Module MODULE = new Module(
             ID, LOCATION, 
@@ -74,7 +79,7 @@ public interface Modules {
 
         int ENCODER_PORT = 0;
 
-        SmartAngle OFFSET = new SmartAngle("Bottom Left/Zero Angle", Angle.fromDegrees(-35.0)).useDegrees();
+        SmartAngle OFFSET = new SmartAngle("Bottom Left/Zero Angle", Angle.fromDegrees(-34.2)).useDegrees();
 
         Module MODULE = new Module(
             ID, LOCATION, 
@@ -92,7 +97,7 @@ public interface Modules {
 
         int ENCODER_PORT = 2;
 
-        SmartAngle OFFSET = new SmartAngle("Bottom Right/Zero Angle", Angle.fromDegrees(145.0)).useDegrees();
+        SmartAngle OFFSET = new SmartAngle("Bottom Right/Zero Angle", Angle.fromDegrees(143.65)).useDegrees();
 
         Module MODULE = new Module(
             ID, LOCATION, 
