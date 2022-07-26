@@ -2,8 +2,10 @@ package com.stuypulse.robot.constants;
 
 import com.stuypulse.robot.util.SmartPIDController;
 import com.stuypulse.stuylib.control.Controller;
-import com.stuypulse.stuylib.control.PIDCalculator;
-import com.stuypulse.stuylib.control.PIDController;
+import com.stuypulse.stuylib.control.angle.AngleController;
+import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
+import com.stuypulse.stuylib.control.feedback.PIDController;
+import com.stuypulse.stuylib.control.feedforward.Feedforward;
 import com.stuypulse.stuylib.network.SmartNumber;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -58,26 +60,34 @@ public interface SimModule {
             double POSITION_CONVERSION = 2 * Math.PI * GEAR_RATIO;
 		}
 
-		public interface Feedforward {
-			double kA = 0.01;
-			double kV = 0.1;
+		public interface FF {
+            double kS = 0.14;
+            double kV = 0.25;
+            double kA = 0.007;
+
+            public static AngleController getController() {
+                return new Feedforward.Motor(kS, kV, kA).angle();
+            }
 
 			public static LinearSystem<N2, N1, N1> getPlant() {
 				return LinearSystemId.identifyPositionSystem(kV, kA);
 			}
 		}
 
-		public interface Feedback {
-            // SmartNumber kP = new SmartNumber("Turn P", 1.0);
-            // SmartNumber kI = new SmartNumber("Turn I", 0.0);
-            // SmartNumber kD = new SmartNumber("Turn D", 0.2);
+		public interface FB {
+            SmartNumber kP = new SmartNumber("Turn P", 1.2);
+            SmartNumber kI = new SmartNumber("Turn I", 0.0);
+            SmartNumber kD = new SmartNumber("Turn D", 0.0);
 
-            public static Controller getController() {
-                // return new PIDController(kP, kI, kD);
-                return new SmartPIDController("Turn Controller")
-                    .setControlSpeed(1.0)
-                    .setPID(1.0, 0.0, 0.2);
+            public static AngleController getController() {
+                return new AnglePIDController(kP, kI, kD);
             }
+        }
+
+        public static AngleController getController() {
+            return FB.getController();
+            // return FF.getController()
+                // .add(FB.getController());
         }
 	}
 }

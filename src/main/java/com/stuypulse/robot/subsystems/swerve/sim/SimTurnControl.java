@@ -19,8 +19,8 @@ public class SimTurnControl extends TurnControl {
     private double offset;
 
 	public SimTurnControl() {
-		super(Turn.Feedback.getController());
-        position = new LinearSystemSim<>(Turn.Feedforward.getPlant());
+		super(Turn.getController());
+        position = new LinearSystemSim<>(Turn.FF.getPlant());
         voltage = 0.0;
         offset = 0.0;
 

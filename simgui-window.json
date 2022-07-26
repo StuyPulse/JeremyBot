@@ -1,7 +1,7 @@
 {
   "MainWindow": {
     "GLOBAL": {
-      "height": "1050",
+      "height": "1000",
       "maximized": "0",
       "style": "0",
       "userScale": "2",
@@ -58,7 +58,7 @@
     },
     "###NetworkTables": {
       "Collapsed": "0",
-      "Pos": "1500,13",
+      "Pos": "1457,188",
       "Size": "427,739"
     },
     "###Other Devices": {
@@ -68,12 +68,12 @@
     },
     "###Plot <0>": {
       "Collapsed": "0",
-      "Pos": "37,520",
+      "Pos": "37,477",
       "Size": "643,474"
     },
     "###Plot <1>": {
       "Collapsed": "0",
-      "Pos": "705,532",
+      "Pos": "713,540",
       "Size": "766,405"
     },
     "###RoboRIO": {

@@ -3,7 +3,9 @@ package com.stuypulse.robot.constants;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.stuypulse.robot.util.NEOConfig;
 import com.stuypulse.stuylib.control.Controller;
-import com.stuypulse.stuylib.control.PIDController;
+import com.stuypulse.stuylib.control.angle.AngleController;
+import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
+import com.stuypulse.stuylib.control.feedback.PIDController;
 import com.stuypulse.stuylib.network.SmartNumber;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -96,8 +98,8 @@ public interface NEOModule {
             SmartNumber kI = new SmartNumber("Turn I", 0.0);
             SmartNumber kD = new SmartNumber("Turn D", 0.1);
 
-            public static Controller getController() {
-                return new PIDController(kP, kI, kD);
+            public static AngleController getController() {
+                return new AnglePIDController(kP, kI, kD);
             }
         }
     }

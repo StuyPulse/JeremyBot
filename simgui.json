@@ -97,6 +97,15 @@
   "NetworkTables": {
     "SmartDashboard": {
       "Controls": {
+        "Drive": {
+          "open": true
+        },
+        "Max Speed (ft": {
+          "open": true
+        },
+        "Turn": {
+          "open": true
+        },
         "open": true
       },
       "Top Left": {
