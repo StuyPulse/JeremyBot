@@ -20,7 +20,7 @@ public interface Controls {
 
     public interface Drive {
         SmartNumber DEADBAND = new SmartNumber("Controls/Drive/Deadband", 0.05);
-        SmartNumber RC = new SmartNumber("Controls/Drive/RC", 0.2);
+        SmartNumber RC = new SmartNumber("Controls/Drive/RC", 0.01);
         
         public static VFilter getFilter() {
             return new VDeadZone(DEADBAND)
@@ -31,7 +31,7 @@ public interface Controls {
 
     public interface Turn {
         SmartNumber DEADBAND = new SmartNumber("Controls/Turn/Deadband", 0.05);
-        SmartNumber RC = new SmartNumber("Controls/Turn/RC", 0.2);
+        SmartNumber RC = new SmartNumber("Controls/Turn/RC", 0.1);
 
         public static IFilter getFilter() {
             return IFilter.create(x -> SLMath.deadband(x, DEADBAND.get()))

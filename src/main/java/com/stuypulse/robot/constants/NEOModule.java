@@ -36,7 +36,7 @@ public interface NEOModule {
         public interface Encoder {
             public interface Stages {
                 // input / output 
-                double FIRST = 14.0 / 50.0;
+                double FIRST = 16.0 / 48.0;
                 double SECOND = 28.0 / 16.0;
                 double THIRD = 15.0 / 60.0;
             }
@@ -56,9 +56,9 @@ public interface NEOModule {
         }
 
         public interface Feedforward {
-            double kS = 0.11004;
-            double kV = 2.7859;
-            double kA = 0.10702;
+            double kS = 0.11114;
+            double kV = 2.7851;
+            double kA = 0.30103;
 
             public static SimpleMotorFeedforward getFeedforward() {
                 return new SimpleMotorFeedforward(kS, kV, kA);
@@ -66,7 +66,7 @@ public interface NEOModule {
         }
 
         public interface Feedback {
-            double kP = 1.0;
+            double kP = 1.6029;
             double kI = 0.0;
             double kD = 0.0;
 
@@ -92,9 +92,9 @@ public interface NEOModule {
         }
 
         public interface Feedback {
-            SmartNumber kP = new SmartNumber("Turn P", 1.2);
+            SmartNumber kP = new SmartNumber("Turn P", 3.0);
             SmartNumber kI = new SmartNumber("Turn I", 0.0);
-            SmartNumber kD = new SmartNumber("Turn D", 0.0);
+            SmartNumber kD = new SmartNumber("Turn D", 0.1);
 
             public static Controller getController() {
                 return new PIDController(kP, kI, kD);
