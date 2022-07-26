@@ -5,7 +5,6 @@ import java.util.stream.Stream;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.stuypulse.robot.constants.Modules;
-import com.stuypulse.robot.constants.Motion;
 import com.stuypulse.robot.subsystems.swerve.Module;
 import com.stuypulse.stuylib.math.Vector2D;
 
@@ -34,7 +33,11 @@ public class Swerve extends SubsystemBase {
         modules = Modules.MODULES;
         gyro = new AHRS(SPI.Port.kMXP);
         
-        kinematics = Motion.KINEMATICS;
+        kinematics = new SwerveDriveKinematics(
+            getModuleStream()
+                .map(x -> x.getLocation())
+                .toArray(Translation2d[]::new)
+        );
         odometry = new SwerveDriveOdometry(kinematics, getGyroAngle());
 
         field = new Field2d();
@@ -58,12 +61,12 @@ public class Swerve extends SubsystemBase {
         throw new IllegalArgumentException("Couldn't find module with ID \"" + id + "\"");
     }
 
-    public Stream<Module> getModuleStream() {
-        return Arrays.stream(getModules());
-    }
-
     public Module[] getModules() {
         return modules;
+    }
+
+    public Stream<Module> getModuleStream() {
+        return Arrays.stream(getModules());
     }
 
     public void reset(Pose2d pose) {

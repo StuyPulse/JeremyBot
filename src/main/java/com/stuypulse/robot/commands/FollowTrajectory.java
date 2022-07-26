@@ -1,6 +1,6 @@
 package com.stuypulse.robot.commands;
 
-import com.stuypulse.robot.constants.Motion;
+import com.stuypulse.robot.constants.Settings.Motion;
 import com.stuypulse.robot.subsystems.Swerve;
 import com.stuypulse.robot.util.TrajectoryLoader;
 

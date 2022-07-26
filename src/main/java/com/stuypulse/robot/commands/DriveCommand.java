@@ -1,6 +1,6 @@
 package com.stuypulse.robot.commands;
 
-import com.stuypulse.robot.constants.Controls;
+import com.stuypulse.robot.constants.Settings.Controls.*;
 import com.stuypulse.robot.subsystems.Swerve;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.streams.IStream;
@@ -17,8 +17,8 @@ public class DriveCommand extends CommandBase {
     public DriveCommand(Swerve drive, Gamepad driver) {
         this.drive = drive;
 
-        speed = VStream.create(driver::getLeftStick).filtered(Controls.Drive.getFilter());
-        turn = IStream.create(driver::getRightX).filtered(Controls.Turn.getFilter());
+        speed = VStream.create(driver::getLeftStick).filtered(Drive.getFilter());
+        turn = IStream.create(driver::getRightX).filtered(Turn.getFilter());
 
         addRequirements(drive);
     }

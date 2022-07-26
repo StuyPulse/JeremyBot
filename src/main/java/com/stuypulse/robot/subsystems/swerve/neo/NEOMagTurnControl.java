@@ -2,10 +2,10 @@ package com.stuypulse.robot.subsystems.swerve.neo;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.stuypulse.robot.constants.MagEncoder;
 import com.stuypulse.robot.constants.NEOModule.Turn;
 import com.stuypulse.robot.subsystems.swerve.TurnControl;
 import com.stuypulse.robot.util.NEOConfig;
+import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.network.SmartAngle;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -35,26 +35,21 @@ public class NEOMagTurnControl extends TurnControl {
         return this;
     }
 
-    private double getRawRadians() {
-        return MagEncoder.getRadians(encoder.getAbsolutePosition());
+    private double getRadians() {
+        return SLMath.map(encoder.getAbsolutePosition(), 0.0, 1.0, -Math.PI, +Math.PI);
     }
-
-    public Rotation2d getEncoderRadians() {
-        return new Rotation2d(getRawRadians());
-    }
-
 
     @Override
     public Rotation2d getAngle() {
-        return getEncoderRadians()
-            .minus(offset.getRotation2d());
+        Rotation2d angle = new Rotation2d(getRadians());
+        return angle.minus(offset.getRotation2d());
     }
 
     @Override
     protected void log(String id) {
         super.log(id);
 
-        SmartDashboard.putNumber(id + "/Abs Position", Math.toDegrees(getRawRadians()));
+        SmartDashboard.putNumber(id + "/Abs Position", Math.toDegrees(getRadians()));
     }
 
     @Override

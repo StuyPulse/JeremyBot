@@ -5,8 +5,8 @@
 package com.stuypulse.robot;
 
 import com.stuypulse.robot.commands.DriveCommand;
+import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.commands.autos.*;
-import com.stuypulse.robot.constants.Controls;
 import com.stuypulse.robot.subsystems.Swerve;
 import com.stuypulse.robot.util.BootlegXbox;
 import com.stuypulse.stuylib.input.Gamepad;
@@ -30,7 +30,7 @@ public class RobotContainer {
     public final Swerve swerve = new Swerve();
 
     // Gamepads
-    public final Gamepad driver = new BootlegXbox(Controls.Ports.DRIVER); 
+    public final Gamepad driver = new BootlegXbox(Ports.Gamepad.DRIVER); 
                                // new AutoGamepad(Controls.Ports.DRIVER);
     
     // Autons
