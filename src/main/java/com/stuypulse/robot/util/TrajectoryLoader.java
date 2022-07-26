@@ -5,21 +5,15 @@
 
 package com.stuypulse.robot.util;
 
-import com.stuypulse.robot.constants.Motion;
 import com.stuypulse.robot.constants.Settings;
 
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 
 import java.io.IOException;
 
 public final class TrajectoryLoader {
-
-    public static final TrajectoryConfig MAX_SPEED_CONFIG = 
-        new TrajectoryConfig(Motion.MAX_VELOCITY,Motion.MAX_ACCELERATION)
-            .setKinematics(Motion.KINEMATICS);
 
     // Function that gets a trajectory from path weaver,
     // but will give a default one if it has an issue
