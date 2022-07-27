@@ -18,15 +18,16 @@ import edu.wpi.first.wpilibj.Filesystem;
 
 public interface Settings {
     Path DEPLOY_DIRECTORY = Filesystem.getDeployDirectory().toPath();
+    double dT = 1.0 / 100.0;
 
     public interface Controls {
-        Number MAX_TELEOP_SPEED = new SmartNumber("Controls/Max Speed (ft/s)", 14).filtered(Units::feetToMeters)
+        Number MAX_TELEOP_SPEED = new SmartNumber("Controls/Max Speed (ft per s)", 14.4).filtered(Units::feetToMeters)
                 .number();
-        Number MAX_TELEOP_ANGULAR = new SmartNumber("Controls/Max Angular (rad/s)", Modules.MAX_ANGULAR_SPEED);
+        Number MAX_TELEOP_ANGULAR = new SmartNumber("Controls/Max Angular (rad per s)", 8.2);
 
         public interface Drive {
             SmartNumber DEADBAND = new SmartNumber("Controls/Drive/Deadband", 0.05);
-            SmartNumber RC = new SmartNumber("Controls/Drive/RC", 0.2);
+            SmartNumber RC = new SmartNumber("Controls/Drive/RC", 0.02);
 
             public static VFilter getFilter() {
                 return new VDeadZone(DEADBAND)
@@ -37,7 +38,7 @@ public interface Settings {
 
         public interface Turn {
             SmartNumber DEADBAND = new SmartNumber("Controls/Turn/Deadband", 0.05);
-            SmartNumber RC = new SmartNumber("Controls/Turn/RC", 0.2);
+            SmartNumber RC = new SmartNumber("Controls/Turn/RC", 0.02);
 
             public static IFilter getFilter() {
                 return IFilter.create(x -> SLMath.deadband(x, DEADBAND.get()))
@@ -77,7 +78,7 @@ public interface Settings {
             public static ProfiledPIDController getController() {
                 return new ProfiledPIDController(
                         kP, kI, kD,
-                        new Constraints(Modules.MAX_ANGULAR_SPEED, Modules.MAX_ANGULAR_ACCEL));
+                        new Constraints(3, 3)); // TODO: fill in these values
             }
         }
     }

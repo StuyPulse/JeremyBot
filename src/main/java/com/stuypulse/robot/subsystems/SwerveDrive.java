@@ -4,8 +4,10 @@ import java.util.Arrays;
 import java.util.stream.Stream;
                     
 import com.kauailabs.navx.frc.AHRS;
+import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.stuylib.math.Vector2D;
-                    
+import com.stuypulse.stuylib.util.StopWatch;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -66,11 +68,11 @@ public class SwerveDrive extends SubsystemBase {
     }
                     
     /** MODULES **/
-    private final WPI_SwerveModule[] modules;
+    private final WPI_SimModule[] modules;
     
     /** SENSORS  **/
     private final AHRS gyro;
-                    
+
     /** ODOMETRY **/
     private final SwerveDriveKinematics kinematics;
     private final SwerveDriveOdometry odometry;
@@ -79,14 +81,14 @@ public class SwerveDrive extends SubsystemBase {
                     
     public SwerveDrive() {
         
-        modules = new WPI_SwerveModule[] {
-            new WPI_SwerveModule(FrontRight.ID, FrontRight.TURN_PORT, FrontRight.DRIVE_PORT, 
+        modules = new WPI_SimModule[] {
+            new WPI_SimModule(FrontRight.ID, FrontRight.TURN_PORT, FrontRight.DRIVE_PORT, 
                                 FrontRight.ENCODER_PORT, FrontRight.ABSOLUTE_OFFSET, FrontRight.MODULE_OFFSET),
-            new WPI_SwerveModule(FrontLeft.ID, FrontLeft.TURN_PORT, FrontLeft.DRIVE_PORT, 
+            new WPI_SimModule(FrontLeft.ID, FrontLeft.TURN_PORT, FrontLeft.DRIVE_PORT, 
                                 FrontLeft.ENCODER_PORT, FrontLeft.ABSOLUTE_OFFSET, FrontLeft.MODULE_OFFSET),
-            new WPI_SwerveModule(BackLeft.ID, BackLeft.TURN_PORT, BackLeft.DRIVE_PORT, 
+            new WPI_SimModule(BackLeft.ID, BackLeft.TURN_PORT, BackLeft.DRIVE_PORT, 
                                 BackLeft.ENCODER_PORT, BackLeft.ABSOLUTE_OFFSET, BackLeft.MODULE_OFFSET),
-            new WPI_SwerveModule(BackRight.ID, BackRight.TURN_PORT, BackRight.DRIVE_PORT, 
+            new WPI_SimModule(BackRight.ID, BackRight.TURN_PORT, BackRight.DRIVE_PORT, 
                                 BackRight.ENCODER_PORT, BackRight.ABSOLUTE_OFFSET, BackRight.MODULE_OFFSET)
         };
         
@@ -107,8 +109,8 @@ public class SwerveDrive extends SubsystemBase {
                     
     /** MODULE API **/
                     
-    public WPI_SwerveModule getModule(String id) {
-        for (WPI_SwerveModule module : modules) {
+    public WPI_SimModule getModule(String id) {
+        for (WPI_SimModule module : modules) {
             if (module.getId().equals(id)) 
                 return module;
         }
@@ -116,11 +118,11 @@ public class SwerveDrive extends SubsystemBase {
         throw new IllegalArgumentException("Couldn't find module with ID \"" + id + "\"");
     }
                     
-    public WPI_SwerveModule[] getModules() {
+    public WPI_SimModule[] getModules() {
         return modules;
     }
                     
-    public Stream<WPI_SwerveModule> getModuleStream() {
+    public Stream<WPI_SimModule> getModuleStream() {
         return Arrays.stream(getModules());
     }
                     
@@ -136,7 +138,8 @@ public class SwerveDrive extends SubsystemBase {
                     
     public void setStates(Vector2D velocity, double omega, boolean fieldRelative) {
         if (fieldRelative) {
-            setStates(ChassisSpeeds.fromFieldRelativeSpeeds(velocity.y, -velocity.x, -omega, getAngle()));
+            var correction = new Rotation2d(omega * Settings.dT);
+            setStates(ChassisSpeeds.fromFieldRelativeSpeeds(velocity.y, -velocity.x, -omega, getAngle().plus(correction)));
         } else {
             setStates(new ChassisSpeeds(velocity.y, -velocity.x, -omega));
         }
@@ -200,6 +203,14 @@ public class SwerveDrive extends SubsystemBase {
         SmartDashboard.putNumber("Swerve/Pose Y", getPose().getTranslation().getY());
         SmartDashboard.putNumber("Swerve/Pose Angle", getAngle().getDegrees());
         SmartDashboard.putNumber("Swerve/Gyro Angle", gyro.getRotation2d().getDegrees());
+    }
+
+    @Override
+    public void simulationPeriodic() {
+        var states = getModuleStream().map(x -> x.getState()).toArray(SwerveModuleState[]::new);
+        var speeds = getKinematics().toChassisSpeeds(states);
+        
+        gyro.setAngleAdjustment(gyro.getAngle() + Math.toDegrees(speeds.omegaRadiansPerSecond * Settings.dT));
     }
                     
 }

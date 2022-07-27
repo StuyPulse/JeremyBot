@@ -11,6 +11,7 @@ import com.stuypulse.robot.subsystems.SwerveDrive;
 import com.stuypulse.robot.util.BootlegXbox;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.AutoGamepad;
+import com.stuypulse.stuylib.input.gamepads.keyboard.SimKeyGamepad;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -32,7 +33,7 @@ public class RobotContainer {
     public final SwerveDrive swerve = new SwerveDrive();
 
     // Gamepads
-    public final Gamepad driver = new BootlegXbox(Ports.Gamepad.DRIVER); 
+    public final Gamepad driver = new SimKeyGamepad(); // new BootlegXbox(Ports.Gamepad.DRIVER); 
     public final Gamepad test = new AutoGamepad(Ports.Gamepad.TEST);
 
     // Autons
