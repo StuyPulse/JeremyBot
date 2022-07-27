@@ -161,15 +161,14 @@ public class SwerveDrive extends SubsystemBase {
             modules[i].setTargetState(states[i]);
         }
     }
-                    
     /** GYRO API */
-                    
+
     public Rotation2d getGyroAngle() {
         return gyro.getRotation2d();
     }
-    
+
     /** ODOMETRY API */
-                    
+
     private void updateOdometry() {
         odometry.update(
             getGyroAngle(), 
@@ -179,7 +178,7 @@ public class SwerveDrive extends SubsystemBase {
                 .toArray(SwerveModuleState[]::new)
         );
     }
-                    
+       
     public Pose2d getPose() {
         return odometry.getPoseMeters();
     }
@@ -204,3 +203,4 @@ public class SwerveDrive extends SubsystemBase {
     }
                     
 }
+                    

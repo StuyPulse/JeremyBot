@@ -4,12 +4,13 @@
 
 package com.stuypulse.robot;
 
-import com.stuypulse.robot.commands.DriveCommand;
+import com.stuypulse.robot.commands.*;
 import com.stuypulse.robot.constants.Ports;
 import com.stuypulse.robot.commands.autos.*;
 import com.stuypulse.robot.subsystems.SwerveDrive;
 import com.stuypulse.robot.util.BootlegXbox;
 import com.stuypulse.stuylib.input.Gamepad;
+import com.stuypulse.stuylib.input.gamepads.AutoGamepad;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -17,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.Button;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -31,8 +33,8 @@ public class RobotContainer {
 
     // Gamepads
     public final Gamepad driver = new BootlegXbox(Ports.Gamepad.DRIVER); 
-                               // new AutoGamepad(Controls.Ports.DRIVER);
-    
+    public final Gamepad test = new AutoGamepad(Ports.Gamepad.TEST);
+
     // Autons
     private static SendableChooser<Command> autonChooser = new SendableChooser<>();
 
@@ -51,7 +53,17 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
+        /** DRIVER **/
         driver.getTopButton().whenPressed(new InstantCommand(() -> swerve.reset(new Pose2d()), swerve));
+        
+        /** TEST **/
+        new Button(() -> test.getRightStick().magnitude() > 0.1)
+            .whileHeld(new TurnModule(swerve, test));
+        
+        test.getTopButton().whileHeld(new ControlModule(swerve, swerve.getModule("Front Right"), test));
+        test.getLeftButton().whileHeld(new ControlModule(swerve, swerve.getModule("Front Left"), test));
+        test.getBottomButton().whileHeld(new ControlModule(swerve, swerve.getModule("Back Left"), test));
+        test.getRightButton().whileHeld(new ControlModule(swerve, swerve.getModule("Back Right"), test));
     }
 
     public void configureAutons() {

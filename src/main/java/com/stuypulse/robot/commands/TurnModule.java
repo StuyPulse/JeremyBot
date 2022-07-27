@@ -19,8 +19,13 @@ public class TurnModule extends CommandBase {
     }
 
     public void execute() {
+        var state = new SwerveModuleState(
+            gamepad.getRightStick().magnitude() * 3, 
+            gamepad.getRightStick().getAngle().getRotation2d()
+        );
+
         for (WPI_SwerveModule module : swerve.getModules()) {
-            module.setTargetState(new SwerveModuleState(0.01, gamepad.getRightStick().getAngle().getRotation2d()));
+            module.setTargetState(state);
         }
     }
 }
