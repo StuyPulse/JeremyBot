@@ -1,13 +1,13 @@
 {
   "MainWindow": {
     "GLOBAL": {
-      "height": "1050",
+      "height": "1000",
       "maximized": "0",
       "style": "0",
       "userScale": "2",
-      "width": "1680",
-      "xpos": "601",
-      "ypos": "53"
+      "width": "948",
+      "xpos": "964",
+      "ypos": "40"
     }
   },
   "Window": {
@@ -19,12 +19,12 @@
     "###/LiveWindow/Module": {
       "Collapsed": "0",
       "Pos": "127,40",
-      "Size": "148,86"
+      "Size": "123,69"
     },
     "###/LiveWindow/NEODriveControl": {
       "Collapsed": "0",
       "Pos": "288,39",
-      "Size": "148,86"
+      "Size": "123,69"
     },
     "###/LiveWindow/NEOTurnControl": {
       "Collapsed": "0",
@@ -34,31 +34,31 @@
     "###/LiveWindow/Swerve": {
       "Collapsed": "0",
       "Pos": "460,38",
-      "Size": "198,86"
+      "Size": "123,69"
     },
     "###/SmartDashboard/Autonomous": {
       "Collapsed": "0",
-      "Pos": "22,711",
+      "Pos": "528,828",
       "Size": "254,54"
     },
     "###/SmartDashboard/Field": {
       "Collapsed": "0",
-      "Pos": "694,578",
-      "Size": "747,362"
+      "Pos": "111,302",
+      "Size": "796,441"
     },
     "###FMS": {
       "Collapsed": "0",
-      "Pos": "1,570",
+      "Pos": "289,247",
       "Size": "283,146"
     },
     "###Joysticks": {
-      "Collapsed": "0",
-      "Pos": "250,465",
+      "Collapsed": "1",
+      "Pos": "231,202",
       "Size": "796,155"
     },
     "###NetworkTables": {
-      "Collapsed": "0",
-      "Pos": "250,277",
+      "Collapsed": "1",
+      "Pos": "227,224",
       "Size": "750,185"
     },
     "###Other Devices": {
@@ -79,7 +79,7 @@
     "###Timing": {
       "Collapsed": "0",
       "Pos": "5,150",
-      "Size": "135,150"
+      "Size": "135,127"
     },
     "Debug##Default": {
       "Collapsed": "0",
