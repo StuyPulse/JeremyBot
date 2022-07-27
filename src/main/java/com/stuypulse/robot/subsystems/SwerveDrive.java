@@ -6,7 +6,6 @@ import java.util.stream.Stream;
 import com.kauailabs.navx.frc.AHRS;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.stuylib.math.Vector2D;
-import com.stuypulse.stuylib.util.StopWatch;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -16,6 +15,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -66,7 +66,7 @@ public class SwerveDrive extends SubsystemBase {
         Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(143.65);
         Translation2d MODULE_OFFSET = new Translation2d(Chassis.WIDTH * -0.5, Chassis.HEIGHT * -0.5);
     }
-                    
+
     /** MODULES **/
     private final WPI_SimModule[] modules;
     
@@ -138,7 +138,8 @@ public class SwerveDrive extends SubsystemBase {
                     
     public void setStates(Vector2D velocity, double omega, boolean fieldRelative) {
         if (fieldRelative) {
-            var correction = new Rotation2d(omega * Settings.dT);
+            // try correcting turn angle in simulation
+            var correction = new Rotation2d(RobotBase.isReal() ? 0 : omega * Settings.dT);
             setStates(ChassisSpeeds.fromFieldRelativeSpeeds(velocity.y, -velocity.x, -omega, getAngle().plus(correction)));
         } else {
             setStates(new ChassisSpeeds(velocity.y, -velocity.x, -omega));
@@ -207,6 +208,7 @@ public class SwerveDrive extends SubsystemBase {
 
     @Override
     public void simulationPeriodic() {
+        // Integrate omega in simulation and store in gyro
         var states = getModuleStream().map(x -> x.getState()).toArray(SwerveModuleState[]::new);
         var speeds = getKinematics().toChassisSpeeds(states);
         
