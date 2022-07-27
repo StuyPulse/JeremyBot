@@ -1,11 +1,6 @@
 package com.stuypulse.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkMax.IdleMode;
 import com.stuypulse.robot.constants.Settings;
-import com.stuypulse.robot.util.SparkMaxConfig;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -15,8 +10,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.math.system.plant.LinearSystemId;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.simulation.BatterySim;
 import edu.wpi.first.wpilibj.simulation.LinearSystemSim;
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
@@ -45,28 +38,6 @@ public class WPI_SimModule extends SubsystemBase {
         double kS = 0.11114;
         double kV = 2.7851;
         double kA = 0.30103;
-    }
-
-    private interface Encoder {
-        double WHEEL_DIAMETER = Units.inchesToMeters(4.0);
-        double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
-        
-        public interface Stages {
-            // input / output 
-            double FIRST = 16.0 / 48.0;
-            double SECOND = 28.0 / 16.0;
-            double THIRD = 15.0 / 60.0;
-        }
-
-        double GEAR_RATIO = Stages.FIRST * Stages.SECOND * Stages.THIRD;
-
-        double POSITION_CONVERSION = WHEEL_CIRCUMFERENCE * GEAR_RATIO;
-        double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
-    }
-
-    private interface Motors {
-        SparkMaxConfig DRIVE = new SparkMaxConfig(false, IdleMode.kCoast, 60, 0.0);
-        SparkMaxConfig TURN = new SparkMaxConfig(false, IdleMode.kBrake, 60, 0.0);
     }
 
     /** MODULE **/
@@ -115,7 +86,6 @@ public class WPI_SimModule extends SubsystemBase {
         driveFeedforward = new SimpleMotorFeedforward(Drive.kS, Drive.kV, Drive.kA);
         
         // Network
-        // addChild("Absolute Encoder", absoluteEncoder);
         addChild("Turn Controller", turnController);
         addChild("Drive Controller", driveController);
     }
