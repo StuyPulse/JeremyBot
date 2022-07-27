@@ -76,7 +76,7 @@ public class Module extends SubsystemBase {
 
     @Override
     public void periodic() {
-        drive.setVelocity(target.speedMetersPerSecond * target.angle.minus(turn.getAngle()).getCos());
+        drive.setVelocity(target.speedMetersPerSecond);
         turn.setAngle(target.angle);
 
         turn.log(id);

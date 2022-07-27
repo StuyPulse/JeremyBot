@@ -112,7 +112,15 @@ public class Swerve extends SubsystemBase {
     }
 
     public void setStates(ChassisSpeeds robotSpeed) {
-        setStates(kinematics.toSwerveModuleStates(robotSpeed, getCenterOfGravity()));
+        SwerveModuleState[] states = new SwerveModuleState[modules.length];
+        for (int i = 0; i < modules.length; ++i) {
+            var module = modules[i];
+            var vector = new Translation2d(robotSpeed.vxMetersPerSecond, robotSpeed.vyMetersPerSecond)
+                .plus(module.getLocation().rotateBy(Rotation2d.fromDegrees(90)).times(robotSpeed.omegaRadiansPerSecond));
+            
+            states[i] = new SwerveModuleState(vector.getDistance(new Translation2d(0.0, 0.0)),  new Rotation2d(vector.getX(), vector.getY()));
+        }
+        setStates(states);
     }
 
     public void setStates(SwerveModuleState... states) {

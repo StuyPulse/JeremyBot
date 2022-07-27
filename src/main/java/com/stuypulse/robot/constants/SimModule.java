@@ -75,9 +75,9 @@ public interface SimModule {
 		}
 
 		public interface FB {
-            SmartNumber kP = new SmartNumber("Turn P", 1.2);
+            SmartNumber kP = new SmartNumber("Turn P", 3.0);
             SmartNumber kI = new SmartNumber("Turn I", 0.0);
-            SmartNumber kD = new SmartNumber("Turn D", 0.0);
+            SmartNumber kD = new SmartNumber("Turn D", 0.1);
 
             public static AngleController getController() {
                 return new AnglePIDController(kP, kI, kD);
@@ -85,7 +85,7 @@ public interface SimModule {
         }
 
         public static AngleController getController() {
-            return FB.getController();
+            return FB.getController().add(FF.getController());
             // return FF.getController()
                 // .add(FB.getController());
         }

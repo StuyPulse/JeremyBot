@@ -21,7 +21,7 @@ public class Robot extends TimedRobot {
     private RobotContainer robot;
 
     public Robot() {
-        super(1.0 / 50.0);
+        super(1.0 / 200.0);
     }
 
     /**
