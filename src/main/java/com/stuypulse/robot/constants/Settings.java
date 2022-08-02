@@ -18,7 +18,8 @@ import edu.wpi.first.wpilibj.Filesystem;
 
 public interface Settings {
     Path DEPLOY_DIRECTORY = Filesystem.getDeployDirectory().toPath();
-    double dT = 1.0 / 100.0;
+    int UPDATE_RATE = 100;
+    double dT = 1.0 / UPDATE_RATE;
 
     public interface Controls {
         Number MAX_TELEOP_SPEED = new SmartNumber("Controls/Max Speed (ft per s)", 14.4).filtered(Units::feetToMeters)

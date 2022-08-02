@@ -2,6 +2,8 @@ package com.stuypulse.robot.util;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
+import com.stuypulse.robot.constants.Settings;
 
 public final class SparkMaxConfig {
     
@@ -22,6 +24,12 @@ public final class SparkMaxConfig {
         motor.setIdleMode(idleMode);
         motor.setSmartCurrentLimit(smartCurrentLimit);
         motor.setOpenLoopRampRate(openLoopRampRate);
+
+        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 500 / Settings.UPDATE_RATE);
+        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 1000 / Settings.UPDATE_RATE);
+        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 1000 / Settings.UPDATE_RATE);
+        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 2500 / Settings.UPDATE_RATE);
+
         motor.burnFlash();
     }
 
