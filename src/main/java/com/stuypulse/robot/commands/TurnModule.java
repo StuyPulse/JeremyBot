@@ -1,7 +1,7 @@
 package com.stuypulse.robot.commands;
 
 import com.stuypulse.robot.subsystems.SwerveDrive;
-import com.stuypulse.robot.subsystems.WPI_SimModule;
+import com.stuypulse.robot.subsystems.SL_SimModule;
 import com.stuypulse.stuylib.input.Gamepad;
 
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -24,7 +24,7 @@ public class TurnModule extends CommandBase {
             gamepad.getRightStick().getAngle().getRotation2d()
         );
 
-        for (WPI_SimModule module : swerve.getModules()) {
+        for (var module : swerve.getModules()) {
             module.setTargetState(state);
         }
     }

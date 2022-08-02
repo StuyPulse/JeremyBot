@@ -18,7 +18,7 @@
     },
     "###/LiveWindow/Module": {
       "Collapsed": "0",
-      "Pos": "127,40",
+      "Pos": "122,53",
       "Size": "123,69"
     },
     "###/LiveWindow/NEODriveControl": {
@@ -43,8 +43,8 @@
     },
     "###/SmartDashboard/Field": {
       "Collapsed": "0",
-      "Pos": "111,302",
-      "Size": "796,441"
+      "Pos": "88,174",
+      "Size": "808,577"
     },
     "###FMS": {
       "Collapsed": "0",
@@ -54,17 +54,27 @@
     "###Joysticks": {
       "Collapsed": "1",
       "Pos": "231,202",
-      "Size": "796,155"
+      "Size": "436,114"
     },
     "###NetworkTables": {
-      "Collapsed": "1",
-      "Pos": "227,224",
-      "Size": "750,185"
+      "Collapsed": "0",
+      "Pos": "929,70",
+      "Size": "750,463"
     },
     "###Other Devices": {
-      "Collapsed": "0",
-      "Pos": "929,76",
+      "Collapsed": "1",
+      "Pos": "929,50",
       "Size": "250,695"
+    },
+    "###Plot <0>": {
+      "Collapsed": "0",
+      "Pos": "929,583",
+      "Size": "700,400"
+    },
+    "###Plot <1>": {
+      "Collapsed": "0",
+      "Pos": "953,569",
+      "Size": "700,400"
     },
     "###RoboRIO": {
       "Collapsed": "0",
@@ -88,7 +98,7 @@
     },
     "Robot State": {
       "Collapsed": "0",
-      "Pos": "5,20",
+      "Pos": "7,22",
       "Size": "92,99"
     }
   }

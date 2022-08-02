@@ -5,7 +5,11 @@ import java.util.stream.Stream;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.Vector2D;
+import com.stuypulse.stuylib.network.SmartNumber;
+import com.stuypulse.stuylib.streams.filters.Derivative;
+import com.stuypulse.stuylib.util.AngleVelocity;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -67,7 +71,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     /** MODULES **/
-    private final WPI_SimModule[] modules;
+    private final SL_SimModule[] modules;
     
     /** SENSORS  **/
     private final AHRS gyro;
@@ -80,14 +84,14 @@ public class SwerveDrive extends SubsystemBase {
 
     public SwerveDrive() {
         
-        modules = new WPI_SimModule[] {
-            new WPI_SimModule(FrontRight.ID, FrontRight.TURN_PORT, FrontRight.DRIVE_PORT, 
+        modules = new SL_SimModule[] {
+            new SL_SimModule(FrontRight.ID, FrontRight.TURN_PORT, FrontRight.DRIVE_PORT, 
                                 FrontRight.ENCODER_PORT, FrontRight.ABSOLUTE_OFFSET, FrontRight.MODULE_OFFSET),
-            new WPI_SimModule(FrontLeft.ID, FrontLeft.TURN_PORT, FrontLeft.DRIVE_PORT, 
+            new SL_SimModule(FrontLeft.ID, FrontLeft.TURN_PORT, FrontLeft.DRIVE_PORT, 
                                 FrontLeft.ENCODER_PORT, FrontLeft.ABSOLUTE_OFFSET, FrontLeft.MODULE_OFFSET),
-            new WPI_SimModule(BackLeft.ID, BackLeft.TURN_PORT, BackLeft.DRIVE_PORT, 
+            new SL_SimModule(BackLeft.ID, BackLeft.TURN_PORT, BackLeft.DRIVE_PORT, 
                                 BackLeft.ENCODER_PORT, BackLeft.ABSOLUTE_OFFSET, BackLeft.MODULE_OFFSET),
-            new WPI_SimModule(BackRight.ID, BackRight.TURN_PORT, BackRight.DRIVE_PORT, 
+            new SL_SimModule(BackRight.ID, BackRight.TURN_PORT, BackRight.DRIVE_PORT, 
                                 BackRight.ENCODER_PORT, BackRight.ABSOLUTE_OFFSET, BackRight.MODULE_OFFSET)
         };
         
@@ -108,8 +112,8 @@ public class SwerveDrive extends SubsystemBase {
 
     /** MODULE API **/
 
-    public WPI_SimModule getModule(String id) {
-        for (WPI_SimModule module : modules) {
+    public SL_SimModule getModule(String id) {
+        for (SL_SimModule module : modules) {
             if (module.getId().equals(id)) 
                 return module;
         }
@@ -117,11 +121,11 @@ public class SwerveDrive extends SubsystemBase {
         throw new IllegalArgumentException("Couldn't find module with ID \"" + id + "\"");
     }
 
-    public WPI_SimModule[] getModules() {
+    public SL_SimModule[] getModules() {
         return modules;
     }
 
-    public Stream<WPI_SimModule> getModuleStream() {
+    public Stream<SL_SimModule> getModuleStream() {
         return Arrays.stream(getModules());
     }
 
@@ -139,14 +143,61 @@ public class SwerveDrive extends SubsystemBase {
 
     /** MODULE STATES API **/
 
+    private static double getMaxSpeed(SwerveModuleState[] states) {
+        double m = Chassis.MAX_SPEED;
+        for (var state : states) {
+            if (state.speedMetersPerSecond > m) m = state.speedMetersPerSecond;
+        }
+        return m;
+    }
+
+    private static Vector2D getVector(ChassisSpeeds state) {
+        // return new Vector2D(-state.vyMetersPerSecond, state.vxMetersPerSecond);
+        return new Vector2D(state.vxMetersPerSecond, state.vyMetersPerSecond);
+    }
+
+    private SmartNumber pooballs = new SmartNumber("Swerve/Poo Balls", 8);
+
     public void setStates(Vector2D velocity, double omega, boolean fieldRelative) {
         if (fieldRelative) {
-            // try correcting turn angle in simulation
-            var correction = new Rotation2d(0.5 * omega * Settings.dT);
-            setStates(ChassisSpeeds.fromFieldRelativeSpeeds(velocity.y, -velocity.x, -omega, getAngle().plus(correction)));
+            // try correcting turn angle
+            var rawSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(velocity.y, -velocity.x, -omega, getAngle());
+            for (int i = 0; i < 8; ++i) {
+                var rawStates = kinematics.toSwerveModuleStates(rawSpeeds);
+                double maxSpeed = getMaxSpeed(rawStates);
+                double correctionRatio = Chassis.MAX_SPEED / maxSpeed;
+                
+                // var realSpeed = kinematics.toChassisSpeeds(getModuleStates());
+                // Vector2D realVel = new Vector2D(realSpeed.vxMetersPerSecond, realSpeed.vyMetersPerSecond);
+                // Vector2D satVel = 
+
+                // SwerveDriveKinematics.desaturateWheelSpeeds(rawStates, Chassis.MAX_SPEED);
+                // var targetSpeeds = kinematics.toChassisSpeeds(rawStates);
+                // var realSpeeds = kinematics.toChassisSpeeds(getModuleStates());
+
+                // double offsetRadians = new Vector2D(velocity.y, -velocity.x).getAngle()
+                //             .sub(getVector(realSpeeds).getAngle().sub(Angle.fromRotation2d(getAngle()))).toRadians();
+                //                 // getVector(realSpeeds).rotate(Angle.fromRotation2d(getAngle()).negative()).normalize());
+                // // double offsetAngle = Math.asin(offset);
+
+                // if (getVector(realSpeeds).magnitude() < 1) offsetRadians = 0;
+
+                // System.out.println(i + ": " + correctionRatio);
+
+                var correction = new Rotation2d(0.5 * omega * Settings.dT * correctionRatio);
+                rawSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(velocity.y, -velocity.x, -omega, getAngle().plus(correction));
+            }
+
+            // System.out.println(correctionRatio);
+            setStates(rawSpeeds);
         } else {
             setStates(new ChassisSpeeds(velocity.y, -velocity.x, -omega));
         }
+    }
+
+    AngleVelocity angularVel = new AngleVelocity();
+    public double getAngularVelocity() {
+        return angularVel.get(Angle.fromRotation2d(getAngle()));
     }
 
     public void setStates(Vector2D velocity, double omega) {
@@ -168,6 +219,7 @@ public class SwerveDrive extends SubsystemBase {
             modules[i].setTargetState(states[i]);
         }
     }
+
     /** GYRO API */
 
     public Rotation2d getGyroAngle() {
@@ -209,6 +261,7 @@ public class SwerveDrive extends SubsystemBase {
         var speeds = getKinematics().toChassisSpeeds(getModuleStates());
 
         gyro.setAngleAdjustment(gyro.getAngle() + Math.toDegrees(speeds.omegaRadiansPerSecond * Settings.dT));
+        // gyro.setAngleAdjustment(getPose().getRotation().getDegrees());
     }
 
 }
