@@ -126,6 +126,10 @@ public class SwerveDrive extends SubsystemBase {
         return Arrays.stream(getModules());
     }
 
+    public SwerveModuleState[] getModuleStates() {
+        return getModuleStream().map(x -> x.getState()).toArray(SwerveModuleState[]::new);
+    }
+
     public void reset(Pose2d pose) {
         odometry.resetPosition(pose, getGyroAngle()); 
     }
@@ -139,7 +143,7 @@ public class SwerveDrive extends SubsystemBase {
     public void setStates(Vector2D velocity, double omega, boolean fieldRelative) {
         if (fieldRelative) {
             // try correcting turn angle in simulation
-            var correction = new Rotation2d(RobotBase.isReal() ? 0 : omega * Settings.dT);
+            var correction = new Rotation2d(0.5 * omega * Settings.dT);
             setStates(ChassisSpeeds.fromFieldRelativeSpeeds(velocity.y, -velocity.x, -omega, getAngle().plus(correction)));
         } else {
             setStates(new ChassisSpeeds(velocity.y, -velocity.x, -omega));
@@ -174,13 +178,7 @@ public class SwerveDrive extends SubsystemBase {
     /** ODOMETRY API */
 
     private void updateOdometry() {
-        odometry.update(
-            getGyroAngle(), 
-
-            getModuleStream()
-                .map(x -> x.getState())
-                .toArray(SwerveModuleState[]::new)
-        );
+        odometry.update(getGyroAngle(), getModuleStates());
     }
 
     public Pose2d getPose() {
@@ -209,8 +207,7 @@ public class SwerveDrive extends SubsystemBase {
     @Override
     public void simulationPeriodic() {
         // Integrate omega in simulation and store in gyro
-        var states = getModuleStream().map(x -> x.getState()).toArray(SwerveModuleState[]::new);
-        var speeds = getKinematics().toChassisSpeeds(states);
+        var speeds = getKinematics().toChassisSpeeds(getModuleStates());
 
         gyro.setAngleAdjustment(gyro.getAngle() + Math.toDegrees(speeds.omegaRadiansPerSecond * Settings.dT));
     }
