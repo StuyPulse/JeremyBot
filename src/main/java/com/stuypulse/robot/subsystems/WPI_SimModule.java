@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class WPI_SimModule extends SubsystemBase {
+public class WPI_SimModule extends SubsystemBase implements SwerveModule {
     
     /** CONSTANTS **/
 

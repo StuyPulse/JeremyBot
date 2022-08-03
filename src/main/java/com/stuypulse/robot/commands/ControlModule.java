@@ -12,10 +12,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ControlModule extends CommandBase {
 
     private final SwerveDrive swerve;
-    private final SL_SimModule module;
+    private final SwerveModule module;
     private final Gamepad gamepad;
 
-    public ControlModule(SwerveDrive swerve, SL_SimModule module, Gamepad gamepad) {
+    public ControlModule(SwerveDrive swerve, SwerveModule module, Gamepad gamepad) {
         this.swerve = swerve;
         this.module = module; 
         this.gamepad = gamepad;

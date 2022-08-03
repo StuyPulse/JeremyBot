@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class WPI_NEOModule extends SubsystemBase {
+public class WPI_NEOModule extends SubsystemBase implements SwerveModule {
     
     /** CONSTANTS **/
 
@@ -171,6 +171,14 @@ public class WPI_NEOModule extends SubsystemBase {
         return location;
     }
 
+    public void setTargetState(SwerveModuleState state) {
+        targetState = SwerveModuleState.optimize(state, getRotation());
+    }
+
+    public SwerveModuleState getState() {
+        return new SwerveModuleState(getSpeed(), getRotation());
+    }
+
     /** DRIVE METHODS **/
 
     /** reads velocity from the built-in encoder */
@@ -236,4 +244,5 @@ public class WPI_NEOModule extends SubsystemBase {
         SmartDashboard.putNumber("Swerve/" + id + "/Target Angle", MathUtil.inputModulus(targetState.angle.getDegrees(), -180, +180));
         SmartDashboard.putNumber("Swerve/" + id + "/Target Speed", targetState.speedMetersPerSecond);
     }
+
 }
