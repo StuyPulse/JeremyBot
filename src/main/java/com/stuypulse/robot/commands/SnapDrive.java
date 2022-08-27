@@ -44,19 +44,19 @@ public class SnapDrive extends CommandBase {
     private final SwerveDrive swerve;
 
     private final VStream drive;
-    private final AStream turn;
+    private final AStream angle;
 
-    private final AngleController control;
+    private final AngleController controller;
 
     public SnapDrive(SwerveDrive swerve, Gamepad gamepad) {
         this.swerve = swerve;
 
         drive = VStream.create(gamepad::getLeftStick).filtered(Drive.getFilter());
-        turn = new AStick(gamepad::getRightStick, Turn.DEADZONE);
+        angle = new AStick(gamepad::getRightStick, Turn.DEADZONE);
         
-        control = new Feedforward.Motor(FF.kA, FF.kS, FF.kV).angle()
-            .setSetpointFilter(new AMotionProfile(Profile.ACCEL_LIMIT, Profile.JERK_LIMIT))
-            .add(new AnglePIDController(Feedback.kP, Feedback.kI, Feedback.kD));
+        controller = new Feedforward.Motor(FF.kS, FF.kV, FF.kA).angle()
+            .add(new AnglePIDController(Feedback.kP, Feedback.kI, Feedback.kD))
+            .setSetpointFilter(new AMotionProfile(Profile.ACCEL_LIMIT, Profile.JERK_LIMIT));
 
         addRequirements(swerve);
     }
@@ -66,7 +66,7 @@ public class SnapDrive extends CommandBase {
     
     @Override
     public void execute() {
-        double omega = control.update(turn.get(), Angle.fromRotation2d(swerve.getGyroAngle()));
+        double omega = controller.update(angle.get(), Angle.fromRotation2d(swerve.getGyroAngle()));
 
         swerve.setStates(drive.get(), omega);
     }
