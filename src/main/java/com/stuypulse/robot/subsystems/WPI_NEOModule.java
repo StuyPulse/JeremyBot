@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class WPI_NEOModule extends SubsystemBase implements SwerveModule {
-    
+
     /** CONSTANTS **/
 
     private interface Turn {
@@ -44,9 +44,9 @@ public class WPI_NEOModule extends SubsystemBase implements SwerveModule {
         public interface Drive {
             double WHEEL_DIAMETER = Units.inchesToMeters(4.0);
             double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
-            
+
             public interface Stages {
-                // input / output 
+                // input / output
                 double FIRST = 16.0 / 48.0;
                 double SECOND = 28.0 / 16.0;
                 double THIRD = 15.0 / 60.0;
@@ -60,7 +60,7 @@ public class WPI_NEOModule extends SubsystemBase implements SwerveModule {
 
         public interface Turn {
             double GEAR_RATIO = 1.0 / 12.8;
-            double POSITION_CONVERSION = GEAR_RATIO * 2 * Math.PI; 
+            double POSITION_CONVERSION = GEAR_RATIO * 2 * Math.PI;
             double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
         }
     }
@@ -74,12 +74,12 @@ public class WPI_NEOModule extends SubsystemBase implements SwerveModule {
 
     private final String id;
     private final Translation2d location;
-    
+
     private SwerveModuleState targetState;
     private double lastTargetSpeed;
 
     /** DRIVING **/
-    
+
     private final CANSparkMax driveMotor;
     private final RelativeEncoder driveEncoder;
 
@@ -88,14 +88,17 @@ public class WPI_NEOModule extends SubsystemBase implements SwerveModule {
 
     /** TURNING **/
 
-    private final CANSparkMax turnMotor; 
+    private final CANSparkMax turnMotor;
     private final RelativeEncoder turnEncoder;
     private final DutyCycleEncoder turnAbsoluteEncoder;
     private final Rotation2d turnAbsoluteOffset;
 
     private final SparkMaxPIDController turnPID;
 
-    public WPI_NEOModule(String id, int driveId, int turnId, int encoderPort, Rotation2d absoluteOffset, Translation2d location) {
+    public WPI_NEOModule(String id, int driveId, int turnId, int encoderPort, Rotation2d absoluteOffset,
+            Translation2d location) {
+
+        setSubsystem("SwerveModule[" + id + "]");
         // Module
         this.id = id;
         this.location = location;
@@ -108,7 +111,7 @@ public class WPI_NEOModule extends SubsystemBase implements SwerveModule {
         driveEncoder = driveMotor.getEncoder();
 
         drivePID = driveMotor.getPIDController();
-        driveFF = new SimpleMotorFeedforward(Drive.kS , Drive.kV, Drive.kA);
+        driveFF = new SimpleMotorFeedforward(Drive.kS, Drive.kV, Drive.kA);
 
         // Turning
         turnMotor = new CANSparkMax(turnId, MotorType.kBrushless);
@@ -124,6 +127,8 @@ public class WPI_NEOModule extends SubsystemBase implements SwerveModule {
 
         // Logging
         addChild("Absolute Encoder", turnAbsoluteEncoder);
+        // addChild("Turn Motor", turnMotor);
+        // addChild("Drive Motor", driveMotor);
     }
 
     /** CONFIGURATION **/
@@ -145,7 +150,7 @@ public class WPI_NEOModule extends SubsystemBase implements SwerveModule {
         drivePID.setDFilter(1.0);
 
         Motors.DRIVE.config(driveMotor); // Do this last because burnFlash
-        
+
         // Configure turn motors, sensors
 
         turnEncoder.setPositionConversionFactor(Encoder.Turn.POSITION_CONVERSION);
@@ -159,7 +164,6 @@ public class WPI_NEOModule extends SubsystemBase implements SwerveModule {
 
         Motors.TURN.config(turnMotor);
     }
-
 
     /** MODULE METHODS **/
 
@@ -188,7 +192,10 @@ public class WPI_NEOModule extends SubsystemBase implements SwerveModule {
 
     /** TURN METHODS **/
 
-    /** reads the non-zeroed absolute encoder value (forward may not be zero if this is called) */
+    /**
+     * reads the non-zeroed absolute encoder value (forward may not be zero if this
+     * is called)
+     */
     private double getRawAbsoluteRadians() {
         return MathUtil.interpolate(-Math.PI, +Math.PI, turnAbsoluteEncoder.getAbsolutePosition());
     }
@@ -198,7 +205,7 @@ public class WPI_NEOModule extends SubsystemBase implements SwerveModule {
         return getRawAbsoluteRadians() - turnAbsoluteOffset.getRadians();
     }
 
-    /** 
+    /**
      * stores the angle from the absolute encoder in a Rotation2d
      * so that operations on angles may have their value normalized
      * in the range (-Math.PI, +Math.PI)
@@ -212,7 +219,7 @@ public class WPI_NEOModule extends SubsystemBase implements SwerveModule {
         return turnEncoder.getPosition();
     }
 
-    /** 
+    /**
      * stores the angle from the build-in encoder in a Rotation2d so
      * that operations on angles may have their value normalized in the
      * range (-Math.PI, +Math.PI)
@@ -231,18 +238,25 @@ public class WPI_NEOModule extends SubsystemBase implements SwerveModule {
 
         // Update angle control loop
         Rotation2d error = targetState.angle.minus(getRotation());
-        
-        // read directly from encoder here so that when error is calculated on the SparkMax it is
-        // cancelled out, and the leftover error is the shortest path (handled by using Rotation2d's)
+
+        // read directly from encoder here so that when error is calculated on the
+        // SparkMax it is
+        // cancelled out, and the leftover error is the shortest path (handled by using
+        // Rotation2d's)
         // to calculate error
-        turnPID.setReference(getRadians() + error.getRadians(), ControlType.kPosition); 
+        turnPID.setReference(getRadians() + error.getRadians(), ControlType.kPosition);
 
         // Network Logging
-        SmartDashboard.putNumber("Swerve/" + id + "/Angle", MathUtil.inputModulus(getRotation().getDegrees(), -180, +180));
+        SmartDashboard.putNumber("Swerve/" + id + "/Angle",
+                MathUtil.inputModulus(getRotation().getDegrees(), -180, +180));
         SmartDashboard.putNumber("Swerve/" + id + "/Speed", getSpeed());
-        
-        SmartDashboard.putNumber("Swerve/" + id + "/Target Angle", MathUtil.inputModulus(targetState.angle.getDegrees(), -180, +180));
+
+        SmartDashboard.putNumber("Swerve/" + id + "/Target Angle",
+                MathUtil.inputModulus(targetState.angle.getDegrees(), -180, +180));
         SmartDashboard.putNumber("Swerve/" + id + "/Target Speed", targetState.speedMetersPerSecond);
+
+        SmartDashboard.putNumber("Swerve/" + id + "/Absolute Angle",
+                Math.toDegrees(getRawAbsoluteRadians()));
     }
 
 }

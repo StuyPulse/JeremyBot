@@ -32,19 +32,19 @@ public class SwerveDrive extends SubsystemBase {
 
     private interface FrontRight {
         String ID = "Front Right";
-        int DRIVE_PORT = 1;
-        int TURN_PORT = 2;
-        int ENCODER_PORT = 4;
-        Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(127.65);
+        int DRIVE_PORT = 3;
+        int TURN_PORT = 4;
+        int ENCODER_PORT = 1;
+        Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(-33.5 + 180);
         Translation2d MODULE_OFFSET = new Translation2d(Chassis.WIDTH * +0.5, Chassis.HEIGHT * -0.5);
     }
 
     private interface FrontLeft {
         String ID = "Front Left";
-        int DRIVE_PORT = 3;
-        int TURN_PORT = 4;
+        int DRIVE_PORT = 1;
+        int TURN_PORT = 2;
         int ENCODER_PORT = 3;
-        Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(-148.8);
+        Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(37);
         Translation2d MODULE_OFFSET = new Translation2d(Chassis.WIDTH * +0.5, Chassis.HEIGHT * +0.5);
     }
 
@@ -52,8 +52,8 @@ public class SwerveDrive extends SubsystemBase {
         String ID = "Back Left";
         int DRIVE_PORT = 5;
         int TURN_PORT = 6;
-        int ENCODER_PORT = 0;
-        Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(-34.2);
+        int ENCODER_PORT = 2;
+        Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(-81);
         Translation2d MODULE_OFFSET = new Translation2d(Chassis.WIDTH * -0.5, Chassis.HEIGHT * +0.5);
     }
 
@@ -61,14 +61,14 @@ public class SwerveDrive extends SubsystemBase {
         String ID = "Back Right";
         int DRIVE_PORT = 7;
         int TURN_PORT = 8;
-        int ENCODER_PORT = 2;
-        Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(143.65);
+        int ENCODER_PORT = 0;
+        Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(-36 + 180);
         Translation2d MODULE_OFFSET = new Translation2d(Chassis.WIDTH * -0.5, Chassis.HEIGHT * -0.5);
     }
 
     private static SwerveModule makeModule(String id, int turnId, int driveId, int encoderPort,
             Rotation2d absoluteOffset, Translation2d moduleOffset) {
-        return new PerfectModule(id, turnId, driveId, encoderPort, absoluteOffset, moduleOffset);
+        return new WPI_NEOModule(id, driveId, turnId, encoderPort, absoluteOffset, moduleOffset);
     }
 
     /** MODULES **/
@@ -154,10 +154,10 @@ public class SwerveDrive extends SubsystemBase {
     public void setStates(Vector2D velocity, double omega, boolean fieldRelative) {
         if (fieldRelative) {
             final Rotation2d correction = new Rotation2d(0.5 * omega * Settings.dT);
-            
+
             ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(velocity.y, -velocity.x, -omega,
                     getAngle().plus(correction));
-            
+
             for (int i = 0; i < 8; ++i) {
                 double saturation = getSaturation(kinematics.toSwerveModuleStates(speeds));
 

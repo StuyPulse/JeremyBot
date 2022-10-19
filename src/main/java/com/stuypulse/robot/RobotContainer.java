@@ -11,7 +11,9 @@ import com.stuypulse.robot.subsystems.SwerveDrive;
 import com.stuypulse.robot.util.BootlegXbox;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.AutoGamepad;
+import com.stuypulse.stuylib.input.gamepads.PS4;
 import com.stuypulse.stuylib.input.gamepads.keyboard.SimKeyGamepad;
+import com.stuypulse.stuylib.math.Vector2D;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -22,9 +24,12 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in
+ * the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of
+ * the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
@@ -33,7 +38,9 @@ public class RobotContainer {
     public final SwerveDrive swerve = new SwerveDrive();
 
     // Gamepads
-    public final Gamepad driver = new SimKeyGamepad(); // new BootlegXbox(Ports.Gamepad.DRIVER); 
+    // public final Gamepad driver = new SimKeyGamepad(); // new
+    // BootlegXbox(Ports.Gamepad.DRIVER);
+    public final Gamepad driver = new PS4(0);
     public final Gamepad test = new AutoGamepad(Ports.Gamepad.TEST);
 
     // Autons
@@ -51,16 +58,18 @@ public class RobotContainer {
 
     private void configureDefaultCommands() {
         swerve.setDefaultCommand(new DriveCommand(swerve, driver));
+        // swerve.setDefaultCommand(new InstantCommand(() -> swerve.setStates(new
+        // Vector2D(0, 0.5), 0)));
     }
 
     private void configureButtonBindings() {
         /** DRIVER **/
         driver.getTopButton().whenPressed(new InstantCommand(() -> swerve.reset(new Pose2d()), swerve));
-        
+
         /** TEST **/
         new Button(() -> test.getRightStick().magnitude() > 0.1)
-            .whileHeld(new TurnModule(swerve, test));
-        
+                .whileHeld(new TurnModule(swerve, test));
+
         test.getTopButton().whileHeld(new ControlModule(swerve, swerve.getModule("Front Right"), test));
         test.getLeftButton().whileHeld(new ControlModule(swerve, swerve.getModule("Front Left"), test));
         test.getBottomButton().whileHeld(new ControlModule(swerve, swerve.getModule("Back Left"), test));
