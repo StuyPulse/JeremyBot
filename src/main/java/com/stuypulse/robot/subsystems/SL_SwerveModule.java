@@ -48,7 +48,7 @@ public class SL_SwerveModule extends SubsystemBase implements SwerveModule {
     private final Controller driveController;
     private final AngleController turnController;
 
-    private final SwerveModuleState target;
+    private SwerveModuleState target;
 
     private final Translation2d location;
     private final Rotation2d turnOffset;
@@ -95,9 +95,7 @@ public class SL_SwerveModule extends SubsystemBase implements SwerveModule {
 
     @Override
     public void setTargetState(SwerveModuleState state) {
-        state = SwerveModuleState.optimize(state, turnOffset);
-        target.angle = state.angle;
-        target.speedMetersPerSecond = state.speedMetersPerSecond;
+        target = SwerveModuleState.optimize(state, turnOffset);
     }
 
     @Override
@@ -107,10 +105,10 @@ public class SL_SwerveModule extends SubsystemBase implements SwerveModule {
 
     @Override
     public void periodic() {
-        double turnOutput = turnController.update(Angle.fromRadians(turnEncoder.getAbsolutePosition()),
+        double turnOutput = turnController.update(Angle.fromRadians(getAngle().getDegrees()),
                 Angle.fromDegrees(SwerveModuleState.optimize(target, turnOffset).angle.getDegrees()));
         turnMotor.setVoltage(turnOutput);
-        double driveOutput = driveController.update(driveEncoder.getVelocity(), target.speedMetersPerSecond);
+        double driveOutput = driveController.update(getSpeed(), target.speedMetersPerSecond);
         driveMotor.setVoltage(driveOutput);
 
         SmartDashboard.putNumber("Turn Voltage", turnOutput);
