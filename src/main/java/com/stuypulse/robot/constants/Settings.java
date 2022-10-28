@@ -2,6 +2,7 @@ package com.stuypulse.robot.constants;
 
 import java.nio.file.Path;
 
+import com.pathplanner.lib.PathConstraints;
 import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.network.SmartNumber;
@@ -12,7 +13,6 @@ import com.stuypulse.stuylib.streams.vectors.filters.VFilter;
 import com.stuypulse.stuylib.streams.vectors.filters.VLowPassFilter;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Filesystem;
@@ -56,6 +56,10 @@ public interface Settings {
     }
 
     public interface Motion {
+        double MAX_VELOCITY = 3.0;
+        double MAX_ACCEL = 2.0;
+
+        PathConstraints DEFAULT_CONSTRAINTS = new PathConstraints(MAX_VELOCITY, MAX_ACCEL);
 
         public interface X {
             double kP = 0.0;
@@ -82,10 +86,8 @@ public interface Settings {
             double kI = 0.0;
             double kD = 0.0;
 
-            public static ProfiledPIDController getController() {
-                return new ProfiledPIDController(
-                        kP, kI, kD,
-                        new Constraints(3, 3)); // TODO: fill in these values
+            public static PIDController getController() {
+                return new PIDController(kP, kI, kD);
             }
         }
     }

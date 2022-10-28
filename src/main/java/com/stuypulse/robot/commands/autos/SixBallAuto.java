@@ -30,16 +30,16 @@ public class SixBallAuto extends SequentialCommandGroup {
             .getTrajectory("SixBallAuto/output/GetSixthBall.wpilib.json");
 
     public SixBallAuto(RobotContainer robot) {
-        addCommands(
-                new FollowTrajectory(robot.swerve, GET_SECOND_BALL).robotRelative(),
-                new WaitCommand(SHOOT_WAIT_TIME),
-                new FollowTrajectory(robot.swerve, GET_THIRD_BALL).fieldRelative(),
-                new WaitCommand(SHOOT_WAIT_TIME),
-                new FollowTrajectory(robot.swerve, GET_TERMINAL_BALLS).fieldRelative(),
-                new WaitCommand(TERMINAL_WAIT_TIME),
-                new FollowTrajectory(robot.swerve, TO_SHOOT_TERMINAL_BALLS).fieldRelative(),
-                new WaitCommand(SHOOT_WAIT_TIME),
-                new FollowTrajectory(robot.swerve, GET_SIXTH_BALL).fieldRelative(),
-                new WaitCommand(SHOOT_WAIT_TIME));
+        // addCommands(
+        //         new FollowTrajectory(robot.swerve, GET_SECOND_BALL).robotRelative(),
+        //         new WaitCommand(SHOOT_WAIT_TIME),
+        //         new FollowTrajectory(robot.swerve, GET_THIRD_BALL).fieldRelative(),
+        //         new WaitCommand(SHOOT_WAIT_TIME),
+        //         new FollowTrajectory(robot.swerve, GET_TERMINAL_BALLS).fieldRelative(),
+        //         new WaitCommand(TERMINAL_WAIT_TIME),
+        //         new FollowTrajectory(robot.swerve, TO_SHOOT_TERMINAL_BALLS).fieldRelative(),
+        //         new WaitCommand(SHOOT_WAIT_TIME),
+        //         new FollowTrajectory(robot.swerve, GET_SIXTH_BALL).fieldRelative(),
+        //         new WaitCommand(SHOOT_WAIT_TIME));
     }
 }

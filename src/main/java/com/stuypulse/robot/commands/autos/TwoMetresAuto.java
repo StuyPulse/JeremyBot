@@ -18,7 +18,7 @@ public class TwoMetresAuto extends SequentialCommandGroup {
             .getTrajectory("TwoMetresAuto/output/DriveForward.wpilib.json");
 
     public TwoMetresAuto(RobotContainer robot) {
-        addCommands(
-                new FollowTrajectory(robot.swerve, TO_INFINITY_AND_BEYOND).robotRelative());
+        // addCommands(
+        //         new FollowTrajectory(robot.swerve, TO_INFINITY_AND_BEYOND).robotRelative());
     }
 }

@@ -68,7 +68,7 @@ public class SwerveDrive extends SubsystemBase {
 
     private static SwerveModule makeModule(String id, int turnId, int driveId, int encoderPort,
             Rotation2d absoluteOffset, Translation2d moduleOffset) {
-        return new WPI_NEOModule(id, driveId, turnId, encoderPort, absoluteOffset, moduleOffset);
+        return new WPI_SimModule(id, driveId, turnId, encoderPort, absoluteOffset, moduleOffset);
     }
 
     /** MODULES **/

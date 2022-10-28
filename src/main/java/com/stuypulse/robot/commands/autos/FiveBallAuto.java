@@ -28,14 +28,14 @@ public class FiveBallAuto extends SequentialCommandGroup {
             .getTrajectory("FiveBallAuto/output/ToShootTerminalBalls.wpilib.json");
 
     public FiveBallAuto(RobotContainer robot) {
-        addCommands(
-                new FollowTrajectory(robot.swerve, GET_SECOND_BALL).robotRelative(),
-                new WaitCommand(SHOOT_WAIT_TIME),
-                new FollowTrajectory(robot.swerve, GET_THIRD_BALL).fieldRelative(),
-                new WaitCommand(SHOOT_WAIT_TIME),
-                new FollowTrajectory(robot.swerve, GET_TERMINAL_BALLS).fieldRelative(),
-                new WaitCommand(TERMINAL_WAIT_TIME),
-                new FollowTrajectory(robot.swerve, TO_SHOOT_TERMINAL_BALLS).fieldRelative(),
-                new WaitCommand(SHOOT_WAIT_TIME));
+        // addCommands(
+        //         new FollowTrajectory(robot.swerve, GET_SECOND_BALL).robotRelative(),
+        //         new WaitCommand(SHOOT_WAIT_TIME),
+        //         new FollowTrajectory(robot.swerve, GET_THIRD_BALL).fieldRelative(),
+        //         new WaitCommand(SHOOT_WAIT_TIME),
+        //         new FollowTrajectory(robot.swerve, GET_TERMINAL_BALLS).fieldRelative(),
+        //         new WaitCommand(TERMINAL_WAIT_TIME),
+        //         new FollowTrajectory(robot.swerve, TO_SHOOT_TERMINAL_BALLS).fieldRelative(),
+        //         new WaitCommand(SHOOT_WAIT_TIME));
     }
 }
