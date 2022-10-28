@@ -232,7 +232,7 @@ public class SwerveDrive extends SubsystemBase {
         // Integrate omega in simulation and store in gyro
         var speeds = getKinematics().toChassisSpeeds(getModuleStates());
 
-        gyro.setAngleAdjustment(gyro.getAngle() + Math.toDegrees(speeds.omegaRadiansPerSecond * Settings.dT));
+        gyro.setAngleAdjustment(gyro.getAngle() - Math.toDegrees(speeds.omegaRadiansPerSecond * Settings.dT));
         // gyro.setAngleAdjustment(getPose().getRotation().getDegrees());
     }
 
