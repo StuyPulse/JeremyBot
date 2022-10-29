@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class TheSwerveModule extends SubsystemBase implements SwerveModule {
+public class TheSwerveModule2 extends SubsystemBase implements SwerveModule {
 
     public interface Turn {
         SmartNumber kP = new SmartNumber("Swerve/Turn/kP", 3.0);
@@ -49,7 +49,7 @@ public class TheSwerveModule extends SubsystemBase implements SwerveModule {
             double THIRD = 15.0 / 60.0;
         }
 
-        double WHEEL_CIRCUMFERENCE = Math.PI * Units.inchesToMeters(4.0);
+        double WHEEL_CIRCUMFERENCE = Units.inchesToMeters(4.0);
         double GEAR_RATIO = Stages.FIRST * Stages.SECOND * Stages.THIRD;
 
         double POSITION_CONVERSION = WHEEL_CIRCUMFERENCE * GEAR_RATIO;
@@ -82,7 +82,7 @@ public class TheSwerveModule extends SubsystemBase implements SwerveModule {
 
     private final Controller driveController;
 
-    public TheSwerveModule(String id, Translation2d location, int turnCANId, int absoluteEncoderChannel,
+    public TheSwerveModule2(String id, Translation2d location, int turnCANId, int absoluteEncoderChannel,
             SmartAngle angleOffset, int driveCANId) {
 
         // module data

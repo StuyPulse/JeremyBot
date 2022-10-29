@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.Filesystem;
 
 public interface Settings {
     Path DEPLOY_DIRECTORY = Filesystem.getDeployDirectory().toPath();
-    int UPDATE_RATE = 100;
+    int UPDATE_RATE = 50;
     double dT = 1.0 / UPDATE_RATE;
 
     public interface Controls {
