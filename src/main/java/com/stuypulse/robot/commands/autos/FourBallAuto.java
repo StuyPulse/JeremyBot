@@ -1,7 +1,7 @@
 package com.stuypulse.robot.commands.autos;
 
 import com.stuypulse.robot.RobotContainer;
-import com.stuypulse.robot.commands.FollowTrajectory;
+import com.stuypulse.robot.commands.PWFollowTrajectory;
 import com.stuypulse.robot.util.TrajectoryLoader;
 
 import edu.wpi.first.math.trajectory.Trajectory;
@@ -25,11 +25,11 @@ public class FourBallAuto extends SequentialCommandGroup {
             .getTrajectory("FourBallAuto/output/ToShootTerminalBalls.wpilib.json");
 
     public FourBallAuto(RobotContainer robot) {
-        // addCommands(
-        //         new FollowTrajectory(robot.swerve, GET_SECOND_BALL).robotRelative(),
-        //         new WaitCommand(SHOOT_WAIT_TIME),
-        //         new FollowTrajectory(robot.swerve, GET_TERMINAL_BALLS).fieldRelative(),
-        //         new FollowTrajectory(robot.swerve, TO_SHOOT_TERMINAL_BALLS).fieldRelative(),
-        //         new WaitCommand(SHOOT_WAIT_TIME));
+        addCommands(
+                new PWFollowTrajectory(robot.swerve, GET_SECOND_BALL).robotRelative(),
+                new WaitCommand(SHOOT_WAIT_TIME),
+                new PWFollowTrajectory(robot.swerve, GET_TERMINAL_BALLS).fieldRelative(),
+                new PWFollowTrajectory(robot.swerve, TO_SHOOT_TERMINAL_BALLS).fieldRelative(),
+                new WaitCommand(SHOOT_WAIT_TIME));
     }
 }

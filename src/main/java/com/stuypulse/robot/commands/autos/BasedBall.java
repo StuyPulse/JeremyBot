@@ -3,7 +3,7 @@ package com.stuypulse.robot.commands.autos;
 import java.util.HashMap;
 
 import com.stuypulse.robot.RobotContainer;
-import com.stuypulse.robot.commands.FollowTrajectory;
+import com.stuypulse.robot.commands.PPFollowTrajectory;
 import com.stuypulse.robot.util.EventMap;
 import com.stuypulse.robot.util.EventMap.Marker;
 
@@ -19,7 +19,7 @@ public class BasedBall extends SequentialCommandGroup {
 
 	public BasedBall(RobotContainer robot) {
 		addCommands(
-			new FollowTrajectory(robot.swerve, "Based Ball", EVENT_MAP).robotRelative()
+			new PPFollowTrajectory(robot.swerve, "Based Ball", EVENT_MAP).robotRelative()
 		);
 	}
 	

@@ -13,6 +13,7 @@ import com.stuypulse.stuylib.streams.vectors.filters.VFilter;
 import com.stuypulse.stuylib.streams.vectors.filters.VLowPassFilter;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Filesystem;
@@ -88,6 +89,11 @@ public interface Settings {
 
             public static PIDController getController() {
                 return new PIDController(kP, kI, kD);
+            }
+
+            public static ProfiledPIDController getProfileController() {
+                return new ProfiledPIDController(kP, kI, kD,
+                    new Constraints(Motion.MAX_VELOCITY, Motion.MAX_VELOCITY));
             }
         }
     }

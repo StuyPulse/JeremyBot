@@ -12,14 +12,14 @@ import com.stuypulse.robot.subsystems.SwerveDrive;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class FollowTrajectory extends PPSwerveControllerCommand {
+public class PPFollowTrajectory extends PPSwerveControllerCommand {
 
     private final SwerveDrive swerve;
 
     private final Trajectory trajectory;
     private boolean robotRelative;
 
-    public FollowTrajectory(SwerveDrive swerve, PathPlannerTrajectory trajectory, HashMap<String, Command> eventMap) {
+    public PPFollowTrajectory(SwerveDrive swerve, PathPlannerTrajectory trajectory, HashMap<String, Command> eventMap) {
         super(
             trajectory,
             swerve::getPose,
@@ -38,7 +38,7 @@ public class FollowTrajectory extends PPSwerveControllerCommand {
         robotRelative = false;
     }
     
-    public FollowTrajectory(SwerveDrive swerve, PathPlannerTrajectory trajectory) {
+    public PPFollowTrajectory(SwerveDrive swerve, PathPlannerTrajectory trajectory) {
         super(
             trajectory,
             swerve::getPose,
@@ -56,28 +56,28 @@ public class FollowTrajectory extends PPSwerveControllerCommand {
         robotRelative = false;
     }
 
-    public FollowTrajectory(SwerveDrive swerve, String path, PathConstraints constraints, HashMap<String, Command> eventMap) {
+    public PPFollowTrajectory(SwerveDrive swerve, String path, PathConstraints constraints, HashMap<String, Command> eventMap) {
         this(swerve, PathPlanner.loadPath(path, constraints), eventMap);
     }
     
-    public FollowTrajectory(SwerveDrive swerve, String path, PathConstraints constraints) {
+    public PPFollowTrajectory(SwerveDrive swerve, String path, PathConstraints constraints) {
         this(swerve, PathPlanner.loadPath(path, constraints));
     }
 
-    public FollowTrajectory(SwerveDrive swerve, String path, HashMap<String, Command> eventMap) {
+    public PPFollowTrajectory(SwerveDrive swerve, String path, HashMap<String, Command> eventMap) {
         this(swerve, path, Motion.DEFAULT_CONSTRAINTS, eventMap);
     }
 
-    public FollowTrajectory(SwerveDrive swerve, String path) {
+    public PPFollowTrajectory(SwerveDrive swerve, String path) {
         this(swerve, path, Motion.DEFAULT_CONSTRAINTS);
     }
 
-    public FollowTrajectory robotRelative() {
+    public PPFollowTrajectory robotRelative() {
         robotRelative = true;
         return this;
     }
 
-    public FollowTrajectory fieldRelative() {
+    public PPFollowTrajectory fieldRelative() {
         robotRelative = false;
         return this;
     }
