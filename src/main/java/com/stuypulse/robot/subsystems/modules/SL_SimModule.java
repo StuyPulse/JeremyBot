@@ -2,13 +2,11 @@ package com.stuypulse.robot.subsystems.modules;
 
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.subsystems.SwerveModule;
-import com.stuypulse.robot.util.ADelayFilter;
 import com.stuypulse.robot.util.DelayFilter;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.feedback.*;
 import com.stuypulse.stuylib.control.feedforward.Feedforward;
 import com.stuypulse.stuylib.math.Angle;
-import com.stuypulse.stuylib.streams.angles.filters.AMotionProfile;
 import com.stuypulse.stuylib.control.angle.AngleController;
 import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
 

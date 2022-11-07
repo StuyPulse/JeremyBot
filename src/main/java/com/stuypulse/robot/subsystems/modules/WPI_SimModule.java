@@ -65,7 +65,7 @@ public class WPI_SimModule extends SubsystemBase implements SwerveModule {
     private final PIDController driveController;
     private final SimpleMotorFeedforward driveFeedforward;
 
-    public WPI_SimModule(String id, int turnId, int driveId, int encoderPort, Rotation2d absoluteOffset, Translation2d moduleOffset) {
+    public WPI_SimModule(String id, Translation2d moduleOffset) {
         // Module
         this.id = id;
         this.moduleOffset = moduleOffset;
