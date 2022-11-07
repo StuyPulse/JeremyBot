@@ -120,7 +120,7 @@ public class SL_SwerveModule extends SubsystemBase implements SwerveModule {
     }
 
     @Override
-    public Translation2d getModuleOffset() {
+    public Translation2d getLocation() {
         // TODO Auto-generated method stub
         return location;
     }

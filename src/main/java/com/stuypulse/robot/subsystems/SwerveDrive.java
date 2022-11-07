@@ -103,7 +103,7 @@ public class SwerveDrive extends SubsystemBase {
 
         kinematics = new SwerveDriveKinematics(
                 getModuleStream()
-                        .map(x -> x.getModuleOffset())
+                        .map(x -> x.getLocation())
                         .toArray(Translation2d[]::new));
         odometry = new SwerveDriveOdometry(kinematics, getGyroAngle());
 

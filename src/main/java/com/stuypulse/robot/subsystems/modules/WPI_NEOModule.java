@@ -172,7 +172,7 @@ public class WPI_NEOModule extends SubsystemBase implements SwerveModule {
         return id;
     }
 
-    public Translation2d getModuleOffset() {
+    public Translation2d getLocation() {
         return location;
     }
 
