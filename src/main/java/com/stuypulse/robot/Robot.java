@@ -24,7 +24,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends TimedRobot {
 
     private Command auto;
-    private VoltageRobotContainer robot;
+    private RobotContainer robot;
 
     public Robot() {
         super(Settings.dT);
@@ -40,7 +40,7 @@ public class Robot extends TimedRobot {
         // Instantiate our RobotContainer. This will perform all our button bindings,
         // and put our
         // autonomous chooser on the dashboard.
-        robot = new VoltageRobotContainer();
+        robot = new RobotContainer();
 
         DataLogManager.start();
     }
@@ -96,8 +96,6 @@ public class Robot extends TimedRobot {
     public void autonomousPeriodic() {
     }
 
-    SmartNumber voltage = new SmartNumber("Voltage", 0.0);
-
     @Override
     public void teleopInit() {
         // This makes sure that the autonomous stops running when
@@ -106,10 +104,6 @@ public class Robot extends TimedRobot {
         // this line or comment it out.
         if (auto != null) {
             auto.cancel();
-        }
-
-        for (var module : robot.modules) {
-            module.setVoltage(voltage.get());
         }
     }
 
