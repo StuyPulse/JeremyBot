@@ -1,4 +1,6 @@
-package com.stuypulse.robot.subsystems;
+package com.stuypulse.robot.subsystems.modules;
+
+import com.stuypulse.robot.subsystems.SwerveModule;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -16,7 +18,7 @@ public class PerfectModule extends SubsystemBase implements SwerveModule {
     
     private SwerveModuleState targetState;
     
-    public PerfectModule(String id, int turnId, int driveId, int encoderPort, Rotation2d absoluteOffset, Translation2d moduleOffset) {
+    public PerfectModule(String id, Translation2d moduleOffset) {
         // Module
         this.id = id;
         this.moduleOffset = moduleOffset;

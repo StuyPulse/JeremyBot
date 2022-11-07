@@ -5,7 +5,10 @@ import java.util.stream.Stream;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.subsystems.modules.SL_SwerveModule;
+import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.Vector2D;
+import com.stuypulse.stuylib.network.SmartAngle;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -35,7 +38,7 @@ public class SwerveDrive extends SubsystemBase {
         int DRIVE_PORT = 3;
         int TURN_PORT = 4;
         int ENCODER_PORT = 1;
-        Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(-33.5 + 180);
+        SmartAngle ABSOLUTE_OFFSET = new SmartAngle(ID + "/Absolute Offset", Angle.fromDegrees(143));
         Translation2d MODULE_OFFSET = new Translation2d(Chassis.WIDTH * +0.5, Chassis.HEIGHT * -0.5);
     }
 
@@ -44,7 +47,7 @@ public class SwerveDrive extends SubsystemBase {
         int DRIVE_PORT = 1;
         int TURN_PORT = 2;
         int ENCODER_PORT = 3;
-        Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(37);
+        SmartAngle ABSOLUTE_OFFSET = new SmartAngle(ID + "/Absolute Offset", Angle.fromDegrees(36));
         Translation2d MODULE_OFFSET = new Translation2d(Chassis.WIDTH * +0.5, Chassis.HEIGHT * +0.5);
     }
 
@@ -53,7 +56,7 @@ public class SwerveDrive extends SubsystemBase {
         int DRIVE_PORT = 5;
         int TURN_PORT = 6;
         int ENCODER_PORT = 2;
-        Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(-81);
+        SmartAngle ABSOLUTE_OFFSET = new SmartAngle(ID + "/Absolute Offset", Angle.fromDegrees(-80.5));
         Translation2d MODULE_OFFSET = new Translation2d(Chassis.WIDTH * -0.5, Chassis.HEIGHT * +0.5);
     }
 
@@ -62,13 +65,13 @@ public class SwerveDrive extends SubsystemBase {
         int DRIVE_PORT = 7;
         int TURN_PORT = 8;
         int ENCODER_PORT = 0;
-        Rotation2d ABSOLUTE_OFFSET = Rotation2d.fromDegrees(-36 + 180);
+        SmartAngle ABSOLUTE_OFFSET = new SmartAngle(ID + "/Absolute Offset", Angle.fromDegrees(142.3));
         Translation2d MODULE_OFFSET = new Translation2d(Chassis.WIDTH * -0.5, Chassis.HEIGHT * -0.5);
     }
 
     private static SwerveModule makeModule(String id, int turnId, int driveId, int encoderPort,
-            Rotation2d absoluteOffset, Translation2d moduleOffset) {
-        return new WPI_NEOModule(id, driveId, turnId, encoderPort, absoluteOffset, moduleOffset);
+            SmartAngle absoluteOffset, Translation2d moduleOffset) {
+        return new SL_SwerveModule(id, moduleOffset, turnId, encoderPort, absoluteOffset, driveId);
     }
 
     /** MODULES **/
@@ -155,13 +158,15 @@ public class SwerveDrive extends SubsystemBase {
         if (fieldRelative) {
             final Rotation2d correction = new Rotation2d(0.5 * omega * Settings.dT);
 
-            ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(velocity.y, -velocity.x, -omega,
+            ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(velocity.y,
+                    -velocity.x, -omega,
                     getAngle().plus(correction));
 
             for (int i = 0; i < 8; ++i) {
                 double saturation = getSaturation(kinematics.toSwerveModuleStates(speeds));
 
-                speeds = ChassisSpeeds.fromFieldRelativeSpeeds(velocity.y, -velocity.x, -omega,
+                speeds = ChassisSpeeds.fromFieldRelativeSpeeds(velocity.y, -velocity.x,
+                        -omega,
                         getAngle().plus(correction.times(1.0 / saturation)));
             }
 

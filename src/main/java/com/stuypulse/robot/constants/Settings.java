@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.Filesystem;
 
 public interface Settings {
     Path DEPLOY_DIRECTORY = Filesystem.getDeployDirectory().toPath();
-    int UPDATE_RATE = 100;
+    int UPDATE_RATE = 50;
     double dT = 1.0 / UPDATE_RATE;
 
     public interface Controls {
@@ -29,15 +29,14 @@ public interface Settings {
 
         public interface Drive {
             SmartNumber DEADBAND = new SmartNumber("Controls/Drive/Deadband", 0.05);
-            SmartNumber RC = new SmartNumber("Controls/Drive/RC", 0.02);
+            SmartNumber RC = new SmartNumber("Controls/Drive/RC", 0.1);
             SmartNumber POWER = new SmartNumber("Controls/Drive/Power", 3);
 
             public static VFilter getFilter() {
                 return new VDeadZone(DEADBAND)
                         .then(v -> new Vector2D(Math.pow(v.x, POWER.doubleValue()), Math.pow(v.y, POWER.doubleValue())))
                         .then(new VLowPassFilter(RC))
-                        .then(x -> x.mul(MAX_TELEOP_SPEED.doubleValue()))
-                ;
+                        .then(x -> x.mul(MAX_TELEOP_SPEED.doubleValue()));
             }
         }
 

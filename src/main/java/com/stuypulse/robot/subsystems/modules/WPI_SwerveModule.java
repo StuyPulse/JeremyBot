@@ -1,8 +1,9 @@
-package com.stuypulse.robot.subsystems;
+package com.stuypulse.robot.subsystems.modules;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
+import com.stuypulse.robot.subsystems.SwerveModule;
 import com.stuypulse.robot.util.SparkMaxConfig;
 
 import edu.wpi.first.math.MathUtil;

@@ -1,7 +1,7 @@
 package com.stuypulse.robot.commands;
 
 import com.stuypulse.robot.subsystems.SwerveDrive;
-import com.stuypulse.robot.subsystems.SL_SimModule;
+import com.stuypulse.robot.subsystems.modules.SL_SimModule;
 import com.stuypulse.stuylib.input.Gamepad;
 
 import edu.wpi.first.math.kinematics.SwerveModuleState;

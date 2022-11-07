@@ -1,4 +1,4 @@
-package com.stuypulse.robot.subsystems;
+package com.stuypulse.robot.subsystems.modules;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
@@ -8,6 +8,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.subsystems.SwerveModule;
 import com.stuypulse.robot.util.SparkMaxConfig;
 
 import edu.wpi.first.math.MathUtil;

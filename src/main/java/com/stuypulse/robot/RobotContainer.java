@@ -58,8 +58,6 @@ public class RobotContainer {
 
     private void configureDefaultCommands() {
         swerve.setDefaultCommand(new DriveCommand(swerve, driver));
-        // swerve.setDefaultCommand(new InstantCommand(() -> swerve.setStates(new
-        // Vector2D(0, 0.5), 0)));
     }
 
     private void configureButtonBindings() {
