@@ -24,5 +24,6 @@ public final class Main {
 	public static void main(String... args) {
         StopWatch.setDefaultEngine(StopWatch.kFPGAEngine);
 		RobotBase.startRobot(Robot::new);
+		// RobotBase.startRobot(VoltageRobot::new);
 	}
 }

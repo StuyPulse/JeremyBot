@@ -13,11 +13,10 @@ import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.input.gamepads.AutoGamepad;
 import com.stuypulse.stuylib.input.gamepads.PS4;
 import com.stuypulse.stuylib.input.gamepads.keyboard.SimKeyGamepad;
-import com.stuypulse.stuylib.math.Vector2D;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;

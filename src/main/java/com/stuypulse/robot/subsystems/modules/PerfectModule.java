@@ -32,7 +32,7 @@ public class PerfectModule extends SubsystemBase implements SwerveModule {
         return id;
     }
 
-    public Translation2d getModuleOffset() {
+    public Translation2d getLocation() {
         return moduleOffset;
     }
 
