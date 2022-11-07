@@ -1,9 +1,10 @@
-package com.stuypulse.robot.subsystems;
+package com.stuypulse.robot.subsystems.modules;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.stuypulse.robot.subsystems.SwerveModule;
 import com.stuypulse.robot.util.SparkMaxConfig;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.angle.AngleController;
@@ -23,7 +24,7 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class TheSwerveModule extends SubsystemBase implements SwerveModule {
+public class SL_SwerveModule extends SubsystemBase implements SwerveModule {
 
     public interface Turn {
         SmartNumber kP = new SmartNumber("Swerve/Turn/kP", 3.0);
@@ -82,7 +83,7 @@ public class TheSwerveModule extends SubsystemBase implements SwerveModule {
 
     private final Controller driveController;
 
-    public TheSwerveModule(String id, Translation2d location, int turnCANId, int absoluteEncoderChannel,
+    public SL_SwerveModule(String id, Translation2d location, int turnCANId, int absoluteEncoderChannel,
             SmartAngle angleOffset, int driveCANId) {
 
         // module data
