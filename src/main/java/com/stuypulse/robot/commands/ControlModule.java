@@ -1,20 +1,21 @@
 package com.stuypulse.robot.commands;
 
-import com.stuypulse.robot.subsystems.Swerve;
-import com.stuypulse.robot.subsystems.swerve.Module;
+import com.stuypulse.robot.subsystems.*;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.math.Vector2D;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
 public class ControlModule extends CommandBase {
 
-    private final Swerve swerve;
-    private final Module module;
+    private final SwerveDrive swerve;
+    private final SwerveModule module;
     private final Gamepad gamepad;
 
-    public ControlModule(Swerve swerve, Module module, Gamepad gamepad) {
+    public ControlModule(SwerveDrive swerve, SwerveModule module, Gamepad gamepad) {
         this.swerve = swerve;
         this.module = module; 
         this.gamepad = gamepad;
@@ -22,12 +23,12 @@ public class ControlModule extends CommandBase {
     }
 
     public void exeute() {
-        for (Module module : swerve.getModules()) {
+        for (var module : swerve.getModules()) {
             if(module == this.module) {
                 Vector2D target = gamepad.getLeftStick();
-                module.setState(target.magnitude(), target.getAngle().getRotation2d());
+                module.setTargetState(new SwerveModuleState(target.magnitude(), target.getAngle().getRotation2d()));
             } else {
-                module.stop();
+                module.setTargetState(new SwerveModuleState(0.0, new Rotation2d(0)));
             }
         }
     }

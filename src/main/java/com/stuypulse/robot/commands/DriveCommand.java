@@ -1,7 +1,7 @@
 package com.stuypulse.robot.commands;
 
 import com.stuypulse.robot.constants.Settings.Controls.*;
-import com.stuypulse.robot.subsystems.Swerve;
+import com.stuypulse.robot.subsystems.SwerveDrive;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.streams.IStream;
 import com.stuypulse.stuylib.streams.vectors.VStream;
@@ -9,12 +9,12 @@ import com.stuypulse.stuylib.streams.vectors.VStream;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DriveCommand extends CommandBase {
-    private Swerve drive;
+    private SwerveDrive drive;
 
     private VStream speed;
     private IStream turn;
 
-    public DriveCommand(Swerve drive, Gamepad driver) {
+    public DriveCommand(SwerveDrive drive, Gamepad driver) {
         this.drive = drive;
 
         speed = VStream.create(driver::getLeftStick).filtered(Drive.getFilter());

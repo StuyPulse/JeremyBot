@@ -3,6 +3,7 @@ package com.stuypulse.robot.constants;
 import java.nio.file.Path;
 
 import com.stuypulse.stuylib.math.SLMath;
+import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.network.SmartNumber;
 import com.stuypulse.stuylib.streams.filters.IFilter;
 import com.stuypulse.stuylib.streams.filters.LowPassFilter;
@@ -18,18 +19,22 @@ import edu.wpi.first.wpilibj.Filesystem;
 
 public interface Settings {
     Path DEPLOY_DIRECTORY = Filesystem.getDeployDirectory().toPath();
+    int UPDATE_RATE = 50;
+    double dT = 1.0 / UPDATE_RATE;
 
     public interface Controls {
-        Number MAX_TELEOP_SPEED = new SmartNumber("Controls/Max Speed (ft/s)", 14).filtered(Units::feetToMeters)
+        Number MAX_TELEOP_SPEED = new SmartNumber("Controls/Max Speed (ft per s)", 14.4).filtered(Units::feetToMeters)
                 .number();
-        Number MAX_TELEOP_ANGULAR = new SmartNumber("Controls/Max Angular (rad/s)", Modules.MAX_ANGULAR_SPEED);
+        Number MAX_TELEOP_ANGULAR = new SmartNumber("Controls/Max Angular (rad per s)", 8.2);
 
         public interface Drive {
             SmartNumber DEADBAND = new SmartNumber("Controls/Drive/Deadband", 0.05);
-            SmartNumber RC = new SmartNumber("Controls/Drive/RC", 0.2);
+            SmartNumber RC = new SmartNumber("Controls/Drive/RC", 0.1);
+            SmartNumber POWER = new SmartNumber("Controls/Drive/Power", 3);
 
             public static VFilter getFilter() {
                 return new VDeadZone(DEADBAND)
+                        .then(v -> new Vector2D(Math.pow(v.x, POWER.doubleValue()), Math.pow(v.y, POWER.doubleValue())))
                         .then(new VLowPassFilter(RC))
                         .then(x -> x.mul(MAX_TELEOP_SPEED.doubleValue()));
             }
@@ -37,10 +42,12 @@ public interface Settings {
 
         public interface Turn {
             SmartNumber DEADBAND = new SmartNumber("Controls/Turn/Deadband", 0.05);
-            SmartNumber RC = new SmartNumber("Controls/Turn/RC", 0.2);
+            SmartNumber RC = new SmartNumber("Controls/Turn/RC", 0.02);
+            SmartNumber POWER = new SmartNumber("Controls/Turn/Power", 1);
 
             public static IFilter getFilter() {
                 return IFilter.create(x -> SLMath.deadband(x, DEADBAND.get()))
+                        .then(x -> Math.pow(x, POWER.doubleValue()))
                         .then(new LowPassFilter(RC))
                         .then(x -> x * MAX_TELEOP_ANGULAR.doubleValue());
             }
@@ -77,7 +84,7 @@ public interface Settings {
             public static ProfiledPIDController getController() {
                 return new ProfiledPIDController(
                         kP, kI, kD,
-                        new Constraints(Modules.MAX_ANGULAR_SPEED, Modules.MAX_ANGULAR_ACCEL));
+                        new Constraints(3, 3)); // TODO: fill in these values
             }
         }
     }

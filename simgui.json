@@ -4,6 +4,11 @@
       "window": {
         "visible": true
       }
+    },
+    "Timing": {
+      "window": {
+        "visible": false
+      }
     }
   },
   "NTProvider": {
@@ -13,7 +18,10 @@
       "/LiveWindow/NEODriveControl": "Subsystem",
       "/LiveWindow/NEOMagTurnControl": "Subsystem",
       "/LiveWindow/NEOTurnControl": "Subsystem",
+      "/LiveWindow/PerfectModule": "Subsystem",
+      "/LiveWindow/SL_SimModule": "Subsystem",
       "/LiveWindow/Swerve": "Subsystem",
+      "/LiveWindow/SwerveDrive": "Subsystem",
       "/LiveWindow/Ungrouped/DigitalInput[0]": "Digital Input",
       "/LiveWindow/Ungrouped/DigitalInput[1]": "Digital Input",
       "/LiveWindow/Ungrouped/DigitalInput[2]": "Digital Input",
@@ -51,6 +59,14 @@
       "/LiveWindow/Ungrouped/PIDController[38]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[39]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[3]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[40]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[41]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[42]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[43]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[44]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[45]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[46]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[47]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[4]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[5]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[6]": "PIDController",
@@ -59,6 +75,9 @@
       "/LiveWindow/Ungrouped/PIDController[9]": "PIDController",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
+      "/LiveWindow/WPI_SimModule": "Subsystem",
+      "/LiveWindow/WPI_SimModule/Drive Controller": "PIDController",
+      "/LiveWindow/WPI_SimModule/Turn Controller": "PIDController",
       "/SmartDashboard/Autonomous": "String Chooser",
       "/SmartDashboard/Field": "Field2d"
     },
@@ -105,7 +124,39 @@
       "Autonomous": {
         "open": true
       },
+      "Swerve": {
+        "open": true
+      },
       "open": true
+    }
+  },
+  "Plot": {
+    "Plot <0>": {
+      "plots": [
+        {
+          "height": 338,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Swerve/Front Right/Target Angle"
+            },
+            {
+              "color": [
+                0.8666667342185974,
+                0.5176470875740051,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Swerve/Front Right/Angle"
+            }
+          ]
+        }
+      ]
     }
   }
 }
