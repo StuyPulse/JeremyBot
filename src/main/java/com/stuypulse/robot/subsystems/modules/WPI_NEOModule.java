@@ -2,21 +2,20 @@ package com.stuypulse.robot.subsystems.modules;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
-import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
+import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.Robot.Encoder;
 import com.stuypulse.robot.subsystems.SwerveModule;
-import com.stuypulse.robot.util.SparkMaxConfig;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -39,36 +38,6 @@ public class WPI_NEOModule extends SubsystemBase implements SwerveModule {
         double kS = 0.11114;
         double kV = 2.7851;
         double kA = 0.30103;
-    }
-
-    private interface Encoder {
-        public interface Drive {
-            double WHEEL_DIAMETER = Units.inchesToMeters(4.0);
-            double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
-
-            public interface Stages {
-                // input / output
-                double FIRST = 16.0 / 48.0;
-                double SECOND = 28.0 / 16.0;
-                double THIRD = 15.0 / 60.0;
-            }
-
-            double GEAR_RATIO = Stages.FIRST * Stages.SECOND * Stages.THIRD;
-
-            double POSITION_CONVERSION = WHEEL_CIRCUMFERENCE * GEAR_RATIO;
-            double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
-        }
-
-        public interface Turn {
-            double GEAR_RATIO = 1.0 / 12.8;
-            double POSITION_CONVERSION = GEAR_RATIO * 2 * Math.PI;
-            double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
-        }
-    }
-
-    private interface Motors {
-        SparkMaxConfig DRIVE = new SparkMaxConfig(false, IdleMode.kCoast, 60, 0.0);
-        SparkMaxConfig TURN = new SparkMaxConfig(false, IdleMode.kBrake, 60, 0.0);
     }
 
     /** MODULE **/
@@ -150,7 +119,7 @@ public class WPI_NEOModule extends SubsystemBase implements SwerveModule {
         drivePID.setD(Drive.kD);
         drivePID.setDFilter(1.0);
 
-        Motors.DRIVE.config(driveMotor); // Do this last because burnFlash
+        Motors.DRIVE_CONFIG.config(driveMotor); // Do this last because burnFlash
 
         // Configure turn motors, sensors
 
@@ -163,7 +132,7 @@ public class WPI_NEOModule extends SubsystemBase implements SwerveModule {
         turnPID.setD(Turn.kD);
         turnPID.setDFilter(1.0);
 
-        Motors.TURN.config(turnMotor);
+        Motors.TURN_CONFIG.config(turnMotor);
     }
 
     /** MODULE METHODS **/

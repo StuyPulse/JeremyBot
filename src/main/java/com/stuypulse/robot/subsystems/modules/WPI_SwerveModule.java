@@ -2,9 +2,9 @@ package com.stuypulse.robot.subsystems.modules;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkMax.IdleMode;
+import com.stuypulse.robot.constants.Motors;
+import com.stuypulse.robot.constants.Settings.Robot.Encoder;
 import com.stuypulse.robot.subsystems.SwerveModule;
-import com.stuypulse.robot.util.SparkMaxConfig;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
@@ -12,7 +12,6 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -35,28 +34,6 @@ public class WPI_SwerveModule extends SubsystemBase implements SwerveModule {
         double kS = 0.11114;
         double kV = 2.7851;
         double kA = 0.30103;
-    }
-
-    private interface Encoder {
-        double WHEEL_DIAMETER = Units.inchesToMeters(4.0);
-        double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
-        
-        public interface Stages {
-            // input / output 
-            double FIRST = 16.0 / 48.0;
-            double SECOND = 28.0 / 16.0;
-            double THIRD = 15.0 / 60.0;
-        }
-
-        double GEAR_RATIO = Stages.FIRST * Stages.SECOND * Stages.THIRD;
-
-        double POSITION_CONVERSION = WHEEL_CIRCUMFERENCE * GEAR_RATIO;
-        double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
-    }
-
-    private interface Motors {
-        SparkMaxConfig DRIVE = new SparkMaxConfig(false, IdleMode.kCoast, 60, 0.0);
-        SparkMaxConfig TURN = new SparkMaxConfig(false, IdleMode.kBrake, 60, 0.0);
     }
 
     /** MODULE **/
@@ -93,7 +70,7 @@ public class WPI_SwerveModule extends SubsystemBase implements SwerveModule {
 
         // Turning
         turnMotor = new CANSparkMax(turnId, CANSparkMax.MotorType.kBrushless);
-        Motors.TURN.config(turnMotor);
+        Motors.TURN_CONFIG.config(turnMotor);
         
         absoluteEncoder = new DutyCycleEncoder(encoderPort);
         this.absoluteOffset = absoluteOffset;
@@ -103,11 +80,11 @@ public class WPI_SwerveModule extends SubsystemBase implements SwerveModule {
        
         // Driving
         driveMotor = new CANSparkMax(driveId, CANSparkMax.MotorType.kBrushless);
-        Motors.DRIVE.config(driveMotor);
+        Motors.DRIVE_CONFIG.config(driveMotor);
 
         driveEncoder = driveMotor.getEncoder();
-        driveEncoder.setPositionConversionFactor(Encoder.POSITION_CONVERSION);
-        driveEncoder.setVelocityConversionFactor(Encoder.VELOCITY_CONVERSION);
+        driveEncoder.setPositionConversionFactor(Encoder.Drive.POSITION_CONVERSION);
+        driveEncoder.setVelocityConversionFactor(Encoder.Drive.VELOCITY_CONVERSION);
 
         driveController = new PIDController(Drive.kP, Drive.kI, Drive.kD);
         driveFeedforward = new SimpleMotorFeedforward(Drive.kS, Drive.kV, Drive.kA);

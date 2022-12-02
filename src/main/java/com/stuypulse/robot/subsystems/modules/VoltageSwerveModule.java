@@ -2,14 +2,11 @@ package com.stuypulse.robot.subsystems.modules;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.stuypulse.robot.util.SparkMaxConfig;
-import com.stuypulse.stuylib.control.Controller;
+import com.stuypulse.robot.constants.Motors;
+import com.stuypulse.robot.constants.Settings.Robot.Encoder;
 import com.stuypulse.stuylib.control.angle.AngleController;
 import com.stuypulse.stuylib.control.angle.feedback.AnglePIDController;
-import com.stuypulse.stuylib.control.feedback.PIDController;
-import com.stuypulse.stuylib.control.feedforward.Feedforward;
 import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.network.SmartAngle;
 import com.stuypulse.stuylib.network.SmartNumber;
@@ -17,7 +14,6 @@ import com.stuypulse.stuylib.network.SmartNumber;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -28,26 +24,6 @@ public class VoltageSwerveModule extends SubsystemBase {
         SmartNumber kP = new SmartNumber("Swerve/Turn/kP", 3.5);
         SmartNumber kI = new SmartNumber("Swerve/Turn/kI", 0.0);
         SmartNumber kD = new SmartNumber("Swerve/Turn/kD", 0.0);
-    }
-
-    public interface Encoder {
-        public interface Stages {
-            // input / output
-            double FIRST = 16.0 / 48.0;
-            double SECOND = 28.0 / 16.0;
-            double THIRD = 15.0 / 60.0;
-        }
-
-        double WHEEL_CIRCUMFERENCE = Math.PI * Units.inchesToMeters(4.0);
-        double GEAR_RATIO = Stages.FIRST * Stages.SECOND * Stages.THIRD;
-
-        double POSITION_CONVERSION = WHEEL_CIRCUMFERENCE * GEAR_RATIO;
-        double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
-    }
-
-    public interface Motors {
-        SparkMaxConfig Turn = new SparkMaxConfig(false, IdleMode.kBrake, 40, 0.0);
-        SparkMaxConfig Drive = new SparkMaxConfig(false, IdleMode.kBrake, 60, 0.0);
     }
 
     // module data
@@ -79,7 +55,7 @@ public class VoltageSwerveModule extends SubsystemBase {
         // turn
 
         turnMotor = new CANSparkMax(turnCANId, MotorType.kBrushless);
-        Motors.Turn.config(turnMotor);
+        Motors.TURN_CONFIG.config(turnMotor);
 
         absoluteEncoder = new DutyCycleEncoder(absoluteEncoderChannel);
         this.angleOffset = angleOffset;
@@ -90,10 +66,10 @@ public class VoltageSwerveModule extends SubsystemBase {
         voltage = 0.0;
 
         driveMotor = new CANSparkMax(driveCANId, MotorType.kBrushless);
-        Motors.Drive.config(driveMotor);
+        Motors.DRIVE_CONFIG.config(driveMotor);
         driveEncoder = driveMotor.getEncoder();
-        driveEncoder.setPositionConversionFactor(Encoder.POSITION_CONVERSION);
-        driveEncoder.setVelocityConversionFactor(Encoder.VELOCITY_CONVERSION);
+        driveEncoder.setPositionConversionFactor(Encoder.Drive.POSITION_CONVERSION);
+        driveEncoder.setVelocityConversionFactor(Encoder.Drive.VELOCITY_CONVERSION);
 
     }
 

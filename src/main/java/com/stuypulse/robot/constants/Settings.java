@@ -54,6 +54,33 @@ public interface Settings {
         }
     }
 
+    public interface Robot {
+        public interface Encoder {
+            public interface Drive {
+                double WHEEL_DIAMETER = Units.inchesToMeters(4.0);
+                double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
+    
+                public interface Stages {
+                    // input / output
+                    double FIRST = 16.0 / 48.0;
+                    double SECOND = 28.0 / 16.0;
+                    double THIRD = 15.0 / 60.0;
+                }
+    
+                double GEAR_RATIO = Stages.FIRST * Stages.SECOND * Stages.THIRD;
+    
+                double POSITION_CONVERSION = WHEEL_CIRCUMFERENCE * GEAR_RATIO;
+                double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
+            }
+    
+            public interface Turn {
+                double GEAR_RATIO = 1.0 / 12.8;
+                double POSITION_CONVERSION = GEAR_RATIO * 2 * Math.PI;
+                double VELOCITY_CONVERSION = POSITION_CONVERSION / 60.0;
+            }
+        }
+    }
+
     public interface Motion {
 
         public interface X {
