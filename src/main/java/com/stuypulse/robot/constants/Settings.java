@@ -22,7 +22,7 @@ public interface Settings {
     int UPDATE_RATE = 50;
     double dT = 1.0 / UPDATE_RATE;
 
-    public interface Controls {
+    public interface DriverSettings {
         Number MAX_TELEOP_SPEED = new SmartNumber("Controls/Max Speed (ft per s)", 14.4).filtered(Units::feetToMeters)
                 .number();
         Number MAX_TELEOP_ANGULAR = new SmartNumber("Controls/Max Angular (rad per s)", 8.2);
@@ -55,6 +55,28 @@ public interface Settings {
     }
 
     public interface Robot {
+        public interface Control {
+            public interface Turn {
+                SmartNumber kP = new SmartNumber("Swerve/Turn/kP", 3.0);
+                SmartNumber kI = new SmartNumber("Swerve/Turn/kI", 0);
+                SmartNumber kD = new SmartNumber("Swerve/Turn/kD", 0.1);
+
+                double kS = 0.14;
+                double kV = 0.25;
+                double kA = 0.007;
+            }
+        
+            public interface Drive {
+                SmartNumber kP = new SmartNumber("Swerve/Drive/kP", 0.16);
+                SmartNumber kI = new SmartNumber("Swerve/Drive/kI", 0);
+                SmartNumber kD = new SmartNumber("Swerve/Drive/kD", 0);
+        
+                SmartNumber kS = new SmartNumber("Swerve/Drive/kS", 0.11114);
+                SmartNumber kV = new SmartNumber("Swerve/Drive/kV", 2.7851);
+                SmartNumber kA = new SmartNumber("Swerve/Drive/kA", 0.30103);
+            }
+        }
+
         public interface Encoder {
             public interface Drive {
                 double WHEEL_DIAMETER = Units.inchesToMeters(4.0);

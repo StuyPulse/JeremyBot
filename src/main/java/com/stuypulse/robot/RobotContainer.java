@@ -15,6 +15,7 @@ import com.stuypulse.stuylib.input.gamepads.PS4;
 import com.stuypulse.stuylib.input.gamepads.keyboard.SimKeyGamepad;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -39,7 +40,7 @@ public class RobotContainer {
     // Gamepads
     // public final Gamepad driver = new SimKeyGamepad(); // new
     // BootlegXbox(Ports.Gamepad.DRIVER);
-    public final Gamepad driver = new PS4(0);
+    public final Gamepad driver = Robot.isReal() ? new PS4(0) : new SimKeyGamepad();
     public final Gamepad test = new AutoGamepad(Ports.Gamepad.TEST);
 
     // Autons
@@ -48,6 +49,7 @@ public class RobotContainer {
     public RobotContainer() {
         // Disabling joystick connect allows for AutoGamepad to not be noisy
         DriverStation.silenceJoystickConnectionWarning(true);
+        LiveWindow.setEnabled(false);
 
         // Configure the button bindings
         configureDefaultCommands();

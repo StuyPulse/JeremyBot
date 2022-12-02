@@ -5,6 +5,8 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Settings.Robot.Encoder;
+import com.stuypulse.robot.constants.Settings.Robot.Control.Drive;
+import com.stuypulse.robot.constants.Settings.Robot.Control.Turn;
 import com.stuypulse.robot.subsystems.SwerveModule;
 import com.stuypulse.stuylib.control.Controller;
 import com.stuypulse.stuylib.control.angle.AngleController;
@@ -25,21 +27,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class SL_SwerveModule extends SubsystemBase implements SwerveModule {
 
-    public interface Turn {
-        SmartNumber kP = new SmartNumber("Swerve/Turn/kP", 3.0);
-        SmartNumber kI = new SmartNumber("Swerve/Turn/kI", 0);
-        SmartNumber kD = new SmartNumber("Swerve/Turn/kD", 0.1);
-    }
-
-    private interface Drive {
-        SmartNumber kP = new SmartNumber("Swerve/Drive/kP", 0.16);
-        SmartNumber kI = new SmartNumber("Swerve/Drive/kI", 0);
-        SmartNumber kD = new SmartNumber("Swerve/Drive/kD", 0);
-
-        SmartNumber kS = new SmartNumber("Swerve/Drive/kS", 0.11114);
-        SmartNumber kV = new SmartNumber("Swerve/Drive/kV", 2.7851);
-        SmartNumber kA = new SmartNumber("Swerve/Drive/kA", 0.30103);
-    }
 
     // module data
 

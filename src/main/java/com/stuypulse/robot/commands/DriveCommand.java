@@ -1,6 +1,6 @@
 package com.stuypulse.robot.commands;
 
-import com.stuypulse.robot.constants.Settings.Controls.*;
+import com.stuypulse.robot.constants.Settings.DriverSettings.*;
 import com.stuypulse.robot.subsystems.SwerveDrive;
 import com.stuypulse.stuylib.input.Gamepad;
 import com.stuypulse.stuylib.streams.IStream;

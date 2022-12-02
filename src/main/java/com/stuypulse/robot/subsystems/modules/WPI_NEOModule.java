@@ -9,6 +9,8 @@ import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
 import com.stuypulse.robot.constants.Motors;
 import com.stuypulse.robot.constants.Settings;
 import com.stuypulse.robot.constants.Settings.Robot.Encoder;
+import com.stuypulse.robot.constants.Settings.Robot.Control.Drive;
+import com.stuypulse.robot.constants.Settings.Robot.Control.Turn;
 import com.stuypulse.robot.subsystems.SwerveModule;
 
 import edu.wpi.first.math.MathUtil;
@@ -21,24 +23,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class WPI_NEOModule extends SubsystemBase implements SwerveModule {
-
-    /** CONSTANTS **/
-
-    private interface Turn {
-        double kP = 3.0;
-        double kI = 0.0;
-        double kD = 0.1;
-    }
-
-    private interface Drive {
-        double kP = 0.16;
-        double kI = 0.00;
-        double kD = 0.00;
-
-        double kS = 0.11114;
-        double kV = 2.7851;
-        double kA = 0.30103;
-    }
 
     /** MODULE **/
 
@@ -81,7 +65,7 @@ public class WPI_NEOModule extends SubsystemBase implements SwerveModule {
         driveEncoder = driveMotor.getEncoder();
 
         drivePID = driveMotor.getPIDController();
-        driveFF = new SimpleMotorFeedforward(Drive.kS, Drive.kV, Drive.kA);
+        driveFF = new SimpleMotorFeedforward(Drive.kS.get(), Drive.kV.get(), Drive.kA.get());
 
         // Turning
         turnMotor = new CANSparkMax(turnId, MotorType.kBrushless);
@@ -114,9 +98,9 @@ public class WPI_NEOModule extends SubsystemBase implements SwerveModule {
         driveEncoder.setVelocityConversionFactor(Encoder.Drive.VELOCITY_CONVERSION);
         driveEncoder.setPosition(0.0);
 
-        drivePID.setP(Drive.kP);
-        drivePID.setI(Drive.kI);
-        drivePID.setD(Drive.kD);
+        drivePID.setP(Drive.kP.get());
+        drivePID.setI(Drive.kI.get());
+        drivePID.setD(Drive.kD.get());
         drivePID.setDFilter(1.0);
 
         Motors.DRIVE_CONFIG.config(driveMotor); // Do this last because burnFlash
@@ -127,9 +111,9 @@ public class WPI_NEOModule extends SubsystemBase implements SwerveModule {
         turnEncoder.setVelocityConversionFactor(Encoder.Turn.VELOCITY_CONVERSION);
         seedTurnEncoder();
 
-        turnPID.setP(Turn.kP);
-        turnPID.setI(Turn.kI);
-        turnPID.setD(Turn.kD);
+        turnPID.setP(Turn.kP.get());
+        turnPID.setI(Turn.kI.get());
+        turnPID.setD(Turn.kD.get());
         turnPID.setDFilter(1.0);
 
         Motors.TURN_CONFIG.config(turnMotor);

@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.subsystems.modules.SL_SimModule;
 import com.stuypulse.robot.subsystems.modules.SL_SwerveModule;
 import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.Vector2D;
@@ -71,7 +72,8 @@ public class SwerveDrive extends SubsystemBase {
 
     private static SwerveModule makeModule(String id, int turnId, int driveId, int encoderPort,
             SmartAngle absoluteOffset, Translation2d moduleOffset) {
-        return new SL_SwerveModule(id, moduleOffset, turnId, encoderPort, absoluteOffset, driveId);
+        // return new SL_SwerveModule(id, moduleOffset, turnId, encoderPort, absoluteOffset, driveId);
+        return new SL_SimModule(id, moduleOffset);
     }
 
     /** MODULES **/

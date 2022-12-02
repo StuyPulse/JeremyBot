@@ -1,6 +1,8 @@
 package com.stuypulse.robot.subsystems.modules;
 
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.constants.Settings.Robot.Control.Drive;
+import com.stuypulse.robot.constants.Settings.Robot.Control.Turn;
 import com.stuypulse.robot.subsystems.SwerveModule;
 import com.stuypulse.robot.util.DelayFilter;
 import com.stuypulse.stuylib.control.Controller;
@@ -24,28 +26,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class SL_SimModule extends SubsystemBase implements SwerveModule {
-    
-    /** CONSTANTS **/
-
-    private interface Turn {
-        double kP = 3.0; // 1.2 with ff
-        double kI = 0.0;
-        double kD = 0.1; // 0.04 with ff
-
-        double kS = 0.14;
-        double kV = 0.25;
-        double kA = 0.007;
-    }
-
-    private interface Drive {
-        double kP = 1.6;
-        double kI = 0.0;
-        double kD = 0.0;
-
-        double kS = 0.11114;
-        double kV = 2.7851;
-        double kA = 0.30103;
-    }
 
     /** MODULE **/
     
@@ -84,7 +64,7 @@ public class SL_SimModule extends SubsystemBase implements SwerveModule {
         ;
 
         // Driving
-        driveSim = new LinearSystemSim<>(LinearSystemId.identifyVelocitySystem(Drive.kV, Drive.kA));
+        driveSim = new LinearSystemSim<>(LinearSystemId.identifyVelocitySystem(Drive.kV.get(), Drive.kA.get()));
         driveVoltage = 0.0;
 
         driveController = new PIDController(Drive.kP, Drive.kI, Drive.kD)
