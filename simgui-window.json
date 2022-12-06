@@ -1,45 +1,45 @@
 {
   "MainWindow": {
     "GLOBAL": {
-      "height": "1000",
+      "height": "1722",
       "maximized": "0",
       "style": "0",
       "userScale": "2",
-      "width": "948",
+      "width": "2546",
       "xpos": "964",
-      "ypos": "40"
+      "ypos": "85"
     }
   },
   "Window": {
     "###/FMSInfo": {
       "Collapsed": "0",
       "Pos": "280,786",
-      "Size": "169,167"
+      "Size": "308,329"
     },
     "###/LiveWindow/Module": {
       "Collapsed": "0",
       "Pos": "122,53",
-      "Size": "123,69"
+      "Size": "271,123"
     },
     "###/LiveWindow/NEODriveControl": {
       "Collapsed": "0",
       "Pos": "288,39",
-      "Size": "123,69"
+      "Size": "271,123"
     },
     "###/LiveWindow/NEOTurnControl": {
       "Collapsed": "0",
       "Pos": "693,44",
-      "Size": "123,69"
+      "Size": "271,123"
     },
     "###/LiveWindow/Swerve": {
       "Collapsed": "0",
       "Pos": "460,38",
-      "Size": "123,69"
+      "Size": "271,123"
     },
     "###/SmartDashboard/Autonomous": {
       "Collapsed": "0",
       "Pos": "528,828",
-      "Size": "254,54"
+      "Size": "576,90"
     },
     "###/SmartDashboard/Field": {
       "Collapsed": "0",
@@ -54,12 +54,12 @@
     "###Joysticks": {
       "Collapsed": "1",
       "Pos": "231,202",
-      "Size": "436,114"
+      "Size": "436,132"
     },
     "###NetworkTables": {
       "Collapsed": "0",
-      "Pos": "929,70",
-      "Size": "750,463"
+      "Pos": "1717,177",
+      "Size": "795,1295"
     },
     "###Other Devices": {
       "Collapsed": "1",
@@ -68,8 +68,8 @@
     },
     "###Plot <0>": {
       "Collapsed": "0",
-      "Pos": "929,583",
-      "Size": "700,400"
+      "Pos": "322,928",
+      "Size": "1455,901"
     },
     "###Plot <1>": {
       "Collapsed": "0",
@@ -79,7 +79,7 @@
     "###RoboRIO": {
       "Collapsed": "0",
       "Pos": "81,800",
-      "Size": "119,146"
+      "Size": "250,254"
     },
     "###System Joysticks": {
       "Collapsed": "0",
@@ -99,7 +99,7 @@
     "Robot State": {
       "Collapsed": "0",
       "Pos": "7,22",
-      "Size": "92,99"
+      "Size": "196,189"
     }
   }
 }

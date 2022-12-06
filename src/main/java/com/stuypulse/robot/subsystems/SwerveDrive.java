@@ -5,9 +5,10 @@ import java.util.stream.Stream;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.stuypulse.robot.constants.Settings;
-import com.stuypulse.robot.subsystems.modules.SL_SimModule;
+// import com.stuypulse.robot.subsystems.modules.SL_SimModule;
 import com.stuypulse.robot.subsystems.modules.SL_SwerveModule;
 import com.stuypulse.stuylib.math.Angle;
+import com.stuypulse.stuylib.math.Polar2D;
 import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.network.SmartAngle;
 
@@ -36,8 +37,8 @@ public class SwerveDrive extends SubsystemBase {
 
     private interface FrontRight {
         String ID = "Front Right";
-        int DRIVE_PORT = 3;
-        int TURN_PORT = 4;
+        int DRIVE_PORT = 10;
+        int TURN_PORT = 11;
         int ENCODER_PORT = 1;
         SmartAngle ABSOLUTE_OFFSET = new SmartAngle(ID + "/Absolute Offset", Angle.fromDegrees(143));
         Translation2d MODULE_OFFSET = new Translation2d(Chassis.WIDTH * +0.5, Chassis.HEIGHT * -0.5);
@@ -45,8 +46,8 @@ public class SwerveDrive extends SubsystemBase {
 
     private interface FrontLeft {
         String ID = "Front Left";
-        int DRIVE_PORT = 1;
-        int TURN_PORT = 2;
+        int DRIVE_PORT = 12;
+        int TURN_PORT = 13;
         int ENCODER_PORT = 3;
         SmartAngle ABSOLUTE_OFFSET = new SmartAngle(ID + "/Absolute Offset", Angle.fromDegrees(36));
         Translation2d MODULE_OFFSET = new Translation2d(Chassis.WIDTH * +0.5, Chassis.HEIGHT * +0.5);
@@ -54,8 +55,8 @@ public class SwerveDrive extends SubsystemBase {
 
     private interface BackLeft {
         String ID = "Back Left";
-        int DRIVE_PORT = 5;
-        int TURN_PORT = 6;
+        int DRIVE_PORT = 14;
+        int TURN_PORT = 15;
         int ENCODER_PORT = 2;
         SmartAngle ABSOLUTE_OFFSET = new SmartAngle(ID + "/Absolute Offset", Angle.fromDegrees(-80.5));
         Translation2d MODULE_OFFSET = new Translation2d(Chassis.WIDTH * -0.5, Chassis.HEIGHT * +0.5);
@@ -63,8 +64,8 @@ public class SwerveDrive extends SubsystemBase {
 
     private interface BackRight {
         String ID = "Back Right";
-        int DRIVE_PORT = 7;
-        int TURN_PORT = 8;
+        int DRIVE_PORT = 16;
+        int TURN_PORT = 17;
         int ENCODER_PORT = 0;
         SmartAngle ABSOLUTE_OFFSET = new SmartAngle(ID + "/Absolute Offset", Angle.fromDegrees(142.3));
         Translation2d MODULE_OFFSET = new Translation2d(Chassis.WIDTH * -0.5, Chassis.HEIGHT * -0.5);
@@ -72,8 +73,8 @@ public class SwerveDrive extends SubsystemBase {
 
     private static SwerveModule makeModule(String id, int turnId, int driveId, int encoderPort,
             SmartAngle absoluteOffset, Translation2d moduleOffset) {
-        // return new SL_SwerveModule(id, moduleOffset, turnId, encoderPort, absoluteOffset, driveId);
-        return new SL_SimModule(id, moduleOffset);
+        return new SL_SwerveModule(id, moduleOffset, turnId, encoderPort, absoluteOffset, driveId);
+        // return new SL_SimModule(id, moduleOffset);
     }
 
     /** MODULES **/
@@ -113,6 +114,11 @@ public class SwerveDrive extends SubsystemBase {
         SmartDashboard.putData("Field", field);
 
         reset(new Pose2d());
+    }
+
+    public double getVelocity() {
+        var cs = kinematics.toChassisSpeeds(getModuleStates());
+        return Math.hypot(cs.vxMetersPerSecond, cs.vyMetersPerSecond);
     }
 
     /** MODULE API **/
@@ -228,6 +234,8 @@ public class SwerveDrive extends SubsystemBase {
         updateOdometry();
         field.setRobotPose(getPose());
 
+        // SmartDashboard.putNumber("Swerve/Velocity", getVelocity());
+        // SmartDashboard.putNumber("Swerve/")
         SmartDashboard.putNumber("Swerve/Pose X", getPose().getTranslation().getX());
         SmartDashboard.putNumber("Swerve/Pose Y", getPose().getTranslation().getY());
         SmartDashboard.putNumber("Swerve/Pose Angle", getAngle().getDegrees());

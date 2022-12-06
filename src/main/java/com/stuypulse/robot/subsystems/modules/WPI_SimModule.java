@@ -27,7 +27,7 @@ public class WPI_SimModule extends SubsystemBase implements SwerveModule {
         double kI = 0.0;
         double kD = 0.1; // 0.04 with ff
 
-        double kS = 0.14;
+        // double kS = 0.14;
         double kV = 0.25;
         double kA = 0.007;
     }

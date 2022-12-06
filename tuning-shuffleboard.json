@@ -1,0 +1,117 @@
+{
+  "tabPane": [
+    {
+      "title": "Velocity Performance",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 32.0,
+        "showGrid": true,
+        "hgap": 4.0,
+        "vgap": 4.0,
+        "titleType": 0,
+        "tiles": {
+          "19,0": {
+            "size": [
+              12,
+              9
+            ],
+            "content": {
+              "_type": "Graph",
+              "_source0": "network_table:///SmartDashboard/Front Right/Target Speed",
+              "_source1": "network_table:///SmartDashboard/Front Right/Speed",
+              "_title": "Front Right Velocity",
+              "Graph/Visible time": 30.0,
+              "Graph/X-axis auto scrolling": true,
+              "Y-axis/Automatic bounds": false,
+              "Y-axis/Upper bound": -4.0,
+              "Y-axis/Lower bound": 4.0,
+              "Y-axis/Unit": "m/s",
+              "Visible data/SmartDashboard/Front Right/Speed": true,
+              "Visible data/SmartDashboard/Front Right/Target Speed": true
+            }
+          },
+          "0,8": {
+            "size": [
+              12,
+              7
+            ],
+            "content": {
+              "_type": "Graph",
+              "_source0": "network_table:///SmartDashboard/Back Left/Target Speed",
+              "_source1": "network_table:///SmartDashboard/Back Left/Speed",
+              "_title": "Back Left Velocity",
+              "Graph/Visible time": 30.0,
+              "Graph/X-axis auto scrolling": true,
+              "Y-axis/Automatic bounds": false,
+              "Y-axis/Upper bound": 4.0,
+              "Y-axis/Lower bound": -4.0,
+              "Y-axis/Unit": "m/s",
+              "Visible data/SmartDashboard/Back Left/Speed": true,
+              "Visible data/SmartDashboard/Back Left/Target Speed": true
+            }
+          },
+          "17,9": {
+            "size": [
+              15,
+              9
+            ],
+            "content": {
+              "_type": "Graph",
+              "_source0": "network_table:///SmartDashboard/Back Right/Speed",
+              "_source1": "network_table:///SmartDashboard/Back Right/Target Speed",
+              "_title": "back right",
+              "Graph/Visible time": 30.0,
+              "Graph/X-axis auto scrolling": true,
+              "Y-axis/Automatic bounds": false,
+              "Y-axis/Upper bound": 4.0,
+              "Y-axis/Lower bound": -4.0,
+              "Y-axis/Unit": "m/S",
+              "Visible data/SmartDashboard/Back Right/Speed": true,
+              "Visible data/SmartDashboard/Back Right/Target Speed": true
+            }
+          },
+          "4,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Graph",
+              "_source0": "network_table:///SmartDashboard/Front Left/Speed",
+              "_source1": "network_table:///SmartDashboard/Front Left/Target Speed",
+              "_title": "SmartDashboard/Front Left/Speed",
+              "Graph/Visible time": 30.0,
+              "Graph/X-axis auto scrolling": true,
+              "Y-axis/Automatic bounds": true,
+              "Y-axis/Upper bound": 1.0,
+              "Y-axis/Lower bound": -1.0,
+              "Y-axis/Unit": "ul",
+              "Visible data/SmartDashboard/Front Left/Speed": true,
+              "Visible data/SmartDashboard/Front Left/Target Speed": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Tab 2",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "titleType": 0,
+        "tiles": {}
+      }
+    }
+  ],
+  "windowGeometry": {
+    "x": -6.0,
+    "y": -6.0,
+    "width": 1292.0,
+    "height": 684.0
+  }
+}

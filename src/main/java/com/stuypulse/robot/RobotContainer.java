@@ -40,7 +40,7 @@ public class RobotContainer {
     // Gamepads
     // public final Gamepad driver = new SimKeyGamepad(); // new
     // BootlegXbox(Ports.Gamepad.DRIVER);
-    public final Gamepad driver = Robot.isReal() ? new PS4(0) : new SimKeyGamepad();
+    public final Gamepad driver = Robot.isReal() ? new BootlegXbox(Ports.Gamepad.DRIVER) : new SimKeyGamepad();
     public final Gamepad test = new AutoGamepad(Ports.Gamepad.TEST);
 
     // Autons

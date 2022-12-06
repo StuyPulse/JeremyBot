@@ -15,7 +15,7 @@ import com.stuypulse.stuylib.control.feedback.PIDController;
 import com.stuypulse.stuylib.control.feedforward.Feedforward;
 import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.network.SmartAngle;
-import com.stuypulse.stuylib.network.SmartNumber;
+// import com.stuypulse.stuylib.network.SmartNumber;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -70,10 +70,11 @@ public class SL_SwerveModule extends SubsystemBase implements SwerveModule {
         // drive
 
         driveMotor = new CANSparkMax(driveCANId, MotorType.kBrushless);
-        Motors.DRIVE_CONFIG.config(driveMotor);
         driveEncoder = driveMotor.getEncoder();
-        driveEncoder.setPositionConversionFactor(Encoder.Drive.POSITION_CONVERSION);
-        driveEncoder.setVelocityConversionFactor(Encoder.Drive.VELOCITY_CONVERSION);
+        // driveEncoder.setPositionConversionFactor(Encoder.Drive.POSITION_CONVERSION);
+        // driveEncoder.setVelocityConversionFactor(Encoder.Drive.VELOCITY_CONVERSION);
+        Motors.DRIVE_CONFIG.config(driveMotor);
+        
 
         driveController = new PIDController(Drive.kP, Drive.kI, Drive.kD)
                 .add(new Feedforward.Motor(Drive.kS, Drive.kV, Drive.kA).velocity());
@@ -98,7 +99,7 @@ public class SL_SwerveModule extends SubsystemBase implements SwerveModule {
     }
 
     private double getSpeed() {
-        return driveEncoder.getVelocity();
+        return driveEncoder.getVelocity() * Encoder.Drive.VELOCITY_CONVERSION;
     }
 
     private Rotation2d getAbsolutePosition() {
