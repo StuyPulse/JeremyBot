@@ -3,8 +3,10 @@ package com.stuypulse.robot.commands;
 import com.stuypulse.robot.constants.Settings.Robot;
 import com.stuypulse.robot.subsystems.SwerveDrive;
 import com.stuypulse.stuylib.input.Gamepad;
+import com.stuypulse.stuylib.math.SLMath;
 import com.stuypulse.stuylib.streams.IStream;
 import com.stuypulse.stuylib.streams.filters.Derivative;
+import com.stuypulse.stuylib.streams.filters.LowPassFilter;
 import com.stuypulse.stuylib.streams.vectors.VStream;
 import com.stuypulse.stuylib.streams.vectors.filters.VDeadZone;
 import com.stuypulse.stuylib.streams.vectors.filters.VRateLimit;
@@ -39,7 +41,7 @@ public class DriveCommand extends CommandBase {
         );
 
         // speed = VStream.create(driver::getLeftStick).filtered(x -> x.mul(4.2));
-        turn = IStream.create(driver::getRightX);
+        turn = IStream.create(driver::getRightX).filtered(x -> SLMath.deadband(x, 0.1), new LowPassFilter(0.2), x -> x * 6);
 
         addRequirements(drive);
     }

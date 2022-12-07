@@ -5,12 +5,17 @@ import java.util.stream.Stream;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.stuypulse.robot.constants.Settings;
+import com.stuypulse.robot.subsystems.modules.SL_SimModule;
 // import com.stuypulse.robot.subsystems.modules.SL_SimModule;
 import com.stuypulse.robot.subsystems.modules.SL_SwerveModule;
 import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.Polar2D;
 import com.stuypulse.stuylib.math.Vector2D;
 import com.stuypulse.stuylib.network.SmartAngle;
+import com.stuypulse.stuylib.streams.IStream;
+import com.stuypulse.stuylib.streams.angles.AStream;
+import com.stuypulse.stuylib.streams.filters.Derivative;
+import com.stuypulse.stuylib.util.AngleVelocity;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -32,7 +37,7 @@ public class SwerveDrive extends SubsystemBase {
     private interface Chassis {
         double WIDTH = Units.inchesToMeters(29.0);
         double HEIGHT = Units.inchesToMeters(29.0);
-        double MAX_SPEED = Units.feetToMeters(14.0);
+        double MAX_SPEED = 4.2;
     }
 
     private interface FrontRight {
@@ -92,15 +97,15 @@ public class SwerveDrive extends SubsystemBase {
     public SwerveDrive() {
 
         modules = new SwerveModule[] {
-                makeModule(FrontRight.ID, FrontRight.TURN_PORT, FrontRight.DRIVE_PORT,
-                        FrontRight.ENCODER_PORT, FrontRight.ABSOLUTE_OFFSET, FrontRight.MODULE_OFFSET),
-                makeModule(FrontLeft.ID, FrontLeft.TURN_PORT, FrontLeft.DRIVE_PORT,
-                        FrontLeft.ENCODER_PORT, FrontLeft.ABSOLUTE_OFFSET, FrontLeft.MODULE_OFFSET),
-                makeModule(BackLeft.ID, BackLeft.TURN_PORT, BackLeft.DRIVE_PORT,
-                        BackLeft.ENCODER_PORT, BackLeft.ABSOLUTE_OFFSET, BackLeft.MODULE_OFFSET),
-                makeModule(BackRight.ID, BackRight.TURN_PORT, BackRight.DRIVE_PORT,
-                        BackRight.ENCODER_PORT, BackRight.ABSOLUTE_OFFSET, BackRight.MODULE_OFFSET)
-        };
+            makeModule(FrontRight.ID, FrontRight.TURN_PORT, FrontRight.DRIVE_PORT,
+                FrontRight.ENCODER_PORT, FrontRight.ABSOLUTE_OFFSET, FrontRight.MODULE_OFFSET),
+            makeModule(FrontLeft.ID, FrontLeft.TURN_PORT, FrontLeft.DRIVE_PORT,
+                    FrontLeft.ENCODER_PORT, FrontLeft.ABSOLUTE_OFFSET, FrontLeft.MODULE_OFFSET),
+            makeModule(BackLeft.ID, BackLeft.TURN_PORT, BackLeft.DRIVE_PORT,
+                    BackLeft.ENCODER_PORT, BackLeft.ABSOLUTE_OFFSET, BackLeft.MODULE_OFFSET),
+            makeModule(BackRight.ID, BackRight.TURN_PORT, BackRight.DRIVE_PORT,
+                    BackRight.ENCODER_PORT, BackRight.ABSOLUTE_OFFSET, BackRight.MODULE_OFFSET)
+            };
 
         gyro = new AHRS(SPI.Port.kMXP);
 
@@ -229,6 +234,8 @@ public class SwerveDrive extends SubsystemBase {
         return kinematics;
     }
 
+    AngleVelocity anglevelocity = new AngleVelocity();
+
     @Override
     public void periodic() {
         updateOdometry();
@@ -236,10 +243,16 @@ public class SwerveDrive extends SubsystemBase {
 
         // SmartDashboard.putNumber("Swerve/Velocity", getVelocity());
         // SmartDashboard.putNumber("Swerve/")
+
+        // TODO: this is not reporting a sensible value
+        // System.out.println(getKinematics().toChassisSpeeds(getModuleStates()).omegaRadiansPerSecond);
+
+        // System.out.println(angle][\velocity.get(Angle.fromRotation2d(gyro.getRotation2d())));
         SmartDashboard.putNumber("Swerve/Pose X", getPose().getTranslation().getX());
         SmartDashboard.putNumber("Swerve/Pose Y", getPose().getTranslation().getY());
         SmartDashboard.putNumber("Swerve/Pose Angle", getAngle().getDegrees());
         SmartDashboard.putNumber("Swerve/Gyro Angle", gyro.getRotation2d().getDegrees());
+        // System.out.println(gyro.getVel);
     }
 
     @Override
