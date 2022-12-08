@@ -72,7 +72,7 @@ public class SL_SwerveModule extends SubsystemBase implements SwerveModule {
         driveMotor = new CANSparkMax(driveCANId, MotorType.kBrushless);
         driveEncoder = driveMotor.getEncoder();
         // driveEncoder.setPositionConversionFactor(Encoder.Drive.POSITION_CONVERSION);
-        // driveEncoder.setVelocityConversionFactor(Encoder.Drive.VELOCITY_CONVERSION);
+        driveEncoder.setVelocityConversionFactor(Encoder.Drive.VELOCITY_CONVERSION);
         Motors.DRIVE_CONFIG.config(driveMotor);
         
 
@@ -99,7 +99,7 @@ public class SL_SwerveModule extends SubsystemBase implements SwerveModule {
     }
 
     private double getSpeed() {
-        return driveEncoder.getVelocity() * Encoder.Drive.VELOCITY_CONVERSION;
+        return driveEncoder.getVelocity(); // * Encoder.Drive.VELOCITY_CONVERSION;
     }
 
     private Rotation2d getAbsolutePosition() {
