@@ -27,6 +27,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -93,6 +94,8 @@ public class SwerveDrive extends SubsystemBase {
     private final SwerveDriveOdometry odometry;
 
     private final Field2d field;
+    private final FieldObject2d[] module2ds;
+
 
     public SwerveDrive() {
 
@@ -105,7 +108,7 @@ public class SwerveDrive extends SubsystemBase {
                     BackLeft.ENCODER_PORT, BackLeft.ABSOLUTE_OFFSET, BackLeft.MODULE_OFFSET),
             makeModule(BackRight.ID, BackRight.TURN_PORT, BackRight.DRIVE_PORT,
                     BackRight.ENCODER_PORT, BackRight.ABSOLUTE_OFFSET, BackRight.MODULE_OFFSET)
-            };
+        };
 
         gyro = new AHRS(SPI.Port.kMXP);
 
@@ -116,6 +119,11 @@ public class SwerveDrive extends SubsystemBase {
         odometry = new SwerveDriveOdometry(kinematics, getGyroAngle());
 
         field = new Field2d();
+        module2ds = new FieldObject2d[modules.length];
+        for (int i = 0; i < modules.length; ++i) {
+            module2ds[i] = field.getObject(modules[i].getId()+"-2d");
+        }
+
         SmartDashboard.putData("Field", field);
 
         reset(new Pose2d());
@@ -183,10 +191,27 @@ public class SwerveDrive extends SubsystemBase {
                         getAngle().plus(correction.times(1.0 / saturation)));
             }
 
-            setStates(speeds);
+            setStatesRetainAngle(speeds);
         } else {
             setStates(new ChassisSpeeds(velocity.y, -velocity.x, -omega));
         }
+    }
+
+    private void setStatesRetainAngle(ChassisSpeeds robotSpeed) {
+        var moduleStates = kinematics.toSwerveModuleStates(robotSpeed);
+        SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, Chassis.MAX_SPEED);
+        for (int i = 0; i < modules.length; ++i) {
+            var currentState = modules[i].getState();
+            if (moduleStates[i].speedMetersPerSecond < 0.1) {
+                modules[i].setTargetState(new SwerveModuleState(
+                    moduleStates[i].speedMetersPerSecond, 
+                    currentState.angle
+                ));
+            } else {
+                modules[i].setTargetState(moduleStates[i]);
+            }
+        }
+        // setStates(robotSpeed);
     }
 
     public void setStates(Vector2D velocity, double omega) {
@@ -234,12 +259,20 @@ public class SwerveDrive extends SubsystemBase {
         return kinematics;
     }
 
-    AngleVelocity anglevelocity = new AngleVelocity();
+    // AngleVelocity anglevelocity = new AngleVelocity();
 
     @Override
     public void periodic() {
         updateOdometry();
         field.setRobotPose(getPose());
+
+        var pose = getPose();
+        for (int i = 0; i < modules.length; ++i) {
+            module2ds[i].setPose(new Pose2d(
+                pose.getTranslation().plus(modules[i].getLocation().rotateBy(getAngle())),
+                modules[i].getState().angle.plus(getAngle())
+            ));
+        }
 
         // SmartDashboard.putNumber("Swerve/Velocity", getVelocity());
         // SmartDashboard.putNumber("Swerve/")
@@ -247,7 +280,7 @@ public class SwerveDrive extends SubsystemBase {
         // TODO: this is not reporting a sensible value
         // System.out.println(getKinematics().toChassisSpeeds(getModuleStates()).omegaRadiansPerSecond);
 
-        // System.out.println(angle][\velocity.get(Angle.fromRotation2d(gyro.getRotation2d())));
+        // System.out.println(anglevelocity.get(Angle.fromRotation2d(gyro.getRotation2d())));
         SmartDashboard.putNumber("Swerve/Pose X", getPose().getTranslation().getX());
         SmartDashboard.putNumber("Swerve/Pose Y", getPose().getTranslation().getY());
         SmartDashboard.putNumber("Swerve/Pose Angle", getAngle().getDegrees());
