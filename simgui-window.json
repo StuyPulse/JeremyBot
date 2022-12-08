@@ -1,24 +1,24 @@
 {
   "MainWindow": {
     "GLOBAL": {
-      "height": "1722",
-      "maximized": "0",
+      "height": "1949",
+      "maximized": "1",
       "style": "0",
       "userScale": "2",
-      "width": "2546",
-      "xpos": "964",
-      "ypos": "85"
+      "width": "3840",
+      "xpos": "0",
+      "ypos": "67"
     }
   },
   "Window": {
     "###/FMSInfo": {
       "Collapsed": "0",
-      "Pos": "280,786",
-      "Size": "308,329"
+      "Pos": "343,1199",
+      "Size": "368,329"
     },
     "###/LiveWindow/Module": {
       "Collapsed": "0",
-      "Pos": "122,53",
+      "Pos": "37,73",
       "Size": "271,123"
     },
     "###/LiveWindow/NEODriveControl": {
@@ -43,32 +43,32 @@
     },
     "###/SmartDashboard/Field": {
       "Collapsed": "0",
-      "Pos": "88,174",
-      "Size": "808,577"
+      "Pos": "664,304",
+      "Size": "1160,450"
     },
     "###FMS": {
       "Collapsed": "0",
       "Pos": "289,247",
-      "Size": "283,146"
+      "Size": "600,254"
     },
     "###Joysticks": {
-      "Collapsed": "1",
-      "Pos": "231,202",
-      "Size": "436,132"
+      "Collapsed": "0",
+      "Pos": "3123,671",
+      "Size": "1876,296"
     },
     "###NetworkTables": {
       "Collapsed": "0",
-      "Pos": "1717,177",
+      "Pos": "2401,166",
       "Size": "795,1295"
     },
     "###Other Devices": {
-      "Collapsed": "1",
-      "Pos": "929,50",
+      "Collapsed": "0",
+      "Pos": "3521,1202",
       "Size": "250,695"
     },
     "###Plot <0>": {
       "Collapsed": "0",
-      "Pos": "322,928",
+      "Pos": "848,905",
       "Size": "1455,901"
     },
     "###Plot <1>": {
@@ -78,7 +78,7 @@
     },
     "###RoboRIO": {
       "Collapsed": "0",
-      "Pos": "81,800",
+      "Pos": "43,1209",
       "Size": "250,254"
     },
     "###System Joysticks": {

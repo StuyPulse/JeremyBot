@@ -134,8 +134,7 @@
       "Swerve": {
         "Turn": {
           "open": true
-        },
-        "open": true
+        }
       },
       "open": true
     }

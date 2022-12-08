@@ -58,8 +58,8 @@
             ],
             "content": {
               "_type": "Graph",
-              "_source0": "network_table:///SmartDashboard/Back Right/Speed",
-              "_source1": "network_table:///SmartDashboard/Back Right/Target Speed",
+              "_source0": "network_table:///SmartDashboard/Back Right/Target Speed",
+              "_source1": "network_table:///SmartDashboard/Back Right/Speed",
               "_title": "back right",
               "Graph/Visible time": 30.0,
               "Graph/X-axis auto scrolling": true,
@@ -78,8 +78,8 @@
             ],
             "content": {
               "_type": "Graph",
-              "_source0": "network_table:///SmartDashboard/Front Left/Speed",
-              "_source1": "network_table:///SmartDashboard/Front Left/Target Speed",
+              "_source0": "network_table:///SmartDashboard/Front Left/Target Speed",
+              "_source1": "network_table:///SmartDashboard/Front Left/Speed",
               "_title": "SmartDashboard/Front Left/Speed",
               "Graph/Visible time": 30.0,
               "Graph/X-axis auto scrolling": true,
