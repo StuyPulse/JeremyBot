@@ -128,7 +128,7 @@ public class SL_SwerveModule extends SubsystemBase implements SwerveModule {
         SmartDashboard.putNumber(id + "/Angle Voltage", turnController.getOutput());
         SmartDashboard.putNumber(id + "/Absolute Angle", getAbsolutePosition().getDegrees());
 
-        driveMotor.setVoltage(driveController.update(
+        driveMotor.setVoltage(Math.abs(turnController.getError().cos()) * driveController.update(
                 targetState.speedMetersPerSecond, getSpeed()));
 
         SmartDashboard.putNumber(id + "/Target Speed", targetState.speedMetersPerSecond);
